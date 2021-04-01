@@ -1,0 +1,318 @@
+{# templates/index.html #}
+{% import "macros.html" as macros %}
+
+<html>
+
+<head>
+    <title>Inserimento dati</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <link href={{ url_for("static",filename="custom.css") }} rel="stylesheet" type="text/css" >
+    {# Import JQuery #}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <script>
+        const ID_RE = /(-)_(-)/;
+
+        /**
+         * Replace the template index of an element (-_-) with the
+         * given index.
+         */
+        function replaceTemplateIndex(value, index) {
+            return value.replace(ID_RE, '$1' + index + '$2');
+        }
+
+        /**
+         * Adjust the indices of form fields when removing items.
+         */
+        function adjustIndices(removedIndex, tgsubf) {
+            var $forms = $(tgsubf);
+
+            $forms.each(function (i) {
+                var $form = $(this);
+                var index = parseInt($form.data('index'));
+                var newIndex = index - 1;
+
+                if (index < removedIndex) {
+                    // Skip
+                    return true;
+                }
+
+                // This will replace the original index with the new one
+                // only if it is found in the format -num-, preventing
+                // accidental replacing of fields that may have numbers
+                // intheir names.
+                var regex = new RegExp('(-)' + index + '(-)');
+                var repVal = '$1' + newIndex + '$2';
+
+                // Change ID in form itself
+                $form.attr('id', $form.attr('id').replace(index, newIndex));
+                $form.data('index', newIndex);
+                // Change IDs in form fields
+                $form.find('label, input, select, textarea, h5').each(function (j) {
+                    var $item = $(this);
+
+                    if ($item.is('label')) {
+                        // Update labels
+                        $item.attr('for', $item.attr('for').replace(regex, repVal));
+                        return;
+                    }
+                    if ($item.is('h5')) {
+                        // Update labels
+                        $item.attr('id', $item.attr('id').replace(regex, repVal));
+                        $item.text(newIndex);
+                        console.log(newIndex);
+                        return;
+                    }
+
+                    // Update other fields
+                    $item.attr('id', $item.attr('id').replace(regex, repVal));
+                    $item.attr('name', $item.attr('name').replace(regex, repVal));
+
+                });
+            });
+        }
+
+        /**
+         * Remove a form.
+         */
+        function removeForm(anchor, tgsubf) {
+            var $removedForm = $(anchor).closest(tgsubf);
+            var removedIndex = parseInt($removedForm.data('index'));
+
+            $removedForm.remove();
+
+            // Update indices
+            adjustIndices(removedIndex, tgsubf);
+        }
+
+        /**
+         * Add a new form.
+         */
+        function addForm(idt, clst, tgsubf, rmvf) {
+            var $templateForm = $(idt);
+
+            if ($templateForm.length === 0) {
+                console.log('[ERROR] Cannot find template');
+                return;
+            }
+
+            // Get Last index
+            var $lastForm = $('.' + tgsubf).last();
+
+            var newIndex = 1;
+
+            if ($lastForm.length > 0) {
+                newIndex = parseInt($lastForm.data('index'))
+                if (newIndex == 0) {
+                    newIndex = newIndex + 2;
+                } else {
+                    newIndex = newIndex + 1
+                }
+            }
+
+            // Maximum of 20 subforms
+            if (newIndex >= 20) {
+                console.log('[WARNING] Reached maximum number of elements');
+                return;
+            }
+
+            // Add elements
+            var $newForm = $templateForm.clone();
+
+            $newForm.attr('id', replaceTemplateIndex($newForm.attr('id'), newIndex));
+            $newForm.data('index', newIndex);
+
+            $newForm.find('label, input, select, textarea,h5').each(function (idx) {
+                var $item = $(this);
+
+                if ($item.is('label')) {
+                    // Update labels
+                    $item.attr('for', replaceTemplateIndex($item.attr('for'), newIndex));
+                    return;
+                }
+                if ($item.is('h5')) {
+                    // Update labels
+                    $item.attr('id', replaceTemplateIndex($item.attr('id'), newIndex));
+                    $item.text(newIndex)
+                    return;
+                }
+
+                // Update other fields
+                $item.attr('id', replaceTemplateIndex($item.attr('id'), newIndex));
+                $item.attr('name', replaceTemplateIndex($item.attr('name'), newIndex));
+            });
+
+            // Append
+            $(clst).append($newForm);
+            $newForm.addClass(tgsubf);
+            $newForm.removeClass('is-hidden');
+
+            $newForm.find(rmvf).click(function (e) { e.preventDefault(); removeForm(this, '.' + tgsubf) });
+        }
+
+
+        $(document).ready(function () {
+            $('#add_0').click(function (e) {
+                e.preventDefault(); addForm('#descrizione_esterna-_-form', '#subforms-container_esterna', 'subform0', '.remove_0')
+            });
+            $('#add').click(function (e) {
+                e.preventDefault(); addForm('#descrizione_interna-_-form', '#subforms-container', 'subform', '.remove_1')
+            });
+            $('#add_cp').click(function (e) {
+                e.preventDefault(); addForm('#copisti-_-form', '#subforms-container_cp', 'subform2', '.remove_2')
+            });
+            $('#add_3').click(function (e) {
+                e.preventDefault(); addForm('#annotazioni_marginali-_-form', '#subforms-container_annomg', 'subform3', '.remove_3')
+            });
+            $('#add_4').click(function (e) {
+                e.preventDefault(); addForm('#annotazioni_testo-_-form', '#subforms-container_annotest', 'subform4', '.remove_4')
+            });
+            $('#add_5').click(function (e) {
+                e.preventDefault(); addForm('#biblio_int_libri-_-form', '#subforms-container_biblib', 'subform5', '.remove_5')
+            });
+            $('.remove_0').click(function (e) { e.preventDefault(); removeForm(this, 'subform0') });
+            $('.remove_1').click(function (e) { e.preventDefault(); removeForm(this, 'subform') });
+            $('.remove_2').click(function (e) { e.preventDefault(); removeForm(this, 'subform2') });
+            $('.remove_3').click(function (e) { e.preventDefault(); removeForm(this, 'subform3') });
+            $('.remove_4').click(function (e) { e.preventDefault(); removeForm(this, 'subform4') });
+            $('.remove_5').click(function (e) { e.preventDefault(); removeForm(this, 'subform5') });
+        });
+    </script>
+
+    <style>
+        .is-hidden {
+            display: none;
+        }
+    </style>
+</head>
+
+<body style="margin:10;padding:10;margin-top:20px;background-color:#f7f7f7;">
+
+    <form id="descrizione_interna-form" action="" method="POST" role="form">
+    <div class="sidenav">
+        <a href="#descext">Descrizione esterna</a>
+        <a href="#subforms-container">Descrizione interna</a>
+        <a href="#subforms-container_cp">Copisti</a>
+        <a href="#subforms-container_annomg">Annotazioni marginali</a>
+        <a href="#subforms-container_annotest">Annotazione testo</a>
+        <a href="#subforms-container_biblib">Bibliografia</a>
+        <button type="submit" class="btn-success">Salva catalogazione</button>
+      </div>
+      
+    <div class="main">
+        <div>
+            <h3 class="headersec">Descrizione Esterna</h3>
+        </div>
+        {{ form.csrf_token }}
+        <div id="subforms-container_esterna">
+            {% for subform in form.descrizione_esterna %}
+            {{ macros.render_lap_form_est(subform, loop.index0) }}
+            {% endfor %}
+        </div>
+        <a id="add_0" href="#subforms-container_esterna" class="btn btn-primary btn-block" tabindex="-1" role="button"
+            aria-disabled="true">Aggiungi descrizione esterna</a>
+        
+            <br><br>
+            <div>
+            <h3 class="headersec">Descrizioni interne </h3>
+        </div>
+        
+        <hr />
+
+        {# Show all descrizioni interne #}
+        <div id="subforms-container">
+            {% for subform in form.descrizione_interna %}
+            {{ macros.render_lap_form(subform, loop.index0) }}
+            {% endfor %}
+        </div>
+        <a id="add" href="#subforms-container" class="btn btn-primary btn-block" tabindex="-1" role="button"
+            aria-disabled="true">Aggiungi descrizione interna</a>
+            <br><br>
+            {# Show all copisti #}
+        <div>
+            <h3 class="headersec">Copisti </h3>
+        </div>
+        <hr />
+        <div id="subforms-container_cp">
+            {% for subform in form.copisti %}
+            {{ macros.render_lap_form2(subform, loop.index0) }}
+            {% endfor %}
+        </div>
+        <a id="add_cp" href="#subforms-container_cp" class="btn btn-primary btn-sm" tabindex="-1" role="button"
+            aria-disabled="true">Aggiungi copista</a>
+            <br><br>
+            {# Show all annotazioni marginali #}
+        <br>
+        <div>
+            <h3 class="headersec">Annotazioni marginali </h3>
+        </div>
+        <hr />
+        <div id="subforms-container_annomg">
+            {% for subform in form.annotazioni_marginali %}
+            {{ macros.render_lap_form3(subform, loop.index0) }}
+            {% endfor %}
+        </div>
+        <a id="add_3" href="#subforms-container_annomg" class="btn btn-primary btn-sm" tabindex="-1" role="button"
+            aria-disabled="true">Aggiungi annotazione marginale </a>
+            <br><br>
+            {# Show all annotazioni testo #}
+        <br>
+        <div>
+            <h3 class="headersec">Annotazioni testo </h3>
+        </div>
+        <hr />
+        <div id="subforms-container_annotest">
+            {% for subform in form.annotazioni_testo %}
+            {{ macros.render_lap_form4(subform, loop.index0) }}
+            {% endfor %}
+        </div>
+        <a id="add_4" href="#subforms-container_annotest" class="btn btn-primary btn-sm" tabindex="-1" role="button"
+            aria-disabled="true">Aggiungi annotazione testo </a>
+        {# Show all Bibliografia libri #}
+        <br><br>
+        <div>
+            <h3 class="headersec">Bibliografia interna libri </h3>
+        </div>
+        <hr />
+        <div id="subforms-container_biblib">
+            {% for subform in form.biblio_int_libri %}
+            {{ macros.render_lap_form5(subform, loop.index0) }}
+            {% endfor %}
+        </div>
+        <a id="add_5" href="#subforms-container_biblib" class="btn btn-primary btn-sm" tabindex="-1" role="button"
+            aria-disabled="true">Aggiungi riferimento bibliografico </a>
+
+
+        <br><br><br>
+        
+
+
+        <button type="submit" class="btn-success">Salva catalogazione</button>
+
+    </form>
+
+    {% if form.errors %}
+    {{ form.errors }}
+    {% endif %}
+
+    {# Form template #}
+    {{ macros.render_lap_form_est(_template6, '_') }}
+    {{ macros.render_lap_form(_template, '_') }}
+    {{ macros.render_lap_form2(_template2, '_') }}
+    {{ macros.render_lap_form3(_template3, '_') }}
+    {{ macros.render_lap_form4(_template4, '_') }}
+    {{ macros.render_lap_form5(_template5, '_') }}
+   
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+        crossorigin="anonymous"></script>
+    </div>
+    </body>
+
+</html>

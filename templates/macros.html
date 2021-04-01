@@ -1,0 +1,742 @@
+{# templates/macros.html #}
+{# Render lap form.
+
+This macro is intended to render both regular lap subforms (received from the
+server) and the template form used to dynamically add more forms.
+
+Arguments:
+- subform: Form object to render
+- index: Index of the form. For proper subforms rendered in the form loop,
+this should match `loop.index0`, and for the template it should be
+'_'
+#}
+{%- macro render_lap_form_est(subform, index) %}
+
+<div id="descrizione_esterna-{{ index }}-form" class="{% if index != '_' %}subform0{% else %}is-hidden{% endif %}"
+  data-index="{{ index }}">
+  <div>
+    <h5 id="inc-0-" class="text-center">1</h5>
+    <div class='row g-2'>
+
+      <div class="col-md">
+      <div class="form-floating">
+        {{subform.Segnatura}}
+        <label for="floatingInputGrid0">Segnatura</label>
+      </div>
+      <div class="alert alert-info " role="alert">
+      <b>Per esempio:</b>  <i>XXVIII (26)</i>  (vedi <a href={{"".join([url_for("lineeguidacat"),"#Segnatura"])}} class="alert-link" title="La segnatura rappresenta il un identificativo univocod del codice in questo catalogo viene mantenuta la segnatura moderna e tra parentesi tonde quella antica.">linee guida</a>).
+    </div>
+    </div>
+
+      <div class="col-md">
+      <div class="form-floating">
+        {{subform.datazione}}
+        <label for="floatingInputGrid1">Datazione</label>
+      </div>
+      <div class="alert alert-info " role="alert">
+      <b>Per esempio:</b>  <i>Sec. V med.</i>  (vedi <a href={{"".join([url_for("lineeguidacat"),"#datazione"])}} class="alert-link">linee guida</a>).
+    </div>
+    </div>
+    </div>
+    <div class='row g-2'>
+
+        <div class="col-md">
+        <div class="form-floating">
+          {{subform.tipo_di_supporto_e_qualita}}
+          <label for="floatingInputGrid2">Tipo di supporto e qualita</label>
+        </div>
+        <div class="alert alert-info " role="alert">
+        <b>Per esempio:</b>  <i>membranaceo</i>  (vedi <a href={{"".join([url_for("lineeguidacat"),"#tipo_di_supporto_e_qualita"])}} class="alert-link">linee guida</a>).
+      </div>
+      </div>
+
+        <div class="col-md">
+        <div class="form-floating">
+          {{subform.consistenza}}
+          <label for="floatingInputGrid3">Consistenza</label>
+        </div>
+        <div class="alert alert-info " role="alert">
+        <b>Per esempio:</b>  <i>cc. II, 254, I</i>  (vedi <a href={{"".join([url_for("lineeguidacat"),"#consistenza"])}} class="alert-link">linee guida</a>).
+      </div>
+      </div>
+    </div>
+    <div class='row g-2'>
+
+        <div class="col-md">
+        <div class="form-floating">
+          {{subform.numerazione_carte}}
+          <label for="floatingInputGrid4">Numerazione carte</label>
+        </div>
+        <div class="alert alert-info " role="alert">
+        <b>Per esempio:</b>  <i>numeri arabici, sec. XX, matita, porzione esterna margine sup. del recto di ciascuna carta</i>  (vedi <a href={{"".join([url_for("lineeguidacat"),"#numerazione_carte"])}} class="alert-link">linee guida</a>).
+      </div>
+      </div>
+
+        <div class="col-md">
+        <div class="form-floating">
+          {{subform.carte_di_guardia}}
+          <label for="floatingInputGrid5">Carte di guardia</label>
+        </div>
+        <div class="alert alert-info " role="alert">
+        <b>Per esempio:</b>  <i>cartacee, inserite nel corso del rifacimento della legatura</i>  (vedi <a href={{"".join([url_for("lineeguidacat"),"#carte_di_guardia"])}} class="alert-link">linee guida</a>).
+      </div>
+      </div>
+    </div>
+    <div class='row g-2'>
+
+        <div class="col-md">
+        <div class="form-floating">
+          {{subform.prospetto_fascicolazione}}
+          <label for="floatingInputGrid6">Prospetto fascicolazione</label>
+        </div>
+        <div class="alert alert-info " role="alert">
+        <b>Per esempio:</b>  <i>no</i>  (vedi <a href={{"".join([url_for("lineeguidacat"),"#prospetto_fascicolazione"])}} class="alert-link">linee guida</a>).
+      </div>
+      </div>
+
+        <div class="col-md">
+        <div class="form-floating">
+          {{subform.arrangiamento_fogli_gregory}}
+          <label for="floatingInputGrid7">Arrangiamento fogli gregory</label>
+        </div>
+        <div class="alert alert-info " role="alert">
+        <b>Per esempio:</b>  <i>inizio fascicoli lato carne; rispettata la regola</i>  (vedi <a href={{"".join([url_for("lineeguidacat"),"#arrangiamento_fogli_gregory"])}} class="alert-link">linee guida</a>).
+      </div>
+      </div>
+    </div>
+    <div class='row g-2'>
+
+        <div class="col-md">
+        <div class="form-floating">
+          {{subform.dimensioni}}
+          <label for="floatingInputGrid8">Dimensioni</label>
+        </div>
+        <div class="alert alert-info " role="alert">
+        <b>Per esempio:</b>  <i>286x185 (c. 87) = 35 [197] 54 x 15 [117] 53</i>  (vedi <a href={{"".join([url_for("lineeguidacat"),"#dimensioni"])}} class="alert-link">linee guida</a>).
+      </div>
+      </div>
+
+        <div class="col-md">
+        <div class="form-floating">
+          {{subform.rigatura}}
+          <label for="floatingInputGrid9">Rigatura</label>
+        </div>
+        <div class="alert alert-info " role="alert">
+        <b>Per esempio:</b>  <i>Eseguita a secco con incisione su fascicolo aperto e composto</i>  (vedi <a href={{"".join([url_for("lineeguidacat"),"#rigatura"])}} class="alert-link">linee guida</a>).
+      </div>
+      </div>
+    </div>
+    <div class='row g-2'>
+
+        <div class="col-md">
+        <div class="form-floating">
+          {{subform.foratura}}
+          <label for="floatingInputGrid10">Foratura</label>
+        </div>
+        <div class="alert alert-info " role="alert">
+        <b>Per esempio:</b>  <i>No</i>  (vedi <a href={{"".join([url_for("lineeguidacat"),"#foratura"])}} class="alert-link">linee guida</a>).
+      </div>
+      </div>
+
+        <div class="col-md">
+        <div class="form-floating">
+          {{subform.legatura}}
+          <label for="floatingInputGrid11">Legatura</label>
+        </div>
+        <div class="alert alert-info " role="alert">
+        <b>Per esempio:</b>  <i>Di restauro in pergamena su asse in cartone</i>  (vedi <a href={{"".join([url_for("lineeguidacat"),"#legatura"])}} class="alert-link">linee guida</a>).
+      </div>
+      </div>
+    </div>
+    <div class='row g-2'>
+
+        <div class="col-md">
+        <div class="form-floating">
+          {{subform.utenti_email}}
+          <label for="floatingInputGrid12">Utenti email</label>
+        </div>
+        <div class="alert alert-info " role="alert">
+        <b>Per esempio:</b>  <i>donatella.tronca@outlook.com</i>  (vedi <a href={{"".join([url_for("lineeguidacat"),"#utenti_email"])}} class="alert-link" title="voluptate velit esse cillum dolore eu fugiat nulla pariatur cillum dolore eu fugiat nulla pariatur cillum dolore eu fugiat nulla pariatur cillum dolore eu fugiat nulla pariatur.">linee guida</a>).
+      </div>
+      </div>
+
+        <div class="col-md">
+        <div class="form-floating">
+          {{subform.Descrizione_Esterna_Segnatura}}
+          <label for="floatingInputGrid13">Descrizione esterna segnatura</label>
+        </div>
+        <div class="alert alert-info " role="alert">
+        <b>Per esempio:</b>  <i>XXVIII (26)</i>  (vedi <a href={{"".join([url_for("lineeguidacat"),"#Descrizione_Esterna_Segnatura"])}} class="alert-link">linee guida</a>).
+      </div>
+      </div>
+    </div>
+    <div class='row g-2'>
+      <button type="button" class="remove_0 btn btn-danger">Elimina  descrizione esterna</button>
+    </div>
+  </div>
+  <br><br>
+</div>
+{%- endmacro %}
+
+
+{%- macro render_lap_form(subform, index) %}
+<div id="descrizione_interna-{{ index }}-form" class="{% if index != '_' %}subform{% else %}is-hidden{% endif %}"
+  data-index="{{ index }}">
+
+  <div>
+    <h5 id="inc-0-" class="text-center">1</h5>
+    <div class='row g-2'>
+
+      <div class="col-md">
+        <div class="form-floating">
+          {{subform.autore}}
+          <label for="floatingInputGridDI0">Autore</label>
+        </div>
+        <div class="alert alert-info" role="alert">
+          <b>Per esempio:</b> <i>Sancti Aurelii Augustini</i> (vedi <a
+            href={{"".join([url_for("lineeguidacat"),"#autore"])}} class="alert-link">linee guida</a>).
+        </div>
+      </div>
+
+      <div class="col-md">
+        <div class="form-floating">
+          {{subform.titolo}}
+          <label for="floatingInputGridDI1">Titolo</label>
+        </div>
+        <div class="alert alert-info" role="alert">
+          <b>Per esempio:</b> <i>De Civitate Dei</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#titolo"])}}
+            class="alert-link">linee guida</a>).
+        </div>
+      </div>
+    </div>
+    <div class='row g-2'>
+
+      <div class="col-md">
+        <div class="form-floating">
+          {{subform.descid}}
+          <label for="floatingInputGridDI2">Id descrizione interna</label>
+        </div>
+        <div class="alert alert-info" role="alert">
+          <b>Per esempio:</b> <i>102</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#id"])}}
+            class="alert-link">linee guida</a>).
+        </div>
+      </div>
+
+      <div class="col-md">
+        <div class="form-floating">
+          {{subform.incipit}}
+          <label for="floatingInputGridDI3">Incipit</label>
+        </div>
+        <div class="alert alert-info" role="alert">
+          <b>Per esempio:</b> <i>incipit</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#incipit"])}}
+            class="alert-link">linee guida</a>).
+        </div>
+      </div>
+    </div>
+    <div class='row g-2'>
+
+      <div class="col-md">
+        <div class="form-floating">
+          {{subform.explicit}}
+          <label for="floatingInputGridDI4">Explicit</label>
+        </div>
+        <div class="alert alert-info" role="alert">
+          <b>Per esempio:</b> <i>explicit</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#explicit"])}}
+            class="alert-link">linee guida</a>).
+        </div>
+      </div>
+
+      <div class="col-md">
+        <div class="form-floating">
+          {{subform.carte}}
+          <label for="floatingInputGridDI5">Carte</label>
+        </div>
+        <div class="alert alert-info" role="alert">
+          <b>Per esempio:</b> <i>1r-251v</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#carte"])}}
+            class="alert-link">linee guida</a>).
+        </div>
+      </div>
+    </div>
+    <div class='row g-2'>
+
+      <div class="col-md">
+        <div class="form-floating">
+          {{subform.rubrica}}
+          <label for="floatingInputGridDI6">Rubrica</label>
+        </div>
+        <div class="alert alert-info" role="alert">
+          <b>Per esempio:</b> <i>1v Incipit capitulalibri xi de civitate dei</i> (vedi <a
+            href={{"".join([url_for("lineeguidacat"),"#rubrica"])}} class="alert-link">linee guida</a>).
+        </div>
+      </div>
+
+      <div class="col-md">
+        <div class="form-floating">
+          {{subform.Descrizione_Esterna_Segnatura}}
+          <label for="floatingInputGridDI7">Descrizione esterna segnatura</label>
+        </div>
+        <div class="alert alert-info" role="alert">
+          <b>Per esempio:</b> <i>XXVIII (26)</i> (vedi <a
+            href={{"".join([url_for("lineeguidacat"),"#Descrizione_Esterna_Segnatura"])}} class="alert-link">linee
+            guida</a>).
+        </div>
+      </div>
+    </div>
+    <div class='row g-2'>
+
+      <div class="col-md">
+        <div class="form-floating">
+          {{subform.Descrizione_interna_id}}
+          <label for="floatingInputGridDI8">Descrizione interna id</label>
+        </div>
+        <div class="alert alert-info" role="alert">
+          <b>Per esempio:</b> <i>None</i> (vedi <a
+            href={{"".join([url_for("lineeguidacat"),"#Descrizione_interna_id"])}} class="alert-link">linee guida</a>).
+        </div>
+      </div>
+      <div class="col-md my-auto text-center">
+        <button type="button" class="remove_1 btn btn-danger">Elimina descrizione interna</button>
+
+      </div>
+      <hr />
+    </div>
+  </div>
+</div>
+{%- endmacro %}
+
+{%- macro render_lap_form2(subform, index) %}
+<div id="copisti-{{ index }}-form" class="{% if index != '_' %}subform2{% else %}is-hidden{% endif %}"
+  data-index="{{ index }}">
+  <div>
+    <h5 id="inc-0-" class="text-center">1</h5>
+    <div class='row g-2'>
+
+      <div class="col-md">
+        <div class="form-floating">
+          {{subform.id_cop}}
+          <label for="floatingInputGridDIC0">ID copista</label>
+        </div>
+        <div class="alert alert-info" role="alert">
+          <b>Per esempio:</b> <i>A</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#id"])}}
+            class="alert-link">linee guida</a>).
+        </div>
+      </div>
+
+      <div class="col-md">
+        <div class="form-floating">
+          {{subform.intervallo_carte}}
+          <label for="floatingInputGridDIC1">Intervallo carte</label>
+        </div>
+        <div class="alert alert-info" role="alert">
+          <b>Per esempio:</b> <i>1v-6r,102r,248br</i> (vedi <a
+            href={{"".join([url_for("lineeguidacat"),"#intervallo_carte"])}} class="alert-link">linee guida</a>).
+        </div>
+      </div>
+    </div>
+    <div class='row g-2'>
+
+      <div class="col-md">
+        <div class="form-floating">
+          {{subform.datazione}}
+          <label for="floatingInputGridDIC2">Datazione</label>
+        </div>
+        <div class="alert alert-info" role="alert">
+          <b>Per esempio:</b> <i></i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#datazione"])}}
+            class="alert-link">linee guida</a>).
+        </div>
+      </div>
+
+      <div class="col-md">
+        <div class="form-floating">
+          {{subform.tipologia_scrittura}}
+          <label for="floatingInputGridDIC3">Tipologia scrittura</label>
+        </div>
+        <div class="alert alert-info" role="alert">
+          <b>Per esempio:</b> <i>minuscola carolina secondo la tipizzazione veronese</i> (vedi <a
+            href={{"".join([url_for("lineeguidacat"),"#tipologia_scrittura"])}} class="alert-link">linee guida</a>).
+        </div>
+      </div>
+    </div>
+    <div class='row g-2'>
+      <div class="col-md">
+        <div class="form-floating">
+          {{subform.Descrizione_Esterna_Segnatura}}
+          <label for="floatingInputGridDIC4">Descrizione esterna segnatura</label>
+        </div>
+        <div class="alert alert-info" role="alert">
+          <b>Per esempio:</b> <i>XXVIII (26)</i> (vedi <a
+            href={{"".join([url_for("lineeguidacat"),"#Descrizione_Esterna_Segnatura"])}} class="alert-link">linee
+            guida</a>).
+        </div>
+      </div>
+
+      <div class="col-md my-auto text-center">
+        <button type="button" class="remove_2 btn btn-danger">Elimina copista</button>
+
+      </div>
+      <hr />
+    </div>
+  </div>
+</div>
+{%- endmacro %}
+
+{%- macro render_lap_form3(subform, index) %}
+<div id="annotazioni_marginali-{{ index }}-form" class="{% if index != '_' %}subform3{% else %}is-hidden{% endif %}"
+  data-index="{{ index }}">
+  <div>
+    <h5 id="inc-0-" class="text-center">1</h5>
+    <div class='row g-2'>
+      <div class="col-md">
+        <div class="form-floating">
+          {{subform.Id_auto_inc}}
+          <label for="floatingInputGridDIX0">Id auto inc</label>
+        </div>
+        <div class="alert alert-info" role="alert">
+          <b>Per esempio:</b> <i>1</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#Id_auto_inc"])}}
+            class="alert-link">linee guida</a>).
+        </div>
+      </div>
+
+      <div class="col-md">
+        <div class="form-floating">
+          {{subform.Id_anno}}
+          <label for="floatingInputGridDIX1">Id annotazione marginale</label>
+        </div>
+        <div class="alert alert-info" role="alert">
+          <b>Per esempio:</b> <i>a</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#Id"])}}
+            class="alert-link">linee guida</a>).
+        </div>
+      </div>
+    </div>
+    <div class='row g-2'>
+
+      <div class="col-md">
+        <div class="form-floating">
+          {{subform.intervallo_carte}}
+          <label for="floatingInputGridDIX2">Intervallo carte</label>
+        </div>
+        <div class="alert alert-info" role="alert">
+          <b>Per esempio:</b> <i>8v</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#intervallo_carte"])}}
+            class="alert-link">linee guida</a>).
+        </div>
+      </div>
+
+      <div class="col-md">
+        <div class="form-floating">
+          {{subform.Datazione}}
+          <label for="floatingInputGridDIX3">Datazione</label>
+        </div>
+        <div class="alert alert-info" role="alert">
+          <b>Per esempio:</b> <i></i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#Datazione"])}}
+            class="alert-link">linee guida</a>).
+        </div>
+      </div>
+    </div>
+    <div class='row g-2'>
+
+      <div class="col-md">
+        <div class="form-floating">
+          {{subform.Contenuto}}
+          <label for="floatingInputGridDIX4">Contenuto</label>
+        </div>
+        <div class="alert alert-info" role="alert">
+          <b>Per esempio:</b> <i></i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#Contenuto"])}}
+            class="alert-link">linee guida</a>).
+        </div>
+      </div>
+
+      <div class="col-md">
+        <div class="form-floating">
+          {{subform.Posizione}}
+          <label for="floatingInputGridDIX5">Posizione</label>
+        </div>
+        <div class="alert alert-info" role="alert">
+          <b>Per esempio:</b> <i>c. 8v</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#Posizione"])}}
+            class="alert-link">linee guida</a>).
+        </div>
+      </div>
+    </div>
+    <div class='row g-2'>
+
+      <div class="col-md">
+        <div class="form-floating">
+          {{subform.Tipologia_scrittura}}
+          <label for="floatingInputGridDIX6">Tipologia scrittura</label>
+        </div>
+        <div class="alert alert-info" role="alert">
+          <b>Per esempio:</b> <i></i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#Tipologia_scrittura"])}}
+            class="alert-link">linee guida</a>).
+        </div>
+      </div>
+
+      <div class="col-md">
+        <div class="form-floating">
+          {{subform.Descrizione_Esterna_Segnatura}}
+          <label for="floatingInputGridDIX7">Descrizione esterna segnatura</label>
+        </div>
+        <div class="alert alert-info" role="alert">
+          <b>Per esempio:</b> <i>XXVIII (26)</i> (vedi <a
+            href={{"".join([url_for("lineeguidacat"),"#Descrizione_Esterna_Segnatura"])}} class="alert-link">linee
+            guida</a>).
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md my-auto text-center">
+      <button type="button" class="remove_3 btn btn-danger">Elimina annotazione marginale</button>
+
+    </div>
+    <hr />
+  </div>
+</div>
+{%- endmacro %}
+
+{%- macro render_lap_form4(subform, index) %}
+<div id="annotazioni_testo-{{ index }}-form" class="{% if index != '_' %}subform4{% else %}is-hidden{% endif %}"
+  data-index="{{ index }}">
+  <div>
+    <h5 id="inc-0-" class="text-center">1</h5>
+    <div class='row g-2'>
+
+      <div class="col-md">
+        <div class="form-floating">
+          {{subform.Id_auto_inc}}
+          <label for="floatingInputGridAT0">Id auto inc</label>
+        </div>
+        <div class="alert alert-info" role="alert">
+          <b>Per esempio:</b> <i>10</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#Id_auto_inc"])}}
+            class="alert-link">linee guida</a>).
+        </div>
+      </div>
+
+      <div class="col-md">
+        <div class="form-floating">
+          {{subform.Id_AT}}
+          <label for="floatingInputGridAT1">Id</label>
+        </div>
+        <div class="alert alert-info" role="alert">
+          <b>Per esempio:</b> <i></i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#Id"])}}
+            class="alert-link">linee guida</a>).
+        </div>
+      </div>
+    </div>
+    <div class='row g-2'>
+
+      <div class="col-md">
+        <div class="form-floating">
+          {{subform.intervallo_carte}}
+          <label for="floatingInputGridAT2">Intervallo carte</label>
+        </div>
+        <div class="alert alert-info" role="alert">
+          <b>Per esempio:</b> <i>None</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#intervallo_carte"])}}
+            class="alert-link">linee guida</a>).
+        </div>
+      </div>
+
+      <div class="col-md">
+        <div class="form-floating">
+          {{subform.Datazione}}
+          <label for="floatingInputGridAT3">Datazione</label>
+        </div>
+        <div class="alert alert-info" role="alert">
+          <b>Per esempio:</b> <i>secolo xiv</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#Datazione"])}}
+            class="alert-link">linee guida</a>).
+        </div>
+      </div>
+    </div>
+    <div class='row g-2'>
+
+      <div class="col-md">
+        <div class="form-floating">
+          {{subform.Contenuto}}
+          <label for="floatingInputGridAT4">Contenuto</label>
+        </div>
+        <div class="alert alert-info" role="alert">
+          <b>Per esempio:</b> <i>Beati augustini de civitate dei libri vi. videlicet xj, xjj, xiij, xiiij, xv, xvj</i>
+          (vedi <a href={{"".join([url_for("lineeguidacat"),"#Contenuto"])}} class="alert-link">linee guida</a>).
+        </div>
+      </div>
+
+      <div class="col-md">
+        <div class="form-floating">
+          {{subform.Posizione}}
+          <label for="floatingInputGridAT5">Posizione</label>
+        </div>
+        <div class="alert alert-info" role="alert">
+          <b>Per esempio:</b> <i>c. 1r</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#Posizione"])}}
+            class="alert-link">linee guida</a>).
+        </div>
+      </div>
+    </div>
+    <div class='row g-2'>
+
+      <div class="col-md">
+        <div class="form-floating">
+          {{subform.Tipologia_scrittura}}
+          <label for="floatingInputGridAT6">Tipologia scrittura</label>
+        </div>
+        <div class="alert alert-info" role="alert">
+          <b>Per esempio:</b> <i>littera textualis</i> (vedi <a
+            href={{"".join([url_for("lineeguidacat"),"#Tipologia_scrittura"])}} class="alert-link">linee guida</a>).
+        </div>
+      </div>
+
+      <div class="col-md">
+        <div class="form-floating">
+          {{subform.Descrizione_Esterna_Segnatura}}
+          <label for="floatingInputGridAT7">Descrizione esterna segnatura</label>
+        </div>
+        <div class="alert alert-info" role="alert">
+          <b>Per esempio:</b> <i>XXVIII (26)</i> (vedi <a
+            href={{"".join([url_for("lineeguidacat"),"#Descrizione_Esterna_Segnatura"])}} class="alert-link">linee
+            guida</a>).
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md my-auto text-center">
+      <button type="button" class="remove_4 btn btn-danger">Elimina annotazione testo</button>
+
+    </div>
+    <hr />
+  </div>
+</div>
+
+{%- endmacro %}
+
+{%- macro render_lap_form5(subform, index) %}
+<div id="biblio_int_libri-{{ index }}-form" class="{% if index != '_' %}subform5{% else %}is-hidden{% endif %}"
+  data-index="{{ index }}">
+  <div>
+    <h5 id="inc-0-" class="text-center">1</h5>
+    <div class='row g-2'>
+
+      <div class="col-md">
+        <div class="form-floating">
+          {{subform.id_biblib}}
+          <label for="floatingInputGridBL0">Id</label>
+        </div>
+        <div class="alert alert-info" role="alert">
+          <b>Per esempio:</b> <i>29</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#id"])}}
+            class="alert-link">linee guida</a>).
+        </div>
+      </div>
+
+      <div class="col-md">
+        <div class="form-floating">
+          {{subform.titolo}}
+          <label for="floatingInputGridBL1">Titolo</label>
+        </div>
+        <div class="alert alert-info" role="alert">
+          <b>Per esempio:</b> <i>De Civitate Dei</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#titolo"])}}
+            class="alert-link">linee guida</a>).
+        </div>
+      </div>
+    </div>
+    <div class='row g-2'>
+
+      <div class="col-md">
+        <div class="form-floating">
+          {{subform.anno}}
+          <label for="floatingInputGridBL2">Anno</label>
+        </div>
+        <div class="alert alert-info" role="alert">
+          <b>Per esempio:</b> <i>1955</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#anno"])}}
+            class="alert-link">linee guida</a>).
+        </div>
+      </div>
+
+      <div class="col-md">
+        <div class="form-floating">
+          {{subform.numero_pagine}}
+          <label for="floatingInputGridBL3">Numero pagine</label>
+        </div>
+        <div class="alert alert-info" role="alert">
+          <b>Per esempio:</b> <i></i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#numero_pagine"])}}
+            class="alert-link">linee guida</a>).
+        </div>
+      </div>
+    </div>
+    <div class='row g-2'>
+
+      <div class="col-md">
+        <div class="form-floating">
+          {{subform.citta}}
+          <label for="floatingInputGridBL4">Città</label>
+        </div>
+        <div class="alert alert-info" role="alert">
+          <b>Per esempio:</b> <i>Turnhout</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#citta"])}}
+            class="alert-link">linee guida</a>).
+        </div>
+      </div>
+
+      <div class="col-md">
+        <div class="form-floating">
+          {{subform.casa_editrice}}
+          <label for="floatingInputGridBL5">Casa editrice</label>
+        </div>
+        <div class="alert alert-info" role="alert">
+          <b>Per esempio:</b> <i>B. Dombart - A Kalb</i> (vedi <a
+            href={{"".join([url_for("lineeguidacat"),"#casa_editrice"])}} class="alert-link">linee guida</a>).
+        </div>
+      </div>
+    </div>
+    <div class='row g-2'>
+
+      <div class="col-md">
+        <div class="form-floating">
+          {{subform.collana}}
+          <label for="floatingInputGridBL6">Collana</label>
+        </div>
+        <div class="alert alert-info" role="alert">
+          <b>Per esempio:</b> <i>CCSL</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#collana"])}}
+            class="alert-link">linee guida</a>).
+        </div>
+      </div>
+
+      <div class="col-md">
+        <div class="form-floating">
+          {{subform.n_collana}}
+          <label for="floatingInputGridBL7">N collana</label>
+        </div>
+        <div class="alert alert-info" role="alert">
+          <b>Per esempio:</b> <i>XLVII-XLVIII</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#n_collana"])}}
+            class="alert-link">linee guida</a>).
+        </div>
+      </div>
+    </div>
+    <div class='row g-2'>
+
+      <div class="col-md">
+        <div class="form-floating">
+          {{subform.autore_nome_cognome}}
+          <label for="floatingInputGridBL8">Autore nome cognome</label>
+        </div>
+        <div class="alert alert-info" role="alert">
+          <b>Per esempio:</b> <i>Sancti Aurelii Augustini</i> (vedi <a
+            href={{"".join([url_for("lineeguidacat"),"#autore_nome_cognome"])}} class="alert-link">linee guida</a>).
+        </div>
+      </div>
+
+      <div class="col-md">
+        <div class="form-floating">
+          {{subform.Descrizione_interna_id}}
+          <label for="floatingInputGridBL9">Descrizione interna id</label>
+        </div>
+        <div class="alert alert-info" role="alert">
+          <b>Per esempio:</b> <i>102</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#Descrizione_interna_id"])}}
+            class="alert-link">linee guida</a>).
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md my-auto text-center">
+      <button type="button" class="remove_5 btn btn-danger">Elimina riferimento bibliografico</button>
+
+    </div>
+    <hr />
+  </div>
+</div>
+
+
+{%- endmacro %}

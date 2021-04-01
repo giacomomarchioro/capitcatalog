@@ -1,0 +1,53 @@
+div.alert.alert-info { 
+    font-size: 12px;
+    font-weight: 300;
+    display:inline-block;
+    margin-top: 5px;
+}
+h3.headersec{
+    padding: 18px;
+    background: #4E647F;
+    color: white;
+    font-size: 30px;
+    box-shadow: 5px 10px 8px #888888;
+  }
+
+  .sidenav {
+    width: 130px;
+    position: fixed;
+    z-index: 1;
+    top: 20px;
+    left: 10px;
+    background: #383232;
+    overflow-x: hidden;
+    padding: 8px 0;
+    box-shadow: 0 0 8px #000000;
+  }
+  
+  .sidenav a {
+    padding: 6px 8px 6px 16px;
+    text-decoration: none;
+    font-size: 13px;
+    color: #dbedfc;
+    display: block;
+  }
+  
+  .sidenav a:hover {
+    color: #fc4218;
+    text-shadow: 0 0 2px #000000;
+  }
+  
+  .main {
+    margin-left: 140px; /* Same width as the sidebar + left position in px */
+    padding: 0px 10px;
+  }
+  
+  @media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+    .sidenav a {font-size: 18px;}
+  }
+
+  .table-wrap {
+    height: 300px;
+    overflow-y: auto;
+  }

@@ -1,0 +1,43 @@
+{# templates/show.html #}
+<html>
+    <head>
+        <title>Race details</title>
+
+    </head>
+    <body>
+        <a href="{{ url_for('index') }}">Back to index</a>
+
+        {% if not race %}
+            <p>Could not find race details</p>
+        {% else %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Runner name</th>
+                        <th>Lap time</th>
+                        <th>Category</th>
+                        <th>Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for lap in race.laps %}
+                        <tr>
+                            <td>{{ lap.runner_name }}</td>
+                            <td>{{ lap.lap_time }}</td>
+                            <td>
+                                {%- if lap.category == 'cat1' %}
+                                    Category 1
+                                {%- elif lap.category == 'cat2' %}
+                                    Category 2
+                                {%- else %}
+                                    Unknown
+                                {%- endif %}
+                            </td>
+                            <td>{{ lap.notes }}</td>
+                        </tr>
+                    {% endfor%}
+                </tbody>
+            </table>
+        {% endif %}
+    </body>
+</html>
