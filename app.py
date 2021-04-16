@@ -350,13 +350,11 @@ def insertfield(segnatura):
     template_form4 = Annotazioni_testo(prefix='annotazioni_testo-_-')
     template_form5 = Biblio_int_libri(prefix='biblio_int_libri-_-')
     template_form6 = DescEst(prefix='descrizione_esterna-_-')   
-    globalvarn.append(form)
 
     if form.validate_on_submit():
         # Create race
         #new_race = Race()
         print("Entrato")
-        globalvar.append(form)
         data_dict = form.data
         if 'csrf_token' in data_dict.keys():
             del data_dict['csrf_token']
@@ -382,14 +380,12 @@ def insertfield(segnatura):
         # db.session.commit()
         print("Valido")
 
-    races = Race.query
     if varx is not None:
         form.process(data=varx)
 
     return render_template(
         'index.html',
         form=form,
-        races=races,
         _template=template_form,
         _template2=template_form2,
         _template3=template_form3,
