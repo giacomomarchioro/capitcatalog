@@ -17,6 +17,19 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
     <script>
+        window.onbeforeunload = function (e) {
+            e = e || window.event;
+
+            // For IE and Firefox prior to version 4
+            if (e) {
+                e.returnValue = 'Se i progressi non sono stati salvati veranno persi. Sei sicuro di uscire?';
+            }
+
+            // For Safari
+            return 'Se i progressi non sono stati salvati veranno persi. Sei sicuro di uscire?';
+        };
+
+
         const ID_RE = /(-)_(-)/;
 
         /**
@@ -203,7 +216,14 @@
         <a href="#subforms-container_annotest">Annotazione testo</a>
         <a href="#subforms-container_biblib">Bibliografia</a>
         <button type="submit" class="btn-success">Salva catalogazione</button>
-      </div>
+        <br>
+        <br>
+        <br>
+        <a class="btn" href="/">Ritorna alla pagina iniziale</a>
+
+            
+        </div>
+    
       
     <div class="main">
         <div>

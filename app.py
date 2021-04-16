@@ -333,6 +333,7 @@ def insertfield(segnatura):
             client.capitolare.codici.insert_one(data_dict)
             varx = client.capitolare.codici.find_one({'segnatura_idx': segnatura})
         else:
+            data_dict['status'] = "modificato"
             client.capitolare.codici.update_one({'_id': varx['_id']},{'$set':data_dict}, upsert=False)
             #TO DO: Avoid query
             varx = client.capitolare.codici.find_one({'segnatura_idx': segnatura})
