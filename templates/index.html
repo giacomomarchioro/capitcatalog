@@ -17,18 +17,16 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
     <script>
-        window.onbeforeunload = function (e) {
-            e = e || window.event;
-
-            // For IE and Firefox prior to version 4
-            if (e) {
-                e.returnValue = 'Se i progressi non sono stati salvati veranno persi. Sei sicuro di uscire?';
-            }
-
-            // For Safari
-            return 'Se i progressi non sono stati salvati veranno persi. Sei sicuro di uscire?';
+        window.onbeforeunload = function() {
+            return "You're leaving the site.";
         };
-
+        $(document).ready(function() {
+            $('a[rel!=ext]').click(function() { window.onbeforeunload = null; });
+            $('form').submit(function() { window.onbeforeunload = null; });
+        });
+        function confermauscita() {
+        confirm("Ritornando alla pagina, i progressi non verranno salvati. Sei sicuro di voler uscire?");
+        }
 
         const ID_RE = /(-)_(-)/;
 
@@ -219,7 +217,7 @@
         <br>
         <br>
         <br>
-        <a class="btn" href="/">Ritorna alla pagina iniziale</a>
+        <a class="btn" onclick="confermauscita()" href="/">Ritorna alla pagina iniziale</a>
 
             
         </div>
