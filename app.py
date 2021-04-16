@@ -259,44 +259,12 @@ class NewRecord(FlaskForm):
     segnatura_idx = StringField('Segnatura ID', validators=[DataRequired()],render_kw={'class': "form-control", "aria-describedby":"emailHelp", "placeholder":"Per esempio XXVII_A" })
 
 
-# Create models
-db = SQLAlchemy()
-
-
-class Race(db.Model):
-    """Stores races."""
-    __tablename__ = 'races'
-
-    id = db.Column(db.Integer, primary_key=True)
-
-
-class Lap(db.Model):
-    """Stores laps of a race."""
-    __tablename__ = 'laps'
-
-    id = db.Column(db.Integer, primary_key=True)
-    race_id = db.Column(db.Integer, db.ForeignKey('races.id'))
-
-    runner_name = db.Column(db.String(100))
-    lap_time = db.Column(db.Integer)
-    category = db.Column(db.String(4))
-    notes = db.Column(db.String(255))
-
-    # Relationship
-    race = db.relationship(
-        'Race',
-        backref=db.backref('laps', lazy='dynamic', collection_class=list)
-    )
 
 
 # Initialize app
 app = Flask(__name__)
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
-app.config['SECRET_KEY'] = 'sosecret'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
-#app.config["WTF_CSRF_ENABLED"] = False
-db.init_app(app)
-db.create_all(app=app)
+app.config['SECRET_KEY'] = 'sose1231crext'
 
 
 @app.route('/', methods=['GET', 'POST'])
