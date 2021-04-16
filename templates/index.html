@@ -17,6 +17,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
     <script>
+          /**
+         * Conferma chiusura tab.
+         */
+
         window.onbeforeunload = function() {
             return "You're leaving the site.";
         };
@@ -24,9 +28,7 @@
             $('a[rel!=ext]').click(function() { window.onbeforeunload = null; });
             $('form').submit(function() { window.onbeforeunload = null; });
         });
-        function confermauscita() {
-        confirm("Ritornando alla pagina, i progressi non verranno salvati. Sei sicuro di voler uscire?");
-        }
+ 
 
         const ID_RE = /(-)_(-)/;
 
@@ -217,7 +219,7 @@
         <br>
         <br>
         <br>
-        <a class="btn" onclick="confermauscita()" href="/">Ritorna alla pagina iniziale</a>
+        <a class="btn-danger" onclick="return confirm('I dati non salvati andranno persi. Procedere comunque?');" href="/">Ritorna alla pagina iniziale</a>
 
             
         </div>
