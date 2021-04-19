@@ -492,7 +492,7 @@ this should match `loop.index0`, and for the template it should be
 {%- endmacro %}
 
 {%- macro render_lap_form4(subform, index) %}
-<div id="annotazioni_testo-{{ index }}-form" class="{% if index != '_' %}subform4{% else %}is-hidden{% endif %}"
+<div id="storia_del_manoscritto-{{ index }}-form" class="{% if index != '_' %}subform4{% else %}is-hidden{% endif %}"
   data-index="{{ index }}">
   <div>
     <h5 id="inc-0-" class="text-center">1</h5>
@@ -595,7 +595,7 @@ this should match `loop.index0`, and for the template it should be
     </div>
 
     <div class="col-md my-auto text-center">
-      <button type="button" class="remove_4 btn btn-danger">Elimina annotazione testo</button>
+      <button type="button" class="remove_4 btn btn-danger">Rimuovi dalla storia del manoscritto</button>
 
     </div>
     <hr />

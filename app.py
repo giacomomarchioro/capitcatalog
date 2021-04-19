@@ -63,7 +63,7 @@ class Biblio_int_libri(Form):
     )
 
 
-class Annotazioni_testo(Form):
+class Storia_del_manoscritto(Form):
     Id_auto_inc = StringField("Id auto inc",
         validators=[ validators.Length(max=500)],render_kw={'class':"form-control",}
     )
@@ -241,8 +241,8 @@ class MainForm(FlaskForm):
         max_entries=40
     )
 
-    annotazioni_testo = FieldList(
-        FormField(Annotazioni_testo),
+    storia_del_manoscritto = FieldList(
+        FormField(Storia_del_manoscritto),
         min_entries=1,
         max_entries=40
     )
@@ -315,7 +315,7 @@ def insertfield(segnatura):
     template_form = DescInt(prefix='descrizione_interna-_-')
     template_form2 = Copisti(prefix='copisti-_-')
     template_form3 = AnnotazioniMarg(prefix='annotazioni_marginali-_-')
-    template_form4 = Annotazioni_testo(prefix='annotazioni_testo-_-')
+    template_form4 = Storia_del_manoscritto(prefix='storia_del_manoscritto-_-')
     template_form5 = Biblio_int_libri(prefix='biblio_int_libri-_-')
     template_form6 = DescEst(prefix='descrizione_esterna-_-')   
 
