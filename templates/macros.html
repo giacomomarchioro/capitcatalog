@@ -210,18 +210,6 @@ this should match `loop.index0`, and for the template it should be
       </div>
     </div>
     <div class='row g-2'>
-
-      <div class="col-md">
-        <div class="form-floating">
-          {{subform.descid}}
-          <label for="floatingInputGridDI2">Id descrizione interna</label>
-        </div>
-        <div class="alert alert-info" role="alert">
-          <b>Per esempio:</b> <i>102</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#id"])}}
-            class="alert-link">linee guida</a>).
-        </div>
-      </div>
-
       <div class="col-md">
         <div class="form-floating">
           {{subform.incipit}}
@@ -229,6 +217,16 @@ this should match `loop.index0`, and for the template it should be
         </div>
         <div class="alert alert-info" role="alert">
           <b>Per esempio:</b> <i>incipit</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#incipit"])}}
+            class="alert-link">linee guida</a>).
+        </div>
+      </div>
+      <div class="col-md">
+        <div class="form-floating">
+          {{subform.incipit_url}}
+          <label for="floatingInputGridDI3">Incipit URL</label>
+        </div>
+        <div class="alert alert-info" role="alert">
+          <b>Per esempio:</b> <i>http://lezioni.meneghetti.univr.it/UVjs/?manifest=http://lezioni.meneghetti.univr.it//manifests/b698a7d2668205fbe7cd023e0ded1784.json&indx=12</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#incipit_url"])}}
             class="alert-link">linee guida</a>).
         </div>
       </div>
@@ -294,6 +292,19 @@ this should match `loop.index0`, and for the template it should be
             href={{"".join([url_for("lineeguidacat"),"#Descrizione_interna_id"])}} class="alert-link">linee guida</a>).
         </div>
       </div>
+
+      <div class="col-md">
+        <div class="form-floating">
+          {{subform.descid}}
+          <label for="floatingInputGridDI2">Id descrizione interna</label>
+        </div>
+        <div class="alert alert-info" role="alert">
+          <b>Per esempio:</b> <i>102</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#id"])}}
+            class="alert-link">linee guida</a>).
+        </div>
+      </div>
+    </div>
+    <div class='row g-2'>
       <div class="col-md my-auto text-center">
         <button type="button" class="remove_1 btn btn-danger">Elimina descrizione interna</button>
 

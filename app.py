@@ -5,7 +5,7 @@ from flask import Flask, render_template,url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import FlaskForm
 from wtforms import Form, FieldList, FormField, IntegerField, SelectField, \
-    StringField, TextAreaField, SubmitField
+    StringField, TextAreaField, SubmitField 
 from wtforms import validators
 from pymongo import MongoClient
 from wtforms.validators import DataRequired
@@ -156,6 +156,9 @@ class DescInt(Form):
     incipit = StringField("Incipit",
                           validators=[validators.Length(max=500)], render_kw={'class': "form-control", }
                           )
+    incipit_url = StringField("Incipit URL",
+                          validators=[validators.URL(0)], render_kw={'class': "form-control", }
+    )
     explicit = StringField("Explicit",
                            validators=[validators.Length(max=500)], render_kw={'class': "form-control", }
                            )
