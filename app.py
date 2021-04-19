@@ -259,7 +259,7 @@ class MainForm(FlaskForm):
 
 
 class NewRecord(FlaskForm):
-    segnatura_idx = StringField('Segnatura ID', validators=[DataRequired()],render_kw={'class': "form-control", "aria-describedby":"emailHelp", "placeholder":"Per esempio XXVII_A" })
+    segnatura_idx = StringField('Segnatura ID', validators=[DataRequired()],render_kw={'class': "form-control", "aria-describedby":"emailHelp", "placeholder":"Per esempio m0037_0" })
 
 
 
