@@ -156,8 +156,7 @@ class DescInt(Form):
     incipit = StringField("Incipit",
                           validators=[validators.Length(max=500)], render_kw={'class': "form-control", }
                           )
-    incipit_url = StringField("Incipit URL",
-                          validators=[validators.URL(0)], render_kw={'class': "form-control", }
+    incipit_url = StringField("Incipit URL", render_kw={'class': "form-control", }
     )
     explicit = StringField("Explicit",
                            validators=[validators.Length(max=500)], render_kw={'class': "form-control", }
@@ -321,10 +320,11 @@ def insertfield(segnatura):
     template_form4 = Storia_del_manoscritto(prefix='storia_del_manoscritto-_-')
     template_form5 = Biblio_int_libri(prefix='biblio_int_libri-_-')
     template_form6 = DescEst(prefix='descrizione_esterna-_-')   
-
     if form.validate_on_submit():
         # Create race
         #new_race = Race()
+        #import pdb; pdb.set_trace()
+
         print("Entrato")
         data_dict = form.data
         if 'csrf_token' in data_dict.keys():
