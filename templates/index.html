@@ -238,22 +238,8 @@
         <a id="add_0" href="#subforms-container_esterna" class="btn btn-primary btn-block" tabindex="-1" role="button"
             aria-disabled="true">Aggiungi descrizione esterna</a>
         
-            <br><br>
-            <div>
-            <h3 class="headersec">Descrizioni interne </h3>
-        </div>
-        
-        <hr />
+        <br><br>
 
-        {# Show all descrizioni interne #}
-        <div id="subforms-container">
-            {% for subform in form.descrizione_interna %}
-            {{ macros.render_lap_form(subform, loop.index0) }}
-            {% endfor %}
-        </div>
-        <a id="add" href="#subforms-container" class="btn btn-primary btn-block" tabindex="-1" role="button"
-            aria-disabled="true">Aggiungi descrizione interna</a>
-            <br><br>
             {# Show all copisti #}
         <div>
             <h3 class="headersec">Copisti </h3>
@@ -296,6 +282,19 @@
             aria-disabled="true">Aggiungi annotazione testo </a>
         {# Show all Bibliografia libri #}
         <br><br>
+        <div>
+            <h3 class="headersec">Descrizioni interne </h3>
+    </div>
+    <hr />
+    {# Show all descrizioni interne #}
+    <div id="subforms-container">
+        {% for subform in form.descrizione_interna %}
+        {{ macros.render_lap_form(subform, loop.index0) }}
+        {% endfor %}
+    </div>
+    <a id="add" href="#subforms-container" class="btn btn-primary btn-block" tabindex="-1" role="button"
+        aria-disabled="true">Aggiungi descrizione interna</a>
+    <br><br>
         <div>
             <h3 class="headersec">Bibliografia interna libri </h3>
         </div>
