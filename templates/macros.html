@@ -231,6 +231,33 @@ this should match `loop.index0`, and for the template it should be
         </div>
       </div>
     </div>
+    
+    <div class='row g-2'>
+      <div class="col-md">
+        <div class="form-floating">
+          {{subform.Descrizione_Esterna_Segnatura}}
+          <label for="floatingInputGridDI7">Descrizione esterna segnatura</label>
+        </div>
+        <div class="alert alert-info" role="alert">
+          <b>Per esempio:</b> <i>XXVIII (26)</i> (vedi <a
+            href={{"".join([url_for("lineeguidacat"),"#Descrizione_Esterna_Segnatura"])}} class="alert-link">linee
+            guida</a>).
+        </div>
+      </div>
+
+      <div class="col-md">
+        <div class="form-floating">
+          {{subform.rubrica}}
+          <label for="floatingInputGridDI6">Rubrica</label>
+        </div>
+        <div class="alert alert-info" role="alert">
+          <b>Per esempio:</b> <i>1v Incipit capitulalibri xi de civitate dei</i> (vedi <a
+            href={{"".join([url_for("lineeguidacat"),"#rubrica"])}} class="alert-link">linee guida</a>).
+        </div>
+      </div>
+
+
+    </div>
     <div class='row g-2'>
 
       <div class="col-md">
@@ -255,31 +282,7 @@ this should match `loop.index0`, and for the template it should be
         </div>
       </div>
     </div>
-    <div class='row g-2'>
 
-      <div class="col-md">
-        <div class="form-floating">
-          {{subform.rubrica}}
-          <label for="floatingInputGridDI6">Rubrica</label>
-        </div>
-        <div class="alert alert-info" role="alert">
-          <b>Per esempio:</b> <i>1v Incipit capitulalibri xi de civitate dei</i> (vedi <a
-            href={{"".join([url_for("lineeguidacat"),"#rubrica"])}} class="alert-link">linee guida</a>).
-        </div>
-      </div>
-
-      <div class="col-md">
-        <div class="form-floating">
-          {{subform.Descrizione_Esterna_Segnatura}}
-          <label for="floatingInputGridDI7">Descrizione esterna segnatura</label>
-        </div>
-        <div class="alert alert-info" role="alert">
-          <b>Per esempio:</b> <i>XXVIII (26)</i> (vedi <a
-            href={{"".join([url_for("lineeguidacat"),"#Descrizione_Esterna_Segnatura"])}} class="alert-link">linee
-            guida</a>).
-        </div>
-      </div>
-    </div>
     <div class='row g-2'>
 
       <div class="col-md">
