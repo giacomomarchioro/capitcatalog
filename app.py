@@ -150,7 +150,7 @@ class DescInt(Form):
     titolo = StringField("Titolo",
                          validators=[validators.Length(max=500)], render_kw={'class': "form-control", }
                          )
-    descid = StringField("ID descrizione interna",
+    descid = StringField("ID descrizione interna padre",
                          validators=[validators.Length(max=500)], render_kw={'class': "form-control", }
                          )
     incipit = StringField("Incipit",
@@ -170,7 +170,7 @@ class DescInt(Form):
     Descrizione_Esterna_Segnatura = StringField("Descrizione esterna segnatura",
                                                 validators=[validators.Length(max=500)], render_kw={'class': "form-control", }
                                                 )
-    Descrizione_interna_id = StringField("Descrizione interna id",
+    Descrizione_interna_id = StringField("Descrizione interna ID",
                                          validators=[validators.Length(max=500)], render_kw={'class': "form-control", }
                                          )
 
