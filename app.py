@@ -35,7 +35,7 @@ class Biblio_int_libri(Form):
         validators=[ validators.Length(max=500)],render_kw={'class':"form-control",}
     )
     titolo = StringField("Titolo",
-            validators=[ validators.Length(max=500)],render_kw={'class':"form-control",}
+            render_kw={'class':"form-control",}
         )
     anno = StringField("Anno",
             validators=[ validators.Length(max=500)],render_kw={'class':"form-control",}
@@ -103,7 +103,7 @@ class AnnotazioniMarg(Form):
             validators=[ validators.Length(max=500)],render_kw={'class':"form-control",}
         )
     Contenuto = StringField("Contenuto",
-            validators=[ validators.Length(max=500)],render_kw={'class':"form-control",}
+            render_kw={'class':"form-control",}
         )
     Posizione = StringField("Posizione",
             validators=[ validators.Length(max=500)],render_kw={'class':"form-control",}
@@ -154,18 +154,18 @@ class DescInt(Form):
                          validators=[validators.Length(max=500)], render_kw={'class': "form-control", }
                          )
     incipit = StringField("Incipit",
-                          validators=[validators.Length(max=500)], render_kw={'class': "form-control", }
+                          render_kw={'class': "form-control", }
                           )
     incipit_url = StringField("Incipit URL", render_kw={'class': "form-control", }
     )
     explicit = StringField("Explicit",
-                           validators=[validators.Length(max=500)], render_kw={'class': "form-control", }
+                            render_kw={'class': "form-control", }
                            )
     carte = StringField("Carte",
                         validators=[validators.Length(max=500)], render_kw={'class': "form-control", }
                         )
     rubrica = StringField("Rubrica",
-                          validators=[validators.Length(max=500)], render_kw={'class': "form-control", }
+                          render_kw={'class': "form-control", }
                           )
     Descrizione_Esterna_Segnatura = StringField("Descrizione esterna segnatura",
                                                 validators=[validators.Length(max=500)], render_kw={'class': "form-control", }
@@ -222,38 +222,37 @@ class MainForm(FlaskForm):
     descrizione_esterna = FieldList(
         FormField(DescEst),
         min_entries=1,
-        max_entries=20
+        max_entries=200
     )
   
     descrizione_interna = FieldList(
         FormField(DescInt),
         min_entries=1,
-        max_entries=20
     )
 
     copisti = FieldList(
         FormField(Copisti),
         min_entries=1,
-        max_entries=40
+        max_entries=200
     )
 
     annotazioni_marginali = FieldList(
         FormField(AnnotazioniMarg),
         min_entries=1,
-        max_entries=40
+        max_entries=200
     )
 
     storia_del_manoscritto = FieldList(
         FormField(Storia_del_manoscritto),
         min_entries=1,
-        max_entries=40
+        max_entries=200
     )
 
      
     biblio_int_libri = FieldList(
         FormField(Biblio_int_libri),
         min_entries=1,
-        max_entries=40
+        max_entries=200
     )
 
 
