@@ -318,7 +318,8 @@ def insertfield(segnatura):
     template_form3 = AnnotazioniMarg(prefix='annotazioni_marginali-_-')
     template_form4 = Storia_del_manoscritto(prefix='storia_del_manoscritto-_-')
     template_form5 = Biblio_int_libri(prefix='biblio_int_libri-_-')
-    template_form6 = DescEst(prefix='descrizione_esterna-_-')   
+    template_form6 = DescEst(prefix='descrizione_esterna-_-')
+    log = "n.d."   
     if form.validate_on_submit():
         # Create race
         #new_race = Race()
@@ -338,6 +339,7 @@ def insertfield(segnatura):
             data_dict['status'] = "modificato"
             client.capitolare.codici.update_one({'_id': varx['_id']},{'$set':data_dict}, upsert=False)
             #TO DO: Avoid query
+            log = datetime.datetime.now().strftime("%H:%M:%S")
             varx = client.capitolare.codici.find_one({'segnatura_idx': segnatura})
 
         #db.session.add(new_race)
@@ -362,7 +364,8 @@ def insertfield(segnatura):
         _template3=template_form3,
         _template4=template_form4,
         _template5=template_form5,
-        _template6=template_form6 #descirizione esterna
+        _template6=template_form6,
+        log=log #descirizione esterna
     )
 
 
