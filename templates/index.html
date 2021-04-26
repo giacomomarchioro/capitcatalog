@@ -204,7 +204,7 @@
         }
     </style>
 </head>
-
+<!-- https://www.europeana.eu/en/item/9200397/BibliographicResource_3000126281730 -->
 <body style="margin:10;padding:10;margin-top:20px;background-color:#f7f7f7;">
 
     <form id="descrizione_interna-form" action="" method="POST" role="form">
@@ -217,6 +217,9 @@
         <a href="#subforms-container_biblib">Bibliografia</a>
         <button type="submit" class="btn-success">Salva catalogazione</button>
         <a href="#">Salvato alle: {{log}}</a>
+        <p>
+        <a href="http://lezioni.meneghetti.univr.it/segnatura/{{segnatura}}" target="_blank"> <img src="{{url_for('static', filename="visualizza.png")}}" id="vis"/> Visualizza la scheda </a>
+        </p>
         <br>
         <br>
         <a class="btn-danger" onclick="return confirm('I dati non salvati andranno persi. Procedere comunque?');" href="/">Ritorna alla pagina iniziale</a>

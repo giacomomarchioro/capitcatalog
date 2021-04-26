@@ -364,8 +364,9 @@ def insertfield(segnatura):
         _template3=template_form3,
         _template4=template_form4,
         _template5=template_form5,
-        _template6=template_form6,
-        log=log #descirizione esterna
+        _template6=template_form6, #descirizione esterna
+        log=log,
+        segnatura=segnatura 
     )
 
 

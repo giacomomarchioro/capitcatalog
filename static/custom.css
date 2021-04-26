@@ -51,3 +51,16 @@ h3.headersec{
     height: 300px;
     overflow-y: auto;
   }
+
+  #vis {
+    box-shadow: 1px 1px 8px #b7b7b7;
+  }
+
+  #vis:hover{
+    -o-transition:.5s;
+    -ms-transition:.5s;
+    -moz-transition:.5s;
+    -webkit-transition:.5s;
+    transition:.5s;
+    box-shadow: 0px 0px 15px #a7ff8a;
+  }
