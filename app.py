@@ -153,12 +153,12 @@ class DescInt(Form):
     descid = StringField("ID descrizione interna padre",
                          validators=[], render_kw={'class': "form-control", }
                          )
-    incipit = StringField("Incipit",
+    incipit = StringField("Incipit",validators=[],
                           render_kw={'class': "form-control", }
                           )
     incipit_url = StringField("Incipit URL", render_kw={'class': "form-control", }
     )
-    explicit = StringField("Explicit",
+    explicit = StringField("Explicit",validators=[],
                             render_kw={'class': "form-control", }
                            )
     carte = StringField("Carte",
@@ -228,6 +228,7 @@ class MainForm(FlaskForm):
     descrizione_interna = FieldList(
         FormField(DescInt),
         min_entries=1,
+        max_entries=500
     )
 
     copisti = FieldList(
@@ -323,7 +324,7 @@ def insertfield(segnatura):
     if form.validate_on_submit():
         # Create race
         #new_race = Race()
-        #import pdb; pdb.set_trace()
+        import pdb; pdb.set_trace()
 
         print("Entrato")
         data_dict = form.data

@@ -15,7 +15,7 @@ this should match `loop.index0`, and for the template it should be
 <div id="descrizione_esterna-{{ index }}-form" class="{% if index != '_' %}subform0{% else %}is-hidden{% endif %}"
   data-index="{{ index }}">
   <div>
-    <h5 id="inc-0-" class="text-center">1</h5>
+    <h5 id="descrizione_esterna-{{ index }}-formH" class="text-center">1</h5>
     <div class='row g-2'>
 
       <div class="col-md">
@@ -184,7 +184,7 @@ this should match `loop.index0`, and for the template it should be
   data-index="{{ index }}">
 
   <div>
-    <h5 id="inc-0-" class="text-center">1</h5>
+    <h5 id="descrizione_interna-{{ index }}-formH" class="text-center">1</h5>
     <div class='row g-2'>
 
       <div class="col-md">
@@ -252,7 +252,7 @@ this should match `loop.index0`, and for the template it should be
       <div class="col-md">
         <div class="form-floating">
           {{subform.incipit_url}}
-          <label for="floatingInputGridDI3">Incipit URL</label>
+          <label for="floatingInputGridDI9">Incipit URL</label>
         </div>
         <div class="alert alert-info" role="alert">
           <b>Per esempio:</b> <i>http://lezioni.meneghetti.univr.it/UVjs/?manifest=http://lezioni.meneghetti.univr.it//manifests/b698a7d2668205fbe7cd023e0ded1784.json&indx=12</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#incipit_url"])}}
@@ -326,7 +326,7 @@ this should match `loop.index0`, and for the template it should be
 <div id="copisti-{{ index }}-form" class="{% if index != '_' %}subform2{% else %}is-hidden{% endif %}"
   data-index="{{ index }}">
   <div>
-    <h5 id="inc-0-" class="text-center">1</h5>
+    <h5 id="copisti-{{ index }}-formH" class="text-center">1</h5>
     <div class='row g-2'>
 
       <div class="col-md">
@@ -402,7 +402,7 @@ this should match `loop.index0`, and for the template it should be
 <div id="annotazioni_marginali-{{ index }}-form" class="{% if index != '_' %}subform3{% else %}is-hidden{% endif %}"
   data-index="{{ index }}">
   <div>
-    <h5 id="inc-0-" class="text-center">1</h5>
+    <h5 id="annotazioni_marginali-{{ index }}-formH" class="text-center">1</h5>
     <div class='row g-2'>
       <div class="col-md">
         <div class="form-floating">
@@ -513,7 +513,7 @@ this should match `loop.index0`, and for the template it should be
 <div id="storia_del_manoscritto-{{ index }}-form" class="{% if index != '_' %}subform4{% else %}is-hidden{% endif %}"
   data-index="{{ index }}">
   <div>
-    <h5 id="inc-0-" class="text-center">1</h5>
+    <h5 id="storia_del_manoscritto-{{ index }}-formH" class="text-center">1</h5>
     <div class='row g-2'>
 
       <div class="col-md">
