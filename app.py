@@ -324,7 +324,7 @@ def insertfield(segnatura):
     if form.validate_on_submit():
         # Create race
         #new_race = Race()
-        import pdb; pdb.set_trace()
+        #import pdb; pdb.set_trace()
 
         print("Entrato")
         data_dict = form.data
