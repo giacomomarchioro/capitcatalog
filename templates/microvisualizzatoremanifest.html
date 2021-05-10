@@ -1,0 +1,133 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-jcrop/0.9.15/css/jquery.Jcrop.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-jcrop/0.9.15/js/jquery.Jcrop.js"></script>
+        <script>
+            function selectText() {
+            const input = document.getElementById('tobecopied');
+            input.focus();
+            input.select();
+            }
+        </script>
+    </head>
+    <body>
+        <div style="display:inline-block;vertical-align:top;">
+        <img src="http://lezioni.meneghetti.univr.it//imageapi/241/m0241_0visn20_0005a0.jp2/full/pct:5/0/default.jpg" alt="" id="cropbox">
+        </div>
+        <div style="display: inline-block;">
+            <p>
+                Manifest : <input type="text" id="manif" size="10" value='http://lezioni.meneghetti.univr.it//manifests/b698a7d2668205fbe7cd023e0ded1784.json'>
+                <button onclick="loadmanifest()">Carica</button>
+            </p>
+            <p>
+            Previewdimension : <input type="text" id="prevdim" size="10" value="400,">
+            </p>
+            <p>
+            Dimension : <input type="text" id="dim" size="10" value="pct:50">
+            </p>
+            <p>
+            Rotation : <input type="text" id="rot" size="10" value="0">
+            </p>
+            <p>
+            Quality : <input type="text" id="qual" size="10" value="default.jpg">
+                </p>
+            <input type="text" id="tobecopied" size="50" value="Hello world!">
+            <button onclick="selectText()">Seleziona (Ctr+C per copiare)</button>
+            <p>
+                <button onclick="previmg()">Immagine precedente</button>
+                <input type="text" id="vai" size="3" value="0">
+                <button onclick="changeimg()">Vai</button>
+                <button onclick="nextimg()">Prossima immagine</button>
+                
+            </p>
+        </div>  
+        
+        <script>
+            var manifest
+            var ind = 0
+            var imageurl
+            var region
+            manifesturl ='http://lezioni.meneghetti.univr.it//manifests/b698a7d2668205fbe7cd023e0ded1784.json'
+            
+            function changeimg(){
+                    ind = Number(document.getElementById("vai").value)
+                    imageurl =  manifest.sequences[0].canvases[ind].images[0].resource.service["@id"]
+                    dimension = document.getElementById("prevdim").value
+                    rotation = document.getElementById("rot").value
+                    quality = document.getElementById("qual").value
+                    region = "full"
+                    elements = [imageurl,region,dimension,rotation,quality]
+                    jcrop_api.setImage(elements.join('/'))
+                };
+
+            function nextimg(){
+                ind += 1;
+                document.getElementById("vai").value = ind
+                changeimg();
+            };
+
+            function previmg(){
+                ind -= 1;
+                document.getElementById("vai").value = ind
+                changeimg();
+            };
+
+            function loadmanifest(){
+                manifesturl = document.getElementById("manif").value
+                $.getJSON(manifesturl, function(data) {
+                // JSON result in `data` variable
+                manifest  = data
+                })
+            }
+
+            $( document ).ready(function() {
+                console.log( "ready!" );
+        
+                $.getJSON(manifesturl, function(data) {
+                // JSON result in `data` variable
+                manifest  = data
+                })
+
+  
+                })
+            //imageurl =  manifest.sequences[0].canvases[ind].images[0].resource.service["@id"]
+
+            $(window).load(function() {
+                
+                jcrop_api = $.Jcrop('#cropbox');
+      
+
+
+                function updateCoords(){
+                    bounds = jcrop_api.getBounds()
+                    width = bounds[0]
+                    height = bounds[1]
+                    c = jcrop_api.tellSelect()
+                    x1p = (c.x/width)*100;
+                    y1p = (c.y/height)*100;
+                    x2p = (c.w/width)*100;
+                    y2p = (c.h/height)*100;
+                    region = "pct:"+x1p.toFixed(2)+","+y1p.toFixed(2)+","+x2p.toFixed(2)+","+y2p.toFixed(2)
+                    imageurl =  manifest.sequences[0].canvases[ind].images[0].resource.service["@id"]
+                    console.log(region);
+                    dimension = document.getElementById("dim").value
+                    rotation = document.getElementById("rot").value
+                    quality = document.getElementById("qual").value
+                    elements = [imageurl,region,dimension,rotation,quality]
+                    document.getElementById("tobecopied").value= elements.join('/');
+                    selectText()
+                };
+                /// SET OPTION
+                jcrop_api.setOptions({
+                    boxWidth: 500,
+                    onSelect: updateCoords,
+                    //minSize: [thisImage.Min.Width, thisImage.Min.Height],
+                    //aspectRatio: thisImage.AspectRatio  //1.3 for example
+                });          
+                })
+        </script>
+ 
+    </body>    
+    </html>
+    

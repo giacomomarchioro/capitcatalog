@@ -219,6 +219,22 @@ class DescEst(Form):
                                                 )
 class MainForm(FlaskForm):
     """Parent form."""
+ 
+    status = SelectField(u'Stato', choices=[('In lavorazione', 'In lavorazione'),('Concluso', 'concluso'), ('Abbandonato', 'abbandonato'), ],render_kw={'class': "form-control", })
+
+    manifest = StringField("Manifest:",
+                            validators=[], render_kw={'class': "form-control", }
+                            )
+    immagine_banner = StringField("Banner:",
+                            validators=[], render_kw={'class': "form-control", }
+                            )
+    immagine_dorso = StringField("Dorso:",
+                            validators=[], render_kw={'class': "form-control", }
+                            )
+    immagine_esemplificativa = StringField("Immagine esemplificativa:",
+                            validators=[], render_kw={'class': "form-control", }
+                            )
+
     descrizione_esterna = FieldList(
         FormField(DescEst),
         min_entries=1,
@@ -337,7 +353,6 @@ def insertfield(segnatura):
             client.capitolare.codici.insert_one(data_dict)
             varx = client.capitolare.codici.find_one({'segnatura_idx': segnatura})
         else:
-            data_dict['status'] = "modificato"
             client.capitolare.codici.update_one({'_id': varx['_id']},{'$set':data_dict}, upsert=False)
             #TO DO: Avoid query
             log = datetime.datetime.now().strftime("%H:%M:%S")
@@ -379,6 +394,10 @@ def lineeguidacat():
         'lineeguidacatalog.html'
     )
 
+
+@app.route('/iiifjcrop')
+def iiifjcrop():
+    return render_template('microvisualizzatoremanifest.html')
 
 if __name__ == '__main__':
     app.run()

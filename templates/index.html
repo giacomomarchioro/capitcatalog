@@ -254,10 +254,82 @@
     
       
     <div class="main">
+        {{ form.csrf_token }}
         <div>
+            <h3 class="headersec">Dati aggiuntivi</h3>
+        </div>
+        <div class='row g-2'>
+
+            <div class="col-md">
+              <div class="form-floating">
+                {{form.status}}
+                <label for="floatingInputGridDI0">Stato</label>
+              </div>
+              <div class="alert alert-info" role="alert">
+                <b>Per esempio:</b> <i>Sancti Aurelii Augustini</i> (vedi <a
+                  href={{"".join([url_for("lineeguidacat"),"#autore"])}} class="alert-link">linee guida</a>).
+              </div>
+            </div>
+      
+            <div class="col-md">
+              <div class="form-floating">
+                {{form.manifest}}
+                <label for="floatingInputGridDI1">Manifest</label>
+              </div>
+              <div class="alert alert-info" role="alert">
+                <b>Per esempio:</b> <i>De Civitate Dei</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#titolo"])}}
+                  class="alert-link">linee guida</a>).
+              </div>
+            </div>
+          </div>
+        
+          <div class='row g-2'>
+
+            <div class="col-md">
+              <div class="form-floating">
+                {{form.immagine_esemplificativa}}
+                <label for="floatingInputGridDI0">Immagine esemplificativa</label>
+              </div>
+              <div class="alert alert-info" role="alert">
+                <b>Per esempio:</b> <i>Sancti Aurelii Augustini</i> (vedi <a
+                  href={{"".join([url_for("lineeguidacat"),"#autore"])}} class="alert-link">linee guida</a>).
+              </div>
+            </div>
+      
+            <div class="col-md">
+              <div class="form-floating">
+                {{form.immagine_dorso}}
+                <label for="floatingInputGridDI1">Immagine dorso</label>
+              </div>
+              <div class="alert alert-info" role="alert">
+                <b>Per esempio:</b> <i>De Civitate Dei</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#titolo"])}}
+                  class="alert-link">linee guida</a>).
+              </div>
+            </div>
+          </div>
+        
+          <div class='row g-2'>
+
+            <div class="col-md">
+              <div class="form-floating">
+                {{form.immagine_banner}}
+                <label for="floatingInputGridDI0">Immagine banner</label>
+              </div>
+              <div class="alert alert-info" role="alert">
+                <b>Per esempio:</b> <i>Sancti Aurelii Augustini</i> (vedi <a
+                  href={{"".join([url_for("lineeguidacat"),"#autore"])}} class="alert-link">linee guida</a>).
+              </div>
+            </div>
+      
+            <div class="col-md">
+                <a class="btn btn-primary" href="/iiifjcrop" role="button" target="_blank">Accedi al visualizzatore</a> 
+            </div>
+          </div>
+
+          <div>
             <h3 class="headersec">Descrizione Esterna</h3>
         </div>
-        {{ form.csrf_token }}
+        
         <div id="subforms-container_esterna">
             {% for subform in form.descrizione_esterna %}
             {{ macros.render_lap_form_est(subform, loop.index0) }}
