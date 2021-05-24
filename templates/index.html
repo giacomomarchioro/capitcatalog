@@ -266,7 +266,7 @@
                 <label for="floatingInputGridDI0">Stato</label>
               </div>
               <div class="alert alert-info" role="alert">
-                <b>Per esempio:</b> <i>Sancti Aurelii Augustini</i> (vedi <a
+                <b>Per esempio:</b> <i>Settare su concluso una volta terminato. Usare presentabile per permetterne la visualizzazione. </i> (vedi <a
                   href={{"".join([url_for("lineeguidacat"),"#autore"])}} class="alert-link">linee guida</a>).
               </div>
             </div>
@@ -277,7 +277,7 @@
                 <label for="floatingInputGridDI1">Manifest</label>
               </div>
               <div class="alert alert-info" role="alert">
-                <b>Per esempio:</b> <i>De Civitate Dei</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#titolo"])}}
+                <b>Per esempio:</b> <i>http://lezioni.meneghetti.univr.it//manifests/b698a7d2668205fbe7cd023e0ded1784.json</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#titolo"])}}
                   class="alert-link">linee guida</a>).
               </div>
             </div>
@@ -291,7 +291,7 @@
                 <label for="floatingInputGridDI0">Immagine esemplificativa</label>
               </div>
               <div class="alert alert-info" role="alert">
-                <b>Per esempio:</b> <i>Sancti Aurelii Augustini</i> (vedi <a
+                <b>Indicazioni:</b> <i>Usare il visualizzatore, settare dimension a 200, (ricordarsi la virgola) selezionare la regione con il mouse e copiare il link.</i> (vedi <a
                   href={{"".join([url_for("lineeguidacat"),"#autore"])}} class="alert-link">linee guida</a>).
               </div>
             </div>
@@ -302,7 +302,7 @@
                 <label for="floatingInputGridDI1">Immagine dorso</label>
               </div>
               <div class="alert alert-info" role="alert">
-                <b>Per esempio:</b> <i>De Civitate Dei</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#titolo"])}}
+                <b>Indicazioni:</b> <i>Settare dimension a 100, (ricordarsi la virgola) selezionare la regione con il mouse e copiare il link.</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#titolo"])}}
                   class="alert-link">linee guida</a>).
               </div>
             </div>
@@ -316,7 +316,7 @@
                 <label for="floatingInputGridDI0">Immagine banner</label>
               </div>
               <div class="alert alert-info" role="alert">
-                <b>Per esempio:</b> <i>Sancti Aurelii Augustini</i> (vedi <a
+                <b>Per esempio:</b> <i>Settare dimension a: 1200,</i> (vedi <a
                   href={{"".join([url_for("lineeguidacat"),"#autore"])}} class="alert-link">linee guida</a>).
               </div>
             </div>
@@ -325,7 +325,16 @@
                 <a class="btn btn-primary" href="/iiifjcrop" role="button" target="_blank">Accedi al visualizzatore</a> 
             </div>
           </div>
-
+          <div class="mb-3">
+            <label for="floatingInputGridDI1">Sommario descrizione:</label>
+            {{form.sommario_desc}}
+           
+          </div>
+          <div class="alert alert-info" role="alert">
+            <b>Indicazioni:</b> <i> Usare quest'area per una descrizione generale del manoscritto (300-500 caratteri).</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#titolo"])}}
+              class="alert-link">linee guida</a>).
+          </div>
+          
           <div>
             <h3 class="headersec">Descrizione Esterna</h3>
         </div>

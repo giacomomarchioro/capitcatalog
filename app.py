@@ -220,7 +220,7 @@ class DescEst(Form):
 class MainForm(FlaskForm):
     """Parent form."""
  
-    status = SelectField(u'Stato', choices=[('In lavorazione', 'In lavorazione'),('Concluso', 'concluso'), ('Abbandonato', 'abbandonato'), ],render_kw={'class': "form-control", })
+    status = SelectField(u'Stato', choices=[('In lavorazione', 'In lavorazione'),('Concluso', 'concluso'), ('Abbandonato', 'abbandonato'),('Presentabile', 'presentabile'), ],render_kw={'class': "form-control", })
 
     manifest = StringField("Manifest:",
                             validators=[], render_kw={'class': "form-control", }
@@ -234,6 +234,11 @@ class MainForm(FlaskForm):
     immagine_esemplificativa = StringField("Immagine esemplificativa:",
                             validators=[], render_kw={'class': "form-control", }
                             )
+
+    sommario_desc = TextAreaField("Sommario:",
+                            validators=[], render_kw={'class': "form-control",'rows':"4" }
+                            )
+                            
 
     descrizione_esterna = FieldList(
         FormField(DescEst),
