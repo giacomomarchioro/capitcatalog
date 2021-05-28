@@ -90,8 +90,8 @@ this should match `loop.index0`, and for the template it should be
           <label for="floatingInputGrid6">Prospetto fascicolazione</label>
         </div>
         <div class="alert alert-info " role="alert">
-        <b>Per esempio:</b>  <i> 1<sup>10</sup> (1-10; sesterno -2: ablati i riscontri delle cc. 2, 3), 2<sup>8</sup> (11-18), 3<sup>8</sup> (19-26), 4<sup>8</sup> (27-34), 5<sup>8</sup> (35-42), 6<sup>8</sup> (43-50), 7<sup>8</sup> (51-58), 8<sup>8</sup> (59-66), 9<sup>8</sup> (67-74), 10<sup>8</sup> (75-82), 11<sup>8</sup> (83-90), 12<sup>8</sup> (91-98), 13<sup>8</sup> (99-106), 14<sup>8</sup> (107-114), 15<sup>8</sup> (115-122), 16<sup>8</sup> (123-130)</i>  (vedi <a href={{"".join([url_for("lineeguidacat"),"#prospetto_fascicolazione"])}} class="alert-link">linee guida</a>).
-      </div>
+          <b>Per esempio:</b> usando html tag: <i>  1&lt;sup&gt;6&lt;/sup&gt;  2&lt;sup&gt;8&lt;/sup&gt; 3&lt;sup&gt;10&lt;/sup&gt; verrano visualizzati per esempio come 1<sup>6</sup>,2<sup>8</sup>, 3<sup>10</sup> (1-10; sesterno -2: ablati i riscontri delle cc. 2, 3), 2<sup>8</sup> (11-18), 3<sup>8</sup> (19-26), 4<sup>8</sup> (27-34), 5<sup>8</sup> (35-42) 9<sup>8</sup> (67-74), 10<sup>8</sup> (75-82) 12<sup>8</sup> (91-98), 13</i>  (vedi <a href={{"".join([url_for("lineeguidacat"),"#prospetto_fascicolazione"])}} class="alert-link">linee guida</a>).
+        </div>
       </div>
 
         <div class="col-md">
@@ -104,6 +104,30 @@ this should match `loop.index0`, and for the template it should be
       </div>
       </div>
     </div>
+
+    <div class='row g-2'>
+
+      <div class="col-md">
+      <div class="form-floating">
+        {{subform.numero_di_fascicolo}}
+        <label for="floatingInputGrid6">Numero di fascicolo:</label>
+      </div>
+      <div class="alert alert-info " role="alert">
+        <b>Per esempio:</b> usando html tag: <i>  1&lt;sup&gt;6&lt;/sup&gt;  2&lt;sup&gt;8&lt;/sup&gt; 3&lt;sup&gt;10&lt;/sup&gt; verrano visualizzati per esempio come 1<sup>6</sup>,2<sup>8</sup>, 3<sup>10</sup> (1-10; sesterno -2: ablati i riscontri delle cc. 2, 3), 2<sup>8</sup> (11-18), 3<sup>8</sup> (19-26), 4<sup>8</sup> (27-34), 5<sup>8</sup> (35-42) 9<sup>8</sup> (67-74), 10<sup>8</sup> (75-82) 12<sup>8</sup> (91-98), 13</i>  (vedi <a href={{"".join([url_for("lineeguidacat"),"#prospetto_fascicolazione"])}} class="alert-link">linee guida</a>).
+      </div>
+    </div>
+
+      <div class="col-md">
+      <div class="form-floating">
+        {{subform.filigrana}}
+        <label for="floatingInputGrid7">Filigrana</label>
+      </div>
+      <div class="alert alert-info " role="alert">
+      <b>Per esempio:</b>  <i>inizio fascicoli lato carne; rispettata la regola</i>  (vedi <a href={{"".join([url_for("lineeguidacat"),"#arrangiamento_fogli_gregory"])}} class="alert-link">linee guida</a>).
+    </div>
+    </div>
+  </div>
+
     <div class='row g-2'>
 
         <div class="col-md">
@@ -153,23 +177,47 @@ this should match `loop.index0`, and for the template it should be
         <div class="col-md">
         <div class="form-floating">
           {{subform.utenti_email}}
-          <label for="floatingInputGrid12">Utenti email</label>
+          <label for="floatingInputGrid12">Autore scheda:</label>
         </div>
         <div class="alert alert-info " role="alert">
-        <b>Per esempio:</b>  <i>donatella.tronca@outlook.com</i>  (vedi <a href={{"".join([url_for("lineeguidacat"),"#utenti_email"])}} class="alert-link" title="voluptate velit esse cillum dolore eu fugiat nulla pariatur cillum dolore eu fugiat nulla pariatur cillum dolore eu fugiat nulla pariatur cillum dolore eu fugiat nulla pariatur.">linee guida</a>).
+        <b>Per esempio:</b>  <i>Donatella Tronca</i>  (vedi <a href={{"".join([url_for("lineeguidacat"),"#utenti_email"])}} class="alert-link" title="voluptate velit esse cillum dolore eu fugiat nulla pariatur cillum dolore eu fugiat nulla pariatur cillum dolore eu fugiat nulla pariatur cillum dolore eu fugiat nulla pariatur.">linee guida</a>).
       </div>
       </div>
 
         <div class="col-md">
         <div class="form-floating">
-          {{subform.Descrizione_Esterna_Segnatura}}
-          <label for="floatingInputGrid13">Descrizione esterna segnatura</label>
+          {{subform.orchid}}
+          <label for="floatingInputGrid13">ORCID iD</label>
         </div>
         <div class="alert alert-info " role="alert">
-        <b>Per esempio:</b>  <i>XXVIII (26)</i>  (vedi <a href={{"".join([url_for("lineeguidacat"),"#Descrizione_Esterna_Segnatura"])}} class="alert-link">linee guida</a>).
+        <b>Per esempio:</b>  <i>https://orcid.org/0000-0002-3379-5239</i>  (vedi <a href={{"".join([url_for("lineeguidacat"),"#Descrizione_Esterna_Segnatura"])}} class="alert-link">linee guida</a>).
       </div>
       </div>
     </div>
+
+
+    <div class='row g-2'>
+
+      <div class="col-md">
+      <div class="form-floating">
+        {{subform.decorazioni}}
+        <label for="floatingInputGrid12">Decorazioni:</label>
+      </div>
+      <div class="alert alert-info " role="alert">
+      <b>Per esempio:</b>  <i>Donatella Tronca</i>  (vedi <a href={{"".join([url_for("lineeguidacat"),"#utenti_email"])}} class="alert-link" title="voluptate velit esse cillum dolore eu fugiat nulla pariatur cillum dolore eu fugiat nulla pariatur cillum dolore eu fugiat nulla pariatur cillum dolore eu fugiat nulla pariatur.">linee guida</a>).
+    </div>
+    </div>
+
+      <div class="col-md">
+      <div class="form-floating">
+        {{subform.Descrizione_Esterna_Segnatura}}
+        <label for="floatingInputGrid13">Descrizione esterna segnatura</label>
+      </div>
+      <div class="alert alert-info " role="alert">
+      <b>Per esempio:</b>  <i>XXVIII (26)</i>  (vedi <a href={{"".join([url_for("lineeguidacat"),"#Descrizione_Esterna_Segnatura"])}} class="alert-link">linee guida</a>).
+    </div>
+    </div>
+  </div>
     <div class='row g-2'>
       <button type="button" class="remove_0 btn btn-danger">Elimina  descrizione esterna</button>
     </div>
@@ -499,11 +547,24 @@ this should match `loop.index0`, and for the template it should be
         </div>
       </div>
     </div>
-
-    <div class="col-md my-auto text-center">
+    <div class='row g-2'>
+      <div class="col-md">
+        <div class="form-floating">
+          {{subform.link_img}}
+          <label for="floatingInputGridDIX7">Link immagine:</label>
+        </div>
+        <div class="alert alert-info" role="alert">
+          <b>Per esempio:</b> <i>http:\\etc.etc.</i> (vedi <a
+            href={{"".join([url_for("lineeguidacat"),"#Descrizione_Esterna_Segnatura"])}} class="alert-link">linee
+            guida</a>).
+        </div>
+      </div>
+      
+    <div class="col-md">
       <button type="button" class="remove_3 btn btn-danger">Elimina annotazione marginale</button>
 
     </div>
+  </div>
     <hr />
   </div>
 </div>

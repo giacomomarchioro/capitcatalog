@@ -115,6 +115,10 @@ class AnnotazioniMarg(Form):
             validators=[ ],render_kw={'class':"form-control",}
         )
 
+    link_img = StringField("Link immagine:",
+            validators=[ ],render_kw={'class':"form-control",}
+        )
+
 class Copisti(Form):
     """Subform.
 
@@ -211,12 +215,25 @@ class DescEst(Form):
     legatura = StringField("Legatura",
                            validators=[], render_kw={'class': "form-control", }
                            )
-    utenti_email = StringField("Utenti email",
+    utenti_email = StringField("Autore scheda",
                                validators=[], render_kw={'class': "form-control", }
                                )
     Descrizione_Esterna_Segnatura = StringField("Descrizione esterna segnatura",
                                                 validators=[], render_kw={'class': "form-control", }
                                                 )
+    numero_di_fascicolo = StringField("Numero di fascicolo",
+                            validators=[], render_kw={'class': "form-control", }
+                            )
+    decorazioni = StringField("Decorazioni",
+                        validators=[], render_kw={'class': "form-control", }
+                        )
+    filigrana = StringField("Filigrana",
+                        validators=[], render_kw={'class': "form-control", }
+                        )
+    orchid = StringField("Orch.ID.",
+                    validators=[], render_kw={'class': "form-control", }
+                    )
+
 class MainForm(FlaskForm):
     """Parent form."""
  
@@ -352,7 +369,7 @@ def insertfield(segnatura):
         if 'csrf_token' in data_dict.keys():
             del data_dict['csrf_token']
             print("Deleted csrf")
-        data_dict['last_modified'] = datetime.datetime.utcnow()
+        data_dict['last_modified'] = datetime.datetime.now()
         #client.capitolare.codici.insert_one(data_dict)
         if varx is None:
             client.capitolare.codici.insert_one(data_dict)
