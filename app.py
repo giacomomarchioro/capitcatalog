@@ -393,7 +393,7 @@ def insertfield(segnatura):
 
     if varx is not None:
         form.process(data=varx)
-
+    #import pdb; pdb.set_trace()
     return render_template(
         'index.html',
         form=form,

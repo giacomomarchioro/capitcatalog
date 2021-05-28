@@ -291,7 +291,7 @@
                 <label for="floatingInputGridDI0">Immagine esemplificativa</label>
               </div>
               <div class="alert alert-info" role="alert">
-                <b>Indicazioni:</b> <i>Usare il visualizzatore, settare dimension a 200, (ricordarsi la virgola) selezionare la regione con il mouse e copiare il link.</i> (vedi <a
+                <b>Indicazioni:</b> <i><a href="/iiifjcrop?manifest={{form.manifest.data}}&dimension=200," target="_blank">Ottieni l'url usando il visualizzatore</a>, tenere dimension a 200, selezionare la regione con il mouse e copiare il link.</i> (vedi <a
                   href={{"".join([url_for("lineeguidacat"),"#autore"])}} class="alert-link">linee guida</a>).
               </div>
             </div>
@@ -302,7 +302,7 @@
                 <label for="floatingInputGridDI1">Immagine dorso</label>
               </div>
               <div class="alert alert-info" role="alert">
-                <b>Indicazioni:</b> <i>Settare dimension a 100, (ricordarsi la virgola) selezionare la regione con il mouse e copiare il link.</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#titolo"])}}
+                <b>Indicazioni:</b> <i> <a href="/iiifjcrop?manifest={{form.manifest.data}}&dimension=100," target="_blank">Ottieni l'url usando il visualizzatore</a> tenere dimension a 100, selezionare la regione con il mouse e copiare il link.</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#titolo"])}}
                   class="alert-link">linee guida</a>).
               </div>
             </div>
@@ -316,13 +316,13 @@
                 <label for="floatingInputGridDI0">Immagine banner</label>
               </div>
               <div class="alert alert-info" role="alert">
-                <b>Per esempio:</b> <i>Settare dimension a: 1200,</i> (vedi <a
+                <b>Per esempio:</b> <i> <a href="/iiifjcrop?manifest={{form.manifest.data}}&dimension=1200," target="_blank">Ottieni l'url usando il visualizzatore</a> tenere dimension a: 1200, ed aspect ratio vicino a 9</i> (vedi <a
                   href={{"".join([url_for("lineeguidacat"),"#autore"])}} class="alert-link">linee guida</a>).
               </div>
             </div>
       
             <div class="col-md">
-                <a class="btn btn-primary" href="/iiifjcrop" role="button" target="_blank">Accedi al visualizzatore</a> 
+                <a class="btn btn-primary" href="/iiifjcrop?manifest={{form.manifest.data}}" role="button" target="_blank">Accedi al visualizzatore</a> 
             </div>
           </div>
           <div class="mb-3">

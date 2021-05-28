@@ -9,6 +9,11 @@
             input.focus();
             input.select();
             }
+            function selectviewrurl() {
+            const input = document.getElementById('tobecopied2');
+            input.focus();
+            input.select();
+            }
         </script>
     </head>
     <body>
@@ -32,8 +37,19 @@
             <p>
             Quality : <input type="text" id="qual" size="10" value="default.jpg">
                 </p>
-            <input type="text" id="tobecopied" size="50" value="Hello world!">
+            <p>
+            Link alla selezione:
+        </p><p>
+            <input type="text" id="tobecopied" size="50" value="Trascina tenendo premuto il tasto sinistro sull'immagine.">
             <button onclick="selectText()">Seleziona (Ctr+C per copiare)</button>
+        </p><p>
+            Aspect ratio attuale <span id="aspectratio">non disponibile</span>, consigliato per il banner circa 9.
+        </p><p>
+            Link alla pagina attraverso il visualizzatore:
+        </p><p>
+            <input type="text" id="tobecopied2" size="50" value="link alla pagina">
+            <button onclick="selectText()">Seleziona (Ctr+C per copiare)</button>
+        </p>
             <p>
                 <button onclick="previmg()">Immagine precedente</button>
                 <input type="text" id="vai" size="3" value="0">
@@ -48,17 +64,35 @@
             var ind = 0
             var imageurl
             var region
-            manifesturl ='http://lezioni.meneghetti.univr.it//manifests/b698a7d2668205fbe7cd023e0ded1784.json'
+            const urlParams = new URLSearchParams(window.location.search);
+            var manifesturl = urlParams.get('manifest');
+            console.log("test",manifesturl)
+            if (manifesturl == null) {
+                manifesturl ='http://lezioni.meneghetti.univr.it//manifests/b698a7d2668205fbe7cd023e0ded1784.json'
+                }else{
+                    document.getElementById("manif").value = manifesturl
+                }
+            var dimension = urlParams.get('dimension');
+            if (dimension != null) {
+                document.getElementById("dim").value = dimension
+                }
+            
             
             function changeimg(){
                     ind = Number(document.getElementById("vai").value)
-                    imageurl =  manifest.sequences[0].canvases[ind].images[0].resource.service["@id"]
+                    if (manifest["@context"] == "http://iiif.io/api/presentation/3/context.json") {
+                        imageurl = manifest.items[ind].items[0].items[0].body.service[0].id
+                    }else{
+                        imageurl =  manifest.sequences[0].canvases[ind].images[0].resource.service["@id"]
+                    }
                     dimension = document.getElementById("prevdim").value
                     rotation = document.getElementById("rot").value
                     quality = document.getElementById("qual").value
                     region = "full"
                     elements = [imageurl,region,dimension,rotation,quality]
                     jcrop_api.setImage(elements.join('/'))
+                    document.getElementById("tobecopied2").value= "http://lezioni.meneghetti.univr.it/UVjs/?manifest="+manifesturl+"&indx="+ind;
+                    selectviewrurl();
                 };
 
             function nextimg(){
@@ -78,12 +112,13 @@
                 $.getJSON(manifesturl, function(data) {
                 // JSON result in `data` variable
                 manifest  = data
-                })
+                });
+                changeimg();
             }
 
             $( document ).ready(function() {
                 console.log( "ready!" );
-        
+                
                 $.getJSON(manifesturl, function(data) {
                 // JSON result in `data` variable
                 manifest  = data
@@ -94,7 +129,7 @@
             //imageurl =  manifest.sequences[0].canvases[ind].images[0].resource.service["@id"]
 
             $(window).load(function() {
-                
+                console.log( "loading!" );
                 jcrop_api = $.Jcrop('#cropbox');
       
 
@@ -109,22 +144,33 @@
                     x2p = (c.w/width)*100;
                     y2p = (c.h/height)*100;
                     region = "pct:"+x1p.toFixed(2)+","+y1p.toFixed(2)+","+x2p.toFixed(2)+","+y2p.toFixed(2)
-                    imageurl =  manifest.sequences[0].canvases[ind].images[0].resource.service["@id"]
+                    if (manifest["@context"] == "http://iiif.io/api/presentation/3/context.json") {
+                        imageurl = manifest.items[ind].items[0].items[0].body.service[0].id
+                    }else{
+                        imageurl =  manifest.sequences[0].canvases[ind].images[0].resource.service["@id"]
+                    }
+                    
                     console.log(region);
                     dimension = document.getElementById("dim").value
                     rotation = document.getElementById("rot").value
                     quality = document.getElementById("qual").value
                     elements = [imageurl,region,dimension,rotation,quality]
                     document.getElementById("tobecopied").value= elements.join('/');
+                    aspectratio = c.w/c.h;
+                    console.log(aspectratio);
+                    document.getElementById("aspectratio").innerHTML = aspectratio.toFixed(3);
                     selectText()
                 };
                 /// SET OPTION
                 jcrop_api.setOptions({
                     boxWidth: 500,
                     onSelect: updateCoords,
+                    //aspectRatio: 16 / 10,
                     //minSize: [thisImage.Min.Width, thisImage.Min.Height],
                     //aspectRatio: thisImage.AspectRatio  //1.3 for example
-                });          
+                });
+                // for the first time
+                changeimg();          
                 })
         </script>
  
