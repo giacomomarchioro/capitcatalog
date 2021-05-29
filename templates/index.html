@@ -245,6 +245,9 @@
         <p>
         <a href="http://lezioni.meneghetti.univr.it/segnatura/{{segnatura}}" target="_blank"> <img src="{{url_for('static', filename="visualizza.png")}}" id="vis"/> Visualizza la scheda </a>
         </p>
+        <p>
+            <a class="btn btn-primary" href="/iiifjcrop?manifest={{form.manifest.data}}" role="button" target="_blank">Accedi al visualizzatore</a> 
+        </p>
         <br>
         <br>
         <a class="btn-danger" onclick="return confirm('I dati non salvati andranno persi. Procedere comunque?');" href="/">Ritorna alla pagina iniziale</a>
@@ -321,9 +324,7 @@
               </div>
             </div>
       
-            <div class="col-md">
-                <a class="btn btn-primary" href="/iiifjcrop?manifest={{form.manifest.data}}" role="button" target="_blank">Accedi al visualizzatore</a> 
-            </div>
+     
           </div>
           <div class="mb-3">
             <label for="floatingInputGridDI1">Sommario descrizione:</label>

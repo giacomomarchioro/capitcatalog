@@ -29,13 +29,13 @@ def sort_dec_int(var):
 	try:
 		var['descrizione_interna'] = sorted(var['descrizione_interna'], key= lambda s: list(map(int, s['Descrizione_interna_id'].split('.'))))
 	except ValueError:
-		pass
+		return "Errorre descrizione interna"
 
 def sort_copisti(var):
 	try:
 		var['copisti'] = sorted(var['copisti'], key= lambda s: s['id_cop'])
 	except ValueError:
-		pass
+		return "Errorre descrizione interna"
 
 def sort_annotazioni(var):
 	try:
@@ -383,7 +383,7 @@ def insertfield(segnatura):
     if form.validate_on_submit():
         # Create race
         #new_race = Race()
-        import pdb; pdb.set_trace()
+        #import pdb; pdb.set_trace()
 
         print("Entrato")
         data_dict = form.data
