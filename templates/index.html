@@ -280,7 +280,7 @@
                 <label for="floatingInputGridDI1">Manifest</label>
               </div>
               <div class="alert alert-info" role="alert">
-                <b>Per esempio:</b> <i>http://lezioni.meneghetti.univr.it//manifests/b698a7d2668205fbe7cd023e0ded1784.json</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#titolo"])}}
+                <b>Per esempio:</b> <i class="text-break">http://lezioni.meneghetti.univr.it//manifests/b698a7d2668205fbe7cd023e0ded1784.json</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#titolo"])}}
                   class="alert-link">linee guida</a>).
               </div>
             </div>
@@ -371,7 +371,7 @@
         <hr />
         <div id="subforms-container_annomg">
             {% for subform in form.annotazioni_marginali %}
-            {{ macros.render_lap_form3(subform, loop.index0) }}
+            {{ macros.render_lap_form3(subform, loop.index0,form.manifest.data) }}
             {% endfor %}
         </div>
         <a id="add_3" href="#subforms-container_annomg" class="btn btn-primary btn-sm" tabindex="-1" role="button"

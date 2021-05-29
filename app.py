@@ -139,6 +139,10 @@ class AnnotazioniMarg(Form):
     link_img = StringField("Link immagine:",
             validators=[ ],render_kw={'class':"form-control",}
         )
+    
+    link_ROI = StringField("Link regione dell'immagine:",
+            validators=[ ],render_kw={'class':"form-control",}
+        )
 
 class Copisti(Form):
     """Subform.

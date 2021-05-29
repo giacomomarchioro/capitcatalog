@@ -446,7 +446,7 @@ this should match `loop.index0`, and for the template it should be
 </div>
 {%- endmacro %}
 
-{%- macro render_lap_form3(subform, index) %}
+{%- macro render_lap_form3(subform, index,manifest_url) %}
 <div id="annotazioni_marginali-{{ index }}-form" class="{% if index != '_' %}subform3{% else %}is-hidden{% endif %}"
   data-index="{{ index }}">
   <div>
@@ -554,17 +554,36 @@ this should match `loop.index0`, and for the template it should be
           <label for="floatingInputGridDIX7">Link immagine:</label>
         </div>
         <div class="alert alert-info" role="alert">
-          <b>Per esempio:</b> <i>http:\\etc.etc.</i> (vedi <a
+          <b>Per esempio:</b> <i><a href="/iiifjcrop?manifest={{manifest_url}}&dimension=400," target="_blank">Ottieni l'url usando il visualizzatore</a> e muovendoti nella pagina desiderata.</i> (vedi <a
             href={{"".join([url_for("lineeguidacat"),"#Descrizione_Esterna_Segnatura"])}} class="alert-link">linee
             guida</a>).
         </div>
       </div>
       
     <div class="col-md">
-      <button type="button" class="remove_3 btn btn-danger">Elimina annotazione marginale</button>
-
+      <div class="form-floating">
+        {{subform.link_ROI}}
+        <label for="floatingInputGridDIX7">Link area dell'immagine di interesse:</label>
+      </div>
+      <div class="alert alert-info" role="alert">
+        <b>Per esempio:</b> <i><a href="/iiifjcrop?manifest={{manifest_url}}&dimension=400," target="_blank">Ottieni l'url usando il visualizzatore</a>, tenere dimension vicino a 400, selezionare la regione dell'immagine con l'annotazione con il mouse e copiare il link.</i></i> (vedi <a
+          href={{"".join([url_for("lineeguidacat"),"#Descrizione_Esterna_Segnatura"])}} class="alert-link">linee
+          guida</a>).
+      </div>
     </div>
   </div>
+
+  <div class='row g-2'>
+    <div class="col-md">
+      
+    </div>
+    
+  <div class="col-md">
+    <button type="button" class="remove_3 btn btn-danger">Elimina annotazione marginale</button>
+
+  </div>
+</div>
+
     <hr />
   </div>
 </div>
