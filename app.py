@@ -25,8 +25,29 @@ db=client.admin
 
 #var = client.capitolare.codici.find_one({"segnatura_idx":"XXVII"}) 
 
+def sort_dec_int(var):
+	try:
+		var['descrizione_interna'] = sorted(var['descrizione_interna'], key= lambda s: list(map(int, s['Descrizione_interna_id'].split('.'))))
+	except ValueError:
+		pass
 
+def sort_copisti(var):
+	try:
+		var['copisti'] = sorted(var['copisti'], key= lambda s: s['id_cop'])
+	except ValueError:
+		pass
 
+def sort_annotazioni(var):
+	try:
+		var['annotazioni_marginali'] = sorted(var['annotazioni_marginali'], key= lambda s: s['Id_anno'])
+	except ValueError:
+		pass
+
+def sort_storia(var):
+	try:
+		var['storia_del_manoscritto'] = sorted(var['storia_del_manoscritto'], key= lambda s: s['Id_AT'])
+	except ValueError:
+		pass
 #globalvar = []
 #globalvarn = []
 
@@ -362,7 +383,7 @@ def insertfield(segnatura):
     if form.validate_on_submit():
         # Create race
         #new_race = Race()
-        #import pdb; pdb.set_trace()
+        import pdb; pdb.set_trace()
 
         print("Entrato")
         data_dict = form.data
@@ -371,6 +392,11 @@ def insertfield(segnatura):
             print("Deleted csrf")
         data_dict['last_modified'] = datetime.datetime.now()
         #client.capitolare.codici.insert_one(data_dict)
+        sort_copisti(data_dict)
+        sort_storia(data_dict)
+        sort_annotazioni(data_dict)
+        sort_dec_int(data_dict)
+
         if varx is None:
             client.capitolare.codici.insert_one(data_dict)
             varx = client.capitolare.codici.find_one({'segnatura_idx': segnatura})
