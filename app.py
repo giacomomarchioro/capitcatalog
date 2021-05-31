@@ -109,6 +109,13 @@ class Storia_del_manoscritto(Form):
     Descrizione_Esterna_Segnatura = StringField("Descrizione esterna segnatura",
             validators=[ ],render_kw={'class':"form-control",}
         )
+    link_img = StringField("Link immagine:",
+            validators=[ ],render_kw={'class':"form-control",}
+        )
+    
+    link_ROI = StringField("Link regione dell'immagine:",
+            validators=[ ],render_kw={'class':"form-control",}
+        )
 
 class AnnotazioniMarg(Form):
     Id_auto_inc = StringField("Id auto inc",

@@ -589,7 +589,7 @@ this should match `loop.index0`, and for the template it should be
 </div>
 {%- endmacro %}
 
-{%- macro render_lap_form4(subform, index) %}
+{%- macro render_lap_form4(subform, index,manifest_url) %}
 <div id="storia_del_manoscritto-{{ index }}-form" class="{% if index != '_' %}subform4{% else %}is-hidden{% endif %}"
   data-index="{{ index }}">
   <div>
@@ -691,6 +691,32 @@ this should match `loop.index0`, and for the template it should be
         </div>
       </div>
     </div>
+
+    <div class='row g-2'>
+      <div class="col-md">
+        <div class="form-floating">
+          {{subform.link_img}}
+          <label for="floatingInputGridDIX7">Link immagine:</label>
+        </div>
+        <div class="alert alert-info" role="alert">
+          <b>Per esempio:</b> <i><a href="/iiifjcrop?manifest={{manifest_url}}&dimension=400," target="_blank">Ottieni l'url usando il visualizzatore</a> e muovendoti nella pagina desiderata.</i> (vedi <a
+            href={{"".join([url_for("lineeguidacat"),"#Descrizione_Esterna_Segnatura"])}} class="alert-link">linee
+            guida</a>).
+        </div>
+      </div>
+      
+    <div class="col-md">
+      <div class="form-floating">
+        {{subform.link_ROI}}
+        <label for="floatingInputGridDIX7">Link area dell'immagine di interesse:</label>
+      </div>
+      <div class="alert alert-info" role="alert">
+        <b>Per esempio:</b> <i><a href="/iiifjcrop?manifest={{manifest_url}}&dimension=400," target="_blank">Ottieni l'url usando il visualizzatore</a>, tenere dimension vicino a 400, selezionare la regione dell'immagine con l'annotazione con il mouse e copiare il link.</i></i> (vedi <a
+          href={{"".join([url_for("lineeguidacat"),"#Descrizione_Esterna_Segnatura"])}} class="alert-link">linee
+          guida</a>).
+      </div>
+    </div>
+  </div>
 
     <div class="col-md my-auto text-center">
       <button type="button" class="remove_4 btn btn-danger">Rimuovi dalla storia del manoscritto</button>
