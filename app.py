@@ -29,25 +29,26 @@ def sort_dec_int(var):
 	try:
 		var['descrizione_interna'] = sorted(var['descrizione_interna'], key= lambda s: list(map(int, s['Descrizione_interna_id'].split('.'))))
 	except ValueError:
-		return "Errorre descrizione interna"
+		return "Errorre ID descrizione interna"
 
 def sort_copisti(var):
 	try:
 		var['copisti'] = sorted(var['copisti'], key= lambda s: s['id_cop'])
 	except ValueError:
-		return "Errorre descrizione interna"
+		return "Errorre ID descrizione coppisti"
 
 def sort_annotazioni(var):
 	try:
 		var['annotazioni_marginali'] = sorted(var['annotazioni_marginali'], key= lambda s: s['Id_anno'])
 	except ValueError:
-		pass
+		return "Errorre ID descrizione annotazioni"
 
 def sort_storia(var):
 	try:
 		var['storia_del_manoscritto'] = sorted(var['storia_del_manoscritto'], key= lambda s: s['Id_AT'])
 	except ValueError:
-		pass
+		return "Errorre ID storia del manoscritto."
+
 #globalvar = []
 #globalvarn = []
 
