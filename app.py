@@ -454,6 +454,9 @@ def lineeguidacat():
         'lineeguidacatalog.html'
     )
 
+@app.route('/test')
+def test():
+    return render_template('test.html')
 
 @app.route('/iiifjcrop')
 def iiifjcrop():

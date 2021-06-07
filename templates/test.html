@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+<div>
+    <p>
+    Spazi aggiunti: <input type="checkbox" id="spazi" onclick="save()" checked>
+</p><p>
+    Aggiunte del catalogatore: <input type="checkbox" id="aggiunte" onclick="save()" checked>
+</p><p>
+    conservazione del grafema u: <input type="checkbox" id="grafemau" onclick="save()">
+</p><p>
+    Punteggiatura moderna: <input type="checkbox" id="punteggiatura" onclick="save()" checked>
+</p>
+</div>
+<p>
+<span class="originale"> ULTIMUM VERSUM
+    .Hic est ultim((um)) versum Dantis Alighieris\. Ille vixit</span>
+</p>
+<p>
+<span class="transcription"> ULTIMUM VERSUM
+    .Hic est ultim((um)) versum Dantis Alighieris\. Ille vixit</span>
+</p>
+<script>
+    
+
+  function myFunction() {
+  // spazi
+  var spazi_var = (localStorage.getItem("spazi") === 'true');
+  document.getElementById("spazi").checked = spazi_var; 
+  // aggiunte 
+  var aggiunte_var = (localStorage.getItem("aggiunte") === 'true');
+  document.getElementById("aggiunte").checked = aggiunte_var;
+  // conservazione grafema 
+  var grafemau_var = (localStorage.getItem("grafemau") === 'true');
+  document.getElementById("grafemau").checked = grafemau_var; 
+  var punteggiatura_var = (localStorage.getItem("punteggiatura") === 'true');
+  document.getElementById("punteggiatura").checked = punteggiatura_var;
+
+
+  // Get the checkbox
+  //var spazi = document.getElementById("spazi");
+  //var aggiunte = document.getElementById("aggiunte");
+
+  // If the checkbox is checked, display the output text
+  var elements= document.getElementsByClassName("transcription");
+    for (var i = 0; i < elements.length; i++) {
+        console.log(elements[i].id); //second console output
+        if (spazi_var== false){
+            
+            elements[i].innerHTML = elements[i].innerHTML.replace(/\s/g, '');
+        } 
+        if (aggiunte_var == false){
+            elements[i].innerHTML = elements[i].innerHTML.replace(/\(\(.*?\)\)/gm,'');
+        }
+        if (grafemau_var == true){
+            elements[i].innerHTML = elements[i].innerHTML.replaceAll("U","V").replaceAll("v","u");
+        }
+        if (punteggiatura_var == false){
+            elements[i].innerHTML = elements[i].innerHTML.replaceAll("\\.","");
+        }
+        if (punteggiatura_var == true){
+            elements[i].innerHTML = elements[i].innerHTML.replaceAll(/\.*(?<!\\)\./gm,'').replaceAll("\\.",".");
+        }
+    }
+  
+}
+
+function save(){
+    if (typeof(Storage) !== "undefined") {
+  // Code for localStorage/sessionStorage.
+    var spazi = document.getElementById("spazi");
+    localStorage.setItem("spazi", spazi.checked);
+    var aggiunte = document.getElementById("aggiunte");
+    localStorage.setItem("aggiunte", aggiunte.checked);
+    var grafemau = document.getElementById("grafemau");
+    localStorage.setItem("grafemau", grafemau.checked);
+    var punteggiatura = document.getElementById("punteggiatura");
+    localStorage.setItem("punteggiatura", punteggiatura.checked);
+    window.location.reload();
+    } else {
+    // Sorry! No Web Storage support..
+    }
+  }
+
+  window.onload = function() {
+  myFunction();
+};
+</script>
+</body>
+</html>
