@@ -8,7 +8,7 @@ from wtforms import Form, FieldList, FormField, IntegerField, SelectField, \
     StringField, TextAreaField, SubmitField 
 from wtforms import validators
 from pymongo import MongoClient
-from wtforms.validators import DataRequired
+from wtforms.validators import DataRequired,Regexp
 from databasecredential import connectionstring
 from werkzeug.datastructures import MultiDict
 import json
@@ -145,11 +145,13 @@ class AnnotazioniMarg(Form):
         )
 
     link_img = StringField("Link immagine:",
-            validators=[ ],render_kw={'class':"form-control",}
+            validators=[ ],render_kw={'class':"form-control",
+            'pattern':"^http:\/\/lezioni\.meneghetti\.univr\.it\/UVjs\/\?manifest=?.*" }
         )
     
     link_ROI = StringField("Link regione dell'immagine:",
-            validators=[ ],render_kw={'class':"form-control",}
+            validators=[ ],render_kw={'class':"form-control",
+            'pattern':"^http:\/\/lezioni\.meneghetti\.univr\.it\/\/imageapi\/.*" }
         )
 
 class Copisti(Form):
@@ -188,12 +190,16 @@ class DescInt(Form):
                          validators=[], render_kw={'class': "form-control", }
                          )
     descid = StringField("ID descrizione interna padre",
-                         validators=[], render_kw={'class': "form-control", }
+                         #validators=[Regexp('^[1-9]\d*(\.[1-9]\d*)*$',message='ID non valido')],
+                         render_kw={'class': "form-control",
+                         'required pattern':"^[1-9]\d*(\.[1-9]\d*)*$"
+                                        }
                          )
     incipit = StringField("Incipit",validators=[],
                           render_kw={'class': "form-control", }
                           )
-    incipit_url = StringField("Incipit URL", render_kw={'class': "form-control", }
+    incipit_url = StringField("Incipit URL", render_kw={'class': "form-control",
+    'pattern':"^http:\/\/lezioni\.meneghetti\.univr\.it\/UVjs\/\?manifest=?.*" }
     )
     explicit = StringField("Explicit",validators=[],
                             render_kw={'class': "form-control", }
@@ -208,7 +214,10 @@ class DescInt(Form):
                                                 validators=[], render_kw={'class': "form-control", }
                                                 )
     Descrizione_interna_id = StringField("Descrizione interna ID",
-                                         validators=[], render_kw={'class': "form-control", }
+                                        #validators=[Regexp('^[1-9]\d*(\.[1-9]\d*)*$',message='ID non valido')],
+                                        render_kw={'class': "form-control",
+                                        'required pattern':"^[1-9]\d*(\.[1-9]\d*)*$"
+                                        }
                                          )
 
 class DescEst(Form):
@@ -264,8 +273,12 @@ class DescEst(Form):
                         validators=[], render_kw={'class': "form-control", }
                         )
     orchid = StringField("Orch.ID.",
-                    validators=[], render_kw={'class': "form-control", }
-                    )
+                    validators=[],
+                    render_kw={'class': "form-control",
+                         'required pattern':"^https:\/\/orcid\.org\/.*"
+                                        }
+                         )
+    
 
 class MainForm(FlaskForm):
     """Parent form."""
@@ -276,13 +289,16 @@ class MainForm(FlaskForm):
                             validators=[], render_kw={'class': "form-control", }
                             )
     immagine_banner = StringField("Banner:",
-                            validators=[], render_kw={'class': "form-control", }
+                            validators=[], render_kw={'class': "form-control",
+                            'pattern':"^http:\/\/lezioni\.meneghetti\.univr\.it\/\/imageapi\/.*" }
                             )
     immagine_dorso = StringField("Dorso:",
-                            validators=[], render_kw={'class': "form-control", }
+                            validators=[], render_kw={'class': "form-control",
+                            'pattern':"^http:\/\/lezioni\.meneghetti\.univr\.it\/\/imageapi\/.*" }
                             )
     immagine_esemplificativa = StringField("Immagine esemplificativa:",
-                            validators=[], render_kw={'class': "form-control", }
+                            validators=[], render_kw={'class': "form-control",
+                            'pattern':"^http:\/\/lezioni\.meneghetti\.univr\.it\/\/imageapi\/.*" }
                             )
 
     sommario_desc = TextAreaField("Sommario:",
@@ -418,6 +434,8 @@ def insertfield(segnatura):
             log = datetime.datetime.now().strftime("%H:%M:%S")
             varx = client.capitolare.codici.find_one({'segnatura_idx': segnatura})
 
+    else:
+
         #db.session.add(new_race)
 
         # for lap in form.laps.data:
@@ -427,7 +445,8 @@ def insertfield(segnatura):
         #    new_race.laps.append(new_lap)
 
         # db.session.commit()
-        print("Valido")
+        #import pdb; pdb.set_trace()
+        print("Non valido")
 
     if varx is not None:
         form.process(data=varx)
