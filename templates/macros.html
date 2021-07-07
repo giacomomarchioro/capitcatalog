@@ -342,6 +342,11 @@ this should match `loop.index0`, and for the template it should be
           {{subform.Descrizione_interna_id}}
           <label for="floatingInputGridDI8">Descrizione interna ID</label>
         </div>
+        {% for field, errors in subform.errors.items() %}
+        <div class="alert alert-danger" role="alert">
+            {{ ', '.join(errors) }}
+        </div>
+        {% endfor %}
         <div class="alert alert-info" role="alert">
           <b>Per esempio:</b> <i>None</i> (vedi <a
             href={{"".join([url_for("lineeguidacat"),"#Descrizione_interna_id"])}} class="alert-link">linee guida</a>).
@@ -353,6 +358,11 @@ this should match `loop.index0`, and for the template it should be
           {{subform.descid}}
           <label for="floatingInputGridDI2">ID descrizione interna <i>"padre"</i></label>
         </div>
+        {% for field, errors in subform.errors.items() %}
+        <div class="alert alert-danger" role="alert">
+            {{ ', '.join(errors) }}
+        </div>
+        {% endfor %}
         <div class="alert alert-info" role="alert">
           <b>Per esempio:</b> <i>102</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#id"])}}
             class="alert-link">linee guida</a>).

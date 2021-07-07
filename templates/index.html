@@ -17,7 +17,16 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
     <script>
-          /**
+        /**
+         * per la tastiera
+         */
+
+        $(document).on('focus', '.form-control', function() {
+            currentInput = this;
+        })
+
+       
+         /**
          * Conferma chiusura tab.
          */
 
@@ -27,6 +36,20 @@
         $(document).ready(function() {
             $('a[rel!=ext]').click(function() { window.onbeforeunload = null; });
             $('form').submit(function() { window.onbeforeunload = null; });
+            /**
+             * Tastiera
+             */
+            $( 'input[type=button]' ).on('click', function(){
+            let cursorPos = currentInput.selectionStart;
+            let v = currentInput.value;
+            let textBefore = v.substring(0,  cursorPos );
+            let textAfter  = v.substring( cursorPos, v.length );
+            currentInput.value = textBefore + this.value + textAfter;
+            
+            cursorPos += this.value.length;
+            currentInput.focus();
+            currentInput.setSelectionRange(cursorPos, cursorPos);
+            });
         });
  
 
@@ -210,6 +233,7 @@
             $('.remove_3').click(function (e) { e.preventDefault(); removeForm(this, 'subform3') });
             $('.remove_4').click(function (e) { e.preventDefault(); removeForm(this, 'subform4') });
             $('.remove_5').click(function (e) { e.preventDefault(); removeForm(this, 'subform5') });
+        
         });
 
         window.onload = function() {
@@ -445,6 +469,52 @@
         integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
         crossorigin="anonymous"></script>
     </div>
+    <div class="fixed-bottom">
+    <p>
+        <a  id="singsicon" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+            <h3>&#128291;</h3>    
+            <!-- &#9000; &#128291; class="btn btn-primary" -->
+        </a>
+      </p>
+      <div class="collapse" id="collapseExample">
+        <div class="card card-body bg-dark">
+        <div class="input-group">
+            <div class="input-group-append">
+                
+                <input type="button" value="<sup></sup>" />
+                <input type="button" value="⁊" />
+                <input type="button" value="Ꜿ" />
+                <input type="button" value="ꜿ" />
+                <input type="button" value="Ꝯ" />
+                <input type="button" value="ꝯ" />
+                <input type="button" value="ꝰ" />
+                <input type="button" value="Ꝫ" />
+                <input type="button" value="ꝫ" />
+                <input type="button" value="Ꝭ" />
+                <input type="button" value="ꝭ" />
+                <input type="button" value="Ꝃ" />
+                <input type="button" value="ꝃ" />
+                <input type="button" value="Ꝁ" />
+                <input type="button" value="ꝁ" />
+                <input type="button" value="Ꝅ" />
+                <input type="button" value="ꝅ" />
+                <input type="button" value="Ꝉ" />
+                <input type="button" value="ꝉ" />
+                <input type="button" value="ꝲ" />
+                <input type="button" value="ꝳ" />
+                <input type="button" value="ꝴ" />
+                <input type="button" value="Ꝋ" />
+                <input type="button" value="ꝋ" />
+                <input type="button" value="Ꝑ" />
+                <input type="button" value="ꝑ" />
+            </div>
+        </div>
+            
+        </div>
+        </div>
+      </div> 
+    </div>
+
     </body>
 
 </html>
