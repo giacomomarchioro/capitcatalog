@@ -1,0 +1,60 @@
+<html>
+    <head>
+        <title>Inserire identificatori alternativi</title>
+
+    </head>
+
+    <body>
+        {%for i in altids %}
+        <div>
+            <hr>
+             {{i['tipologia']}} : {{i['text']}}
+             {{i['descrizione']}}
+             In uso non prima del {{i['used_not_before']}} e non dopo {{i['used_not_after']}}
+             <a href="/insertaltidentifier/{{segnatura}}?id={{i['_id']|string}}"> Modifica</a>
+             <a href="/deletealtidentifier/{{segnatura}}?id={{i['_id']|string}}" onclick="return confirm('Sicuri di voler eliminare la voce?')"> Elimina </a>
+        </div>
+
+        {% endfor %}
+        <hr/>
+
+        <form id="lap-form" action="" method="POST" role="form">
+            
+            <div class="form-group">
+            {{ form.csrf_token }}
+
+            <div>
+                <div>
+                    {{ form.tipologia}} {{ form.text }}
+                </div>
+                <div>
+                    {{ form.descrizione.label }}
+                    {{ form.descrizione }}
+                </div>
+                <div>
+                    {{ form.datazione.label }}
+                    {{ form.datazione }}
+                </div>
+                <div>
+                    {{ form.used_not_before.label }}
+                    {{ form.used_not_before }}
+                </div>
+                <div>
+                    {{ form.used_not_after.label }}
+                    {{ form.used_not_after }}
+                </div>
+                <hr/>
+            </div>
+            </div>
+            <button type="submit">Salva identificatore</button>
+            {% if mod %}
+            <a href="/insertaltidentifier/{{segnatura}}"> Termina le modifiche</a>
+            {% endif %}
+        </form>
+
+        {% if form.errors %}
+            {{ form.errors }}
+        {% endif %}
+
+    </body>
+</html>

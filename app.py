@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 # app.py
 
-from flask import Flask, render_template,url_for
+from flask import Flask, render_template,url_for, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import FlaskForm
 from wtforms import Form, FieldList, FormField, IntegerField, SelectField, \
-    StringField, TextAreaField, SubmitField 
+    StringField, TextAreaField, SubmitField
 from wtforms import validators
 from pymongo import MongoClient
 from wtforms.validators import DataRequired,Regexp
@@ -13,6 +13,9 @@ from databasecredential import connectionstring
 from werkzeug.datastructures import MultiDict
 import json
 import datetime
+from bson.objectid import ObjectId
+from converter import convertdate
+
 # pprint library is used to make the output look more pretty
 from pprint import pprint
 # connect to MongoDB, change the << MONGODB URL >> to reflect your own connection string
@@ -98,6 +101,12 @@ class Storia_del_manoscritto(Form):
     Datazione = StringField("Datazione",
             validators=[ ],render_kw={'class':"form-control",}
         )
+    non_prima =  StringField("Non prima",
+                            validators=[], render_kw={'class': "form-control", }
+                            )
+    non_dopo =  StringField("Non dopo",
+                            validators=[], render_kw={'class': "form-control", }
+                            )
     Contenuto = StringField("Contenuto",
             validators=[ ],render_kw={'class':"form-control",}
         )
@@ -131,6 +140,12 @@ class AnnotazioniMarg(Form):
     Datazione = StringField("Datazione",
             validators=[ ],render_kw={'class':"form-control",}
         )
+    non_prima =  StringField("Non prima",
+                            validators=[], render_kw={'class': "form-control", }
+                            )
+    non_dopo =  StringField("Non dopo",
+                            validators=[], render_kw={'class': "form-control", }
+                            )
     Contenuto = StringField("Contenuto",
             render_kw={'class':"form-control",}
         )
@@ -168,6 +183,12 @@ class Copisti(Form):
                                    )
     datazione = StringField("Datazione",
                             validators=[], render_kw={'class': "form-control"}
+                            )
+    non_prima =  StringField("Non prima",
+                            validators=[], render_kw={'class': "form-control", }
+                            )
+    non_dopo =  StringField("Non dopo",
+                            validators=[], render_kw={'class': "form-control", }
                             )
     tipologia_scrittura = StringField("Tipologia scrittura",
                                       validators=[], render_kw={'class': "form-control"}
@@ -225,6 +246,13 @@ class DescEst(Form):
                             validators=[], render_kw={'class': "form-control", }
                             )
     datazione = StringField("Datazione",
+                            validators=[], render_kw={'class': "form-control", }
+                            )
+
+    non_prima =  StringField("Non prima",
+                            validators=[], render_kw={'class': "form-control", }
+                            )
+    non_dopo =  StringField("Non dopo",
                             validators=[], render_kw={'class': "form-control", }
                             )
     tipo_di_supporto_e_qualita = StringField("Tipo di supporto e qualita",
@@ -349,7 +377,45 @@ class NewRecord(FlaskForm):
 
 
 
+## FORMS for alternative identifiers
+class Identifier(Form):
+    """Parent form."""
+    text = StringField("Testo",
+                        validators=[], render_kw={'class': "form-control", })
+    tipologia = SelectField(u'Tipologia', choices=[('Titolo', 'Titolo'),('Segnatura', 'Segnatura'), ('Collocazione', 'Collocazione'),('Conosciuto come', 'Conosciuto come'), ],render_kw={'class': "form-control", })
+   
+    descrizione = StringField("Descrizione",
+                        validators=[], render_kw={'class': "form-control", })
+    datazione = StringField("Datazione",
+                        validators=[], render_kw={'class': "form-control", })
+    used_not_before = StringField("Utilizzata non prima:",
+                    validators=[], render_kw={'class': "form-control", })
+    used_not_after = StringField("Utilizzata non dopo:",
+                    validators=[], render_kw={'class': "form-control", })
 
+
+class altIdentifier(FlaskForm):
+    """Parent form."""
+    text = StringField("Testo",
+                        validators=[], render_kw={'class': "form-control", })
+    tipologia = SelectField(u'Tipologia', choices=[('Titolo', 'Titolo'),('Segnatura', 'Segnatura'), ('Collocazione', 'Collocazione'),('Conosciuto come', 'Conosciuto come'), ],render_kw={'class': "form-control", })
+   
+    descrizione = StringField("Descrizione",
+                        validators=[], render_kw={'class': "form-control", })
+    datazione = StringField("Datazione",
+                        validators=[], render_kw={'class': "form-control", })
+    used_not_before = StringField("Utilizzata non prima:",
+                    validators=[], render_kw={'class': "form-control", })
+    used_not_after = StringField("Utilizzata non dopo:",
+                    validators=[], render_kw={'class': "form-control", })
+
+class MainIdentifiersForm(FlaskForm):
+    """Parent form."""
+    laps = FieldList(
+        FormField(Identifier),
+        min_entries=1,
+        max_entries=30
+    )
 # Initialize app
 app = Flask(__name__)
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
@@ -424,6 +490,18 @@ def insertfield(segnatura):
         sort_storia(data_dict)
         sort_annotazioni(data_dict)
         sort_dec_int(data_dict)
+        for anno in data_dict['annotazioni_marginali']:
+            if anno['Datazione'] != "":# and (anno['non_dopo'] == "" or anno['non_prima'] == ""):
+                anno['non_prima'],anno['non_dopo'],_ = convertdate(anno['Datazione'])
+        for st in data_dict['storia_del_manoscritto']:
+            if st['Datazione'] != "":#  and (st['non_dopo'] == "" or st['non_prima'] == ""):
+                st['non_prima'],st['non_dopo'],_ = convertdate(st['Datazione'])
+        for de in data_dict['descrizione_esterna']:
+            if de['datazione'] != "":#  and (de['non_dopo'] == "" or de['non_prima'] == ""):
+                de['non_prima'],de['non_dopo'],_ = convertdate(de['datazione'])
+        for cop in data_dict['copisti']:
+            if cop['datazione'] != "":#  and (cop['non_dopo'] == "" or cop['non_prima'] == ""):
+                cop['non_prima'],cop['non_dopo'],_ = convertdate(cop['datazione'])
 
         if varx is None:
             client.capitolare.codici.insert_one(data_dict)
@@ -463,6 +541,64 @@ def insertfield(segnatura):
         log=log,
         segnatura=segnatura 
     )
+
+
+
+
+@app.route('/insertaltidentifier/<segnatura>', methods=['GET', 'POST'])
+def insertaltidentifier(segnatura):     
+    el_id = request.args.get('id',None)
+    remove = request.args.get('remove',None)
+    altids = client.capitolare.identificativi.find({'segnatura_idx': segnatura})
+    varx = None
+    mod = False
+    print(remove)
+    if el_id is not None and remove is None:
+        print("Modifica")
+        mod = True
+        varx = client.capitolare.identificativi.find_one({"_id": ObjectId(el_id)})
+         
+    form = altIdentifier()
+    log = "n.d." 
+    if form.validate_on_submit():
+        print("Entrato")
+        data_dict = form.data
+        if 'csrf_token' in data_dict.keys():
+            del data_dict['csrf_token']
+            print("Deleted csrf")
+        data_dict['last_modified'] = datetime.datetime.now()
+        data_dict['segnatura_idx'] = segnatura
+
+        if varx is None:
+            client.capitolare.identificativi.insert_one(data_dict)
+        else:
+            client.capitolare.identificativi.update_one({'_id': varx['_id']},{'$set':data_dict}, upsert=False)
+            #TO DO: Avoid query
+            log = datetime.datetime.now().strftime("%H:%M:%S")
+            varx = client.capitolare.identificativi.find_one({"_id": ObjectId(el_id)})
+
+    else:
+        #import pdb; pdb.set_trace()
+        print("Non valido")
+
+    if varx is not None:
+        form.process(data=varx)
+    #import pdb; pdb.set_trace()
+    return render_template(
+        'insertaltidentifier.html',
+        form=form,
+        log=log,
+        segnatura=segnatura,
+        altids=altids,
+        mod=mod
+    )
+
+@app.route('/deletealtidentifier/<segnatura>', methods=['GET', 'POST'])
+def deletealtidentifier(segnatura):     
+    el_id = request.args.get('id',None)
+    print("cancellato")
+    client.capitolare.identificativi.remove({"_id": ObjectId(el_id)})
+    return redirect("/insertaltidentifier/%s" %segnatura)
 
 
 @app.route('/lineeguidacatalog')
