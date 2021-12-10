@@ -101,10 +101,19 @@ class Storia_del_manoscritto(Form):
     Datazione = StringField("Datazione",
             validators=[ ],render_kw={'class':"form-control",}
         )
-    non_prima =  StringField("Non prima",
+    trascrizione_datazione =  StringField("Trascrizione datazione",
                             validators=[], render_kw={'class': "form-control", }
                             )
+    locus_datazione = StringField("Locus datazione",
+                            validators=[], render_kw={'class': "form-control", }
+                            ) 
+    non_prima =  StringField("Non prima",
+                            validators=[], render_kw={'class': "form-control",'disabled': 'disabled' }
+                            )
     non_dopo =  StringField("Non dopo",
+                            validators=[], render_kw={'class': "form-control",'disabled': 'disabled' }
+                            )
+    trascrizione = StringField("Trascrizione",
                             validators=[], render_kw={'class': "form-control", }
                             )
     Contenuto = StringField("Contenuto",
@@ -140,10 +149,19 @@ class AnnotazioniMarg(Form):
     Datazione = StringField("Datazione",
             validators=[ ],render_kw={'class':"form-control",}
         )
-    non_prima =  StringField("Non prima",
+    trascrizione_datazione =  StringField("Trascrizione datazione",
                             validators=[], render_kw={'class': "form-control", }
                             )
+    locus_datazione = StringField("Locus datazione",
+                            validators=[], render_kw={'class': "form-control", }
+                            ) 
+    non_prima =  StringField("Non prima",
+                            validators=[], render_kw={'class': "form-control",'disabled': 'disabled' }
+                            )
     non_dopo =  StringField("Non dopo",
+                            validators=[], render_kw={'class': "form-control", 'disabled': 'disabled'}
+                            )
+    trascrizione = StringField("Trascrizione",
                             validators=[], render_kw={'class': "form-control", }
                             )
     Contenuto = StringField("Contenuto",
@@ -185,10 +203,10 @@ class Copisti(Form):
                             validators=[], render_kw={'class': "form-control"}
                             )
     non_prima =  StringField("Non prima",
-                            validators=[], render_kw={'class': "form-control", }
+                            validators=[], render_kw={'class': "form-control",'disabled': 'disabled' }
                             )
     non_dopo =  StringField("Non dopo",
-                            validators=[], render_kw={'class': "form-control", }
+                            validators=[], render_kw={'class': "form-control",'disabled': 'disabled' }
                             )
     tipologia_scrittura = StringField("Tipologia scrittura",
                                       validators=[], render_kw={'class': "form-control"}
@@ -245,19 +263,27 @@ class DescEst(Form):
     Segnatura = StringField("Segnatura",
                             validators=[], render_kw={'class': "form-control", }
                             )
+    scriptio = SelectField(u"Scriptio", choices=[('superior', 'superior'),('inferior', 'inferior') ],render_kw={'class': "form-control", })
+
     datazione = StringField("Datazione",
                             validators=[], render_kw={'class': "form-control", }
                             )
-
-    non_prima =  StringField("Non prima",
+    trascrizione_datazione =  StringField("Trascrizione datazione",
                             validators=[], render_kw={'class': "form-control", }
                             )
-    non_dopo =  StringField("Non dopo",
+    locus_datazione = StringField("Locus datazione",
                             validators=[], render_kw={'class': "form-control", }
+                            ) 
+    non_prima =  StringField("Non prima",
+                            validators=[], render_kw={'class': "form-control",'disabled': 'disabled' }
+                            )
+    non_dopo =  StringField("Non dopo",
+                            validators=[], render_kw={'class': "form-control",'disabled': 'disabled' }
                             )
     tipo_di_supporto_e_qualita = StringField("Tipo di supporto e qualita",
                                              validators=[], render_kw={'class': "form-control", }
                                              )
+
     consistenza = StringField("Consistenza",
                               validators=[], render_kw={'class': "form-control", }
                               )

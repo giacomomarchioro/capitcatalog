@@ -16,232 +16,309 @@ this should match `loop.index0`, and for the template it should be
   data-index="{{ index }}">
   <div>
     <h5 id="descrizione_esterna-{{ index }}-formH" class="text-center">1</h5>
-    <div class='row g-2'>
+    <div class="row g-2">
 
       <div class="col-md">
-      <div class="form-floating">
-        {{subform.Segnatura}}
-        <label for="floatingInputGrid0">Segnatura</label>
+        <div class="form-floating">
+          {{subform.Segnatura}}
+          <label for="floatingInputGrid0">Segnatura</label>
+        </div>
+        <div class="alert alert-info " role="alert">
+          <b>Per esempio:</b> <i>XXVIII (26)</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#Segnatura"])}}
+            class="alert-link"
+            title="La segnatura rappresenta il un identificativo univocod del codice in questo catalogo viene mantenuta la segnatura moderna e tra parentesi tonde quella antica.">linee
+            guida</a>).
+        </div>
       </div>
-      <div class="alert alert-info " role="alert">
-      <b>Per esempio:</b>  <i>XXVIII (26)</i>  (vedi <a href={{"".join([url_for("lineeguidacat"),"#Segnatura"])}} class="alert-link" title="La segnatura rappresenta il un identificativo univocod del codice in questo catalogo viene mantenuta la segnatura moderna e tra parentesi tonde quella antica.">linee guida</a>).
-    </div>
-    </div>
 
       <div class="col-md">
-      <div class="form-floating">
-        {{subform.datazione}}
-        <label for="floatingInputGrid1">Datazione</label>
+        <div class="form-floating">
+          {{subform.scriptio}}
+          <label for="floatingInputGrid1">Scriptio</label>
+        </div>
+        <div class="alert alert-info " role="alert">
+          <b>Se si tratta di palinsesto usare inferior:</b> (vedi <a
+            href={{"".join([url_for("lineeguidacat"),"#datazione"])}} class="alert-link">linee guida</a>).
+        </div>
       </div>
-      <div class="alert alert-info " role="alert">
-      <b>Per esempio:</b>  <i>Sec. V med.</i>  (vedi <a href={{"".join([url_for("lineeguidacat"),"#datazione"])}} class="alert-link">linee guida</a>).
     </div>
-    </div>
-    </div>
-    <div class='row g-2'>
+    <!-- datazione e trascrizione -->
+      <div class="row g-2">
+        <div class="col-lg-3">
+          <div class="form-floating">
+            {{subform.datazione}}
+            <label for="floatingInputGrid1">Datazione</label>
+          </div>
+          <div class="alert alert-info " role="alert">
+            <b>Per esempio:</b> <i>Sec. V med.</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#datazione"])}}
+              class="alert-link">linee guida</a>).
+          </div>
+        </div>
+        <div class="col-lg-2">
+          <div class="form-floating">
+            {{subform.non_prima}}
+            <label for="floatingInputGrid0">Non prima:</label>
+          </div>
+          <div class="alert alert-info " role="alert">
+            <b>Per esempio:</b> <i>0545-3-1</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#datazione"])}}
+              class="alert-link"
+              title="La segnatura rappresenta il un identificativo univocod del codice in questo catalogo viene mantenuta la segnatura moderna e tra parentesi tonde quella antica.">linee
+              guida</a>).
+          </div>
+        </div>
+
+        <div class="col-lg-2">
+          <div class="form-floating">
+            {{subform.non_dopo}}
+            <label for="floatingInputGrid1">Non dopo</label>
+          </div>
+          <div class="alert alert-info " role="alert">
+            <b>Per esempio:</b> <i>0545-3-1</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#datazione"])}}
+              class="alert-link">linee guida</a>).
+          </div>
+        </div>
+        <div class="col-lg-2">
+          <div class="form-floating">
+            {{subform.locus_datazione}}
+            <label for="floatingInputGrid1">Locus datazione</label>
+          </div>
+          <div class="alert alert-info " role="alert">
+            <b>Per esempio:</b> <i>c. 5r</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#datazione"])}}
+              class="alert-link">linee guida</a>).
+          </div>
+        </div>
+        <div class="col-lg-3">
+          <div class="form-floating">
+            {{subform.trascrizione_datazione}}
+            <label for="floatingInputGrid0">Trascrizione datazione</label>
+          </div>
+          <div class="alert alert-info " role="alert">
+            <b>Per esempio:</b> <i>Anno domini XXVII</i> (vedi <a
+              href={{"".join([url_for("lineeguidacat"),"#Segnatura"])}} class="alert-link"
+              title="La segnatura rappresenta il un identificativo univocod del codice in questo catalogo viene mantenuta la segnatura moderna e tra parentesi tonde quella antica.">linee
+              guida</a>).
+          </div>
+        </div>
+
+
+      </div>
+
+    <div class="row g-2">
 
       <div class="col-md">
-      <div class="form-floating">
-        {{subform.non_prima}}
-        <label for="floatingInputGrid0">Non prima:</label>
-      </div>
-      <div class="alert alert-info " role="alert">
-      <b>Per esempio:</b>  <i>0545-3-1</i>  (vedi <a href={{"".join([url_for("lineeguidacat"),"#datazione"])}} class="alert-link" title="La segnatura rappresenta il un identificativo univocod del codice in questo catalogo viene mantenuta la segnatura moderna e tra parentesi tonde quella antica.">linee guida</a>).
-    </div>
-    </div>
-
-      <div class="col-md">
-      <div class="form-floating">
-        {{subform.non_dopo}}
-        <label for="floatingInputGrid1">Non dopo</label>
-      </div>
-      <div class="alert alert-info " role="alert">
-      <b>Per esempio:</b>  <i>0545-3-1</i>  (vedi <a href={{"".join([url_for("lineeguidacat"),"#datazione"])}} class="alert-link">linee guida</a>).
-    </div>
-    </div>
-    </div>
-    <div class='row g-2'>
-
-        <div class="col-md">
         <div class="form-floating">
           {{subform.tipo_di_supporto_e_qualita}}
           <label for="floatingInputGrid2">Tipo di supporto e qualita</label>
         </div>
         <div class="alert alert-info " role="alert">
-        <b>Per esempio:</b>  <i>membr. (supporto di qualità modesta)</i>  (vedi <a href={{"".join([url_for("lineeguidacat"),"#tipo_di_supporto_e_qualita"])}} class="alert-link">linee guida</a>).
-      </div>
+          <b>Per esempio:</b> <i>membr. (supporto di qualità modesta)</i> (vedi <a
+            href={{"".join([url_for("lineeguidacat"),"#tipo_di_supporto_e_qualita"])}} class="alert-link">linee
+            guida</a>).
+        </div>
       </div>
 
-        <div class="col-md">
+      <div class="col-md">
         <div class="form-floating">
           {{subform.consistenza}}
           <label for="floatingInputGrid3">Consistenza</label>
         </div>
         <div class="alert alert-info " role="alert">
-        <b>Per esempio:</b>  <i>cc. II, 254, I</i>  (vedi <a href={{"".join([url_for("lineeguidacat"),"#consistenza"])}} class="alert-link">linee guida</a>).
-      </div>
+          <b>Per esempio:</b> <i>cc. II, 254, I</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#consistenza"])}}
+            class="alert-link">linee guida</a>).
+        </div>
       </div>
     </div>
-    <div class='row g-2'>
+    <div class="row g-2">
 
-        <div class="col-md">
+      <div class="col-md">
         <div class="form-floating">
           {{subform.numerazione_carte}}
           <label for="floatingInputGrid4">Numerazione carte</label>
         </div>
         <div class="alert alert-info " role="alert">
-        <b>Per esempio:</b>  <i>numeri arabici, sec. XX, matita, porzione esterna margine sup. del recto di ciascuna carta</i>  (vedi <a href={{"".join([url_for("lineeguidacat"),"#numerazione_carte"])}} class="alert-link">linee guida</a>).
-      </div>
+          <b>Per esempio:</b> <i>numeri arabici, sec. XX, matita, porzione esterna margine sup. del recto di ciascuna
+            carta</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#numerazione_carte"])}}
+            class="alert-link">linee guida</a>).
+        </div>
       </div>
 
-        <div class="col-md">
+      <div class="col-md">
         <div class="form-floating">
           {{subform.carte_di_guardia}}
           <label for="floatingInputGrid5">Carte di guardia</label>
         </div>
         <div class="alert alert-info " role="alert">
-        <b>Per esempio:</b>  <i>cartacee, inserite nel corso del rifacimento della legatura</i>  (vedi <a href={{"".join([url_for("lineeguidacat"),"#carte_di_guardia"])}} class="alert-link">linee guida</a>).
-      </div>
+          <b>Per esempio:</b> <i>cartacee, inserite nel corso del rifacimento della legatura</i> (vedi <a
+            href={{"".join([url_for("lineeguidacat"),"#carte_di_guardia"])}} class="alert-link">linee guida</a>).
+        </div>
       </div>
     </div>
-    <div class='row g-2'>
+    <div class="row g-2">
 
-        <div class="col-md">
+      <div class="col-md">
         <div class="form-floating">
           {{subform.prospetto_fascicolazione}}
           <label for="floatingInputGrid6">Prospetto fascicolazione</label>
         </div>
         <div class="alert alert-info " role="alert">
-          <b>Per esempio:</b> usando html tag: <i>  1&lt;sup&gt;6&lt;/sup&gt;  2&lt;sup&gt;8&lt;/sup&gt; 3&lt;sup&gt;10&lt;/sup&gt; verrano visualizzati per esempio come 1<sup>6</sup>,2<sup>8</sup>, 3<sup>10</sup> (1-10; sesterno -2: ablati i riscontri delle cc. 2, 3), 2<sup>8</sup> (11-18), 3<sup>8</sup> (19-26), 4<sup>8</sup> (27-34), 5<sup>8</sup> (35-42) 9<sup>8</sup> (67-74), 10<sup>8</sup> (75-82) 12<sup>8</sup> (91-98), 13</i>  (vedi <a href={{"".join([url_for("lineeguidacat"),"#prospetto_fascicolazione"])}} class="alert-link">linee guida</a>).
+          <b>Per esempio:</b> usando html tag: <i> 1&lt;sup&gt;6&lt;/sup&gt; 2&lt;sup&gt;8&lt;/sup&gt;
+            3&lt;sup&gt;10&lt;/sup&gt; verrano visualizzati per esempio come 1<sup>6</sup>,2<sup>8</sup>, 3<sup>10</sup>
+            (1-10; sesterno -2: ablati i riscontri delle cc. 2, 3), 2<sup>8</sup> (11-18), 3<sup>8</sup> (19-26),
+            4<sup>8</sup> (27-34), 5<sup>8</sup> (35-42) 9<sup>8</sup> (67-74), 10<sup>8</sup> (75-82) 12<sup>8</sup>
+            (91-98), 13</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#prospetto_fascicolazione"])}}
+            class="alert-link">linee guida</a>).
         </div>
       </div>
 
-        <div class="col-md">
+      <div class="col-md">
         <div class="form-floating">
           {{subform.arrangiamento_fogli_gregory}}
           <label for="floatingInputGrid7">Arrangiamento fogli gregory</label>
         </div>
         <div class="alert alert-info " role="alert">
-        <b>Per esempio:</b>  <i>inizio fascicoli lato carne; rispettata la regola</i>  (vedi <a href={{"".join([url_for("lineeguidacat"),"#arrangiamento_fogli_gregory"])}} class="alert-link">linee guida</a>).
-      </div>
+          <b>Per esempio:</b> <i>inizio fascicoli lato carne; rispettata la regola</i> (vedi <a
+            href={{"".join([url_for("lineeguidacat"),"#arrangiamento_fogli_gregory"])}} class="alert-link">linee
+            guida</a>).
+        </div>
       </div>
     </div>
 
-    <div class='row g-2'>
+    <div class="row g-2">
 
       <div class="col-md">
-      <div class="form-floating">
-        {{subform.numero_di_fascicolo}}
-        <label for="floatingInputGrid6">Numerazione dei fascicoli:</label>
+        <div class="form-floating">
+          {{subform.numero_di_fascicolo}}
+          <label for="floatingInputGrid6">Numerazione dei fascicoli:</label>
+        </div>
+        <div class="alert alert-info " role="alert">
+          <b>Per esempio:</b> usando html tag: <i> 1&lt;sup&gt;6&lt;/sup&gt; 2&lt;sup&gt;8&lt;/sup&gt;
+            3&lt;sup&gt;10&lt;/sup&gt; verrano visualizzati per esempio come 1<sup>6</sup>,2<sup>8</sup>, 3<sup>10</sup>
+            (1-10; sesterno -2: ablati i riscontri delle cc. 2, 3), 2<sup>8</sup> (11-18), 3<sup>8</sup> (19-26),
+            4<sup>8</sup> (27-34), 5<sup>8</sup> (35-42) 9<sup>8</sup> (67-74), 10<sup>8</sup> (75-82) 12<sup>8</sup>
+            (91-98), 13</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#prospetto_fascicolazione"])}}
+            class="alert-link">linee guida</a>).
+        </div>
       </div>
-      <div class="alert alert-info " role="alert">
-        <b>Per esempio:</b> usando html tag: <i>  1&lt;sup&gt;6&lt;/sup&gt;  2&lt;sup&gt;8&lt;/sup&gt; 3&lt;sup&gt;10&lt;/sup&gt; verrano visualizzati per esempio come 1<sup>6</sup>,2<sup>8</sup>, 3<sup>10</sup> (1-10; sesterno -2: ablati i riscontri delle cc. 2, 3), 2<sup>8</sup> (11-18), 3<sup>8</sup> (19-26), 4<sup>8</sup> (27-34), 5<sup>8</sup> (35-42) 9<sup>8</sup> (67-74), 10<sup>8</sup> (75-82) 12<sup>8</sup> (91-98), 13</i>  (vedi <a href={{"".join([url_for("lineeguidacat"),"#prospetto_fascicolazione"])}} class="alert-link">linee guida</a>).
-      </div>
-    </div>
 
       <div class="col-md">
-      <div class="form-floating">
-        {{subform.filigrana}}
-        <label for="floatingInputGrid7">Filigrana</label>
+        <div class="form-floating">
+          {{subform.filigrana}}
+          <label for="floatingInputGrid7">Filigrana</label>
+        </div>
+        <div class="alert alert-info " role="alert">
+          <b>Per esempio:</b> <i>inizio fascicoli lato carne; rispettata la regola</i> (vedi <a
+            href={{"".join([url_for("lineeguidacat"),"#arrangiamento_fogli_gregory"])}} class="alert-link">linee
+            guida</a>).
+        </div>
       </div>
-      <div class="alert alert-info " role="alert">
-      <b>Per esempio:</b>  <i>inizio fascicoli lato carne; rispettata la regola</i>  (vedi <a href={{"".join([url_for("lineeguidacat"),"#arrangiamento_fogli_gregory"])}} class="alert-link">linee guida</a>).
     </div>
-    </div>
-  </div>
 
-    <div class='row g-2'>
+    <div class="row g-2">
 
-        <div class="col-md">
+      <div class="col-md">
         <div class="form-floating">
           {{subform.dimensioni}}
           <label for="floatingInputGrid8">Dimensioni</label>
         </div>
         <div class="alert alert-info " role="alert">
-        <b>Per esempio:</b>  <i>286x185 (c. 87) = 35 [197] 54 x 15 [117] 53</i>  (vedi <a href={{"".join([url_for("lineeguidacat"),"#dimensioni"])}} class="alert-link">linee guida</a>).
-      </div>
+          <b>Per esempio:</b> <i>286x185 (c. 87) = 35 [197] 54 x 15 [117] 53</i> (vedi <a
+            href={{"".join([url_for("lineeguidacat"),"#dimensioni"])}} class="alert-link">linee guida</a>).
+        </div>
       </div>
 
-        <div class="col-md">
+      <div class="col-md">
         <div class="form-floating">
           {{subform.rigatura}}
           <label for="floatingInputGrid9">Rigatura</label>
         </div>
         <div class="alert alert-info " role="alert">
-        <b>Per esempio:</b>  <i>Eseguita a secco con incisione su fascicolo aperto e composto</i>  (vedi <a href={{"".join([url_for("lineeguidacat"),"#rigatura"])}} class="alert-link">linee guida</a>).
-      </div>
+          <b>Per esempio:</b> <i>Eseguita a secco con incisione su fascicolo aperto e composto</i> (vedi <a
+            href={{"".join([url_for("lineeguidacat"),"#rigatura"])}} class="alert-link">linee guida</a>).
+        </div>
       </div>
     </div>
-    <div class='row g-2'>
+    <div class="row g-2">
 
-        <div class="col-md">
+      <div class="col-md">
         <div class="form-floating">
           {{subform.foratura}}
           <label for="floatingInputGrid10">Foratura</label>
         </div>
         <div class="alert alert-info " role="alert">
-        <b>Per esempio:</b>  <i>No</i>  (vedi <a href={{"".join([url_for("lineeguidacat"),"#foratura"])}} class="alert-link">linee guida</a>).
-      </div>
+          <b>Per esempio:</b> <i>No</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#foratura"])}}
+            class="alert-link">linee guida</a>).
+        </div>
       </div>
 
-        <div class="col-md">
+      <div class="col-md">
         <div class="form-floating">
           {{subform.legatura}}
           <label for="floatingInputGrid11">Legatura</label>
         </div>
         <div class="alert alert-info " role="alert">
-        <b>Per esempio:</b>  <i>Di restauro in pergamena su asse in cartone</i>  (vedi <a href={{"".join([url_for("lineeguidacat"),"#legatura"])}} class="alert-link">linee guida</a>).
-      </div>
+          <b>Per esempio:</b> <i>Di restauro in pergamena su asse in cartone</i> (vedi <a
+            href={{"".join([url_for("lineeguidacat"),"#legatura"])}} class="alert-link">linee guida</a>).
+        </div>
       </div>
     </div>
-    <div class='row g-2'>
+    <div class="row g-2">
 
-        <div class="col-md">
+      <div class="col-md">
         <div class="form-floating">
           {{subform.utenti_email}}
           <label for="floatingInputGrid12">Autore scheda:</label>
         </div>
         <div class="alert alert-info " role="alert">
-        <b>Per esempio:</b>  <i>Donatella Tronca</i>  (vedi <a href={{"".join([url_for("lineeguidacat"),"#utenti_email"])}} class="alert-link" title="voluptate velit esse cillum dolore eu fugiat nulla pariatur cillum dolore eu fugiat nulla pariatur cillum dolore eu fugiat nulla pariatur cillum dolore eu fugiat nulla pariatur.">linee guida</a>).
-      </div>
+          <b>Per esempio:</b> <i>Donatella Tronca</i> (vedi <a
+            href={{"".join([url_for("lineeguidacat"),"#utenti_email"])}} class="alert-link"
+            title="voluptate velit esse cillum dolore eu fugiat nulla pariatur cillum dolore eu fugiat nulla pariatur cillum dolore eu fugiat nulla pariatur cillum dolore eu fugiat nulla pariatur.">linee
+            guida</a>).
+        </div>
       </div>
 
-        <div class="col-md">
+      <div class="col-md">
         <div class="form-floating">
           {{subform.orchid}}
           <label for="floatingInputGrid13">ORCID iD</label>
         </div>
         <div class="alert alert-info " role="alert">
-        <b>Per esempio:</b>  <i>https://orcid.org/0000-0002-3379-5239</i>  (vedi <a href={{"".join([url_for("lineeguidacat"),"#Descrizione_Esterna_Segnatura"])}} class="alert-link">linee guida</a>).
-      </div>
+          <b>Per esempio:</b> <i>https://orcid.org/0000-0002-3379-5239</i> (vedi <a
+            href={{"".join([url_for("lineeguidacat"),"#Descrizione_Esterna_Segnatura"])}} class="alert-link">linee
+            guida</a>).
+        </div>
       </div>
     </div>
 
 
-    <div class='row g-2'>
-
-      <div class="col-md">
-      <div class="form-floating">
-        {{subform.decorazioni}}
-        <label for="floatingInputGrid12">Decorazioni:</label>
-      </div>
-      <div class="alert alert-info " role="alert">
-      <b>Per esempio:</b>  <i>Donatella Tronca</i>  (vedi <a href={{"".join([url_for("lineeguidacat"),"#utenti_email"])}} class="alert-link" title="voluptate velit esse cillum dolore eu fugiat nulla pariatur cillum dolore eu fugiat nulla pariatur cillum dolore eu fugiat nulla pariatur cillum dolore eu fugiat nulla pariatur.">linee guida</a>).
-    </div>
-    </div>
+    <div class="row g-2">
 
       <div class="col-md">
-      <div class="form-floating">
-        {{subform.Descrizione_Esterna_Segnatura}}
-        <label for="floatingInputGrid13">Descrizione esterna segnatura</label>
+        <div class="form-floating">
+          {{subform.decorazioni}}
+          <label for="floatingInputGrid12">Decorazioni:</label>
+        </div>
+        <div class="alert alert-info " role="alert">
+          <b>Per esempio:</b> <i>Donatella Tronca</i> (vedi <a
+            href={{"".join([url_for("lineeguidacat"),"#utenti_email"])}} class="alert-link"
+            title="voluptate velit esse cillum dolore eu fugiat nulla pariatur cillum dolore eu fugiat nulla pariatur cillum dolore eu fugiat nulla pariatur cillum dolore eu fugiat nulla pariatur.">linee
+            guida</a>).
+        </div>
       </div>
-      <div class="alert alert-info " role="alert">
-      <b>Per esempio:</b>  <i>XXVIII (26)</i>  (vedi <a href={{"".join([url_for("lineeguidacat"),"#Descrizione_Esterna_Segnatura"])}} class="alert-link">linee guida</a>).
+
+      <div class="col-md">
+        <div class="form-floating">
+          {{subform.Descrizione_Esterna_Segnatura}}
+          <label for="floatingInputGrid13">Descrizione esterna segnatura</label>
+        </div>
+        <div class="alert alert-info " role="alert">
+          <b>Per esempio:</b> <i>XXVIII (26)</i> (vedi <a
+            href={{"".join([url_for("lineeguidacat"),"#Descrizione_Esterna_Segnatura"])}} class="alert-link">linee
+            guida</a>).
+        </div>
+      </div>
     </div>
-    </div>
-  </div>
-    <div class='row g-2'>
-      <button type="button" class="remove_0 btn btn-danger">Elimina  descrizione esterna</button>
+    <div class="row g-2">
+      <button type="button" class="remove_0 btn btn-danger">Elimina descrizione esterna</button>
     </div>
   </div>
   <br><br>
@@ -255,7 +332,7 @@ this should match `loop.index0`, and for the template it should be
 
   <div>
     <h5 id="descrizione_interna-{{ index }}-formH" class="text-center">1</h5>
-    <div class='row g-2'>
+    <div class="row g-2">
 
       <div class="col-md">
         <div class="form-floating">
@@ -280,7 +357,7 @@ this should match `loop.index0`, and for the template it should be
       </div>
     </div>
 
-    <div class='row g-2'>
+    <div class="row g-2">
       <div class="col-md">
         <div class="form-floating">
           {{subform.Descrizione_Esterna_Segnatura}}
@@ -308,7 +385,7 @@ this should match `loop.index0`, and for the template it should be
     </div>
 
 
-    <div class='row g-2'>
+    <div class="row g-2">
       <div class="col-md">
         <div class="form-floating">
           {{subform.incipit}}
@@ -325,13 +402,14 @@ this should match `loop.index0`, and for the template it should be
           <label for="floatingInputGridDI9">Incipit URL</label>
         </div>
         <div class="alert alert-info" role="alert">
-          <b>Per esempio:</b> <i>http://lezioni.meneghetti.univr.it/UVjs/?manifest=http://lezioni.meneghetti.univr.it//manifests/b698a7d2668205fbe7cd023e0ded1784.json&indx=12</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#incipit_url"])}}
-            class="alert-link">linee guida</a>).
+          <b>Per esempio:</b>
+          <i>http://lezioni.meneghetti.univr.it/UVjs/?manifest=http://lezioni.meneghetti.univr.it//manifests/b698a7d2668205fbe7cd023e0ded1784.json&indx=12</i>
+          (vedi <a href={{"".join([url_for("lineeguidacat"),"#incipit_url"])}} class="alert-link">linee guida</a>).
         </div>
       </div>
     </div>
 
-    <div class='row g-2'>
+    <div class="row g-2">
 
       <div class="col-md">
         <div class="form-floating">
@@ -355,9 +433,9 @@ this should match `loop.index0`, and for the template it should be
         </div>
       </div>
     </div>
-   
 
-    <div class='row g-2'>
+
+    <div class="row g-2">
 
       <div class="col-md">
         <div class="form-floating">
@@ -366,7 +444,7 @@ this should match `loop.index0`, and for the template it should be
         </div>
         {% for field, errors in subform.errors.items() %}
         <div class="alert alert-danger" role="alert">
-            {{ ', '.join(errors) }}
+          {{ ', '.join(errors) }}
         </div>
         {% endfor %}
         <div class="alert alert-info" role="alert">
@@ -382,7 +460,7 @@ this should match `loop.index0`, and for the template it should be
         </div>
         {% for field, errors in subform.errors.items() %}
         <div class="alert alert-danger" role="alert">
-            {{ ', '.join(errors) }}
+          {{ ', '.join(errors) }}
         </div>
         {% endfor %}
         <div class="alert alert-info" role="alert">
@@ -391,7 +469,7 @@ this should match `loop.index0`, and for the template it should be
         </div>
       </div>
     </div>
-    <div class='row g-2'>
+    <div class="row g-2">
       <div class="col-md my-auto text-center">
         <button type="button" class="remove_1 btn btn-danger">Elimina descrizione interna</button>
 
@@ -407,7 +485,7 @@ this should match `loop.index0`, and for the template it should be
   data-index="{{ index }}">
   <div>
     <h5 id="copisti-{{ index }}-formH" class="text-center">1</h5>
-    <div class='row g-2'>
+    <div class="row g-2">
 
       <div class="col-md">
         <div class="form-floating">
@@ -431,7 +509,7 @@ this should match `loop.index0`, and for the template it should be
         </div>
       </div>
     </div>
-    <div class='row g-2'>
+    <div class="row g-2">
 
       <div class="col-md">
         <div class="form-floating">
@@ -455,29 +533,33 @@ this should match `loop.index0`, and for the template it should be
         </div>
       </div>
     </div>
-    <div class='row g-2'>
+    <div class="row g-2">
 
       <div class="col-md">
-      <div class="form-floating">
-        {{subform.non_prima}}
-        <label for="floatingInputGrid0">Non prima:</label>
+        <div class="form-floating">
+          {{subform.non_prima}}
+          <label for="floatingInputGrid0">Non prima:</label>
+        </div>
+        <div class="alert alert-info " role="alert">
+          <b>Per esempio:</b> <i>0545-3-1</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#datazione"])}}
+            class="alert-link"
+            title="La segnatura rappresenta il un identificativo univocod del codice in questo catalogo viene mantenuta la segnatura moderna e tra parentesi tonde quella antica.">linee
+            guida</a>).
+        </div>
       </div>
-      <div class="alert alert-info " role="alert">
-      <b>Per esempio:</b>  <i>0545-3-1</i>  (vedi <a href={{"".join([url_for("lineeguidacat"),"#datazione"])}} class="alert-link" title="La segnatura rappresenta il un identificativo univocod del codice in questo catalogo viene mantenuta la segnatura moderna e tra parentesi tonde quella antica.">linee guida</a>).
-    </div>
-    </div>
 
       <div class="col-md">
-      <div class="form-floating">
-        {{subform.non_dopo}}
-        <label for="floatingInputGrid1">Non dopo</label>
+        <div class="form-floating">
+          {{subform.non_dopo}}
+          <label for="floatingInputGrid1">Non dopo</label>
+        </div>
+        <div class="alert alert-info " role="alert">
+          <b>Per esempio:</b> <i>0545-3-1</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#datazione"])}}
+            class="alert-link">linee guida</a>).
+        </div>
       </div>
-      <div class="alert alert-info " role="alert">
-      <b>Per esempio:</b>  <i>0545-3-1</i>  (vedi <a href={{"".join([url_for("lineeguidacat"),"#datazione"])}} class="alert-link">linee guida</a>).
     </div>
-    </div>
-    </div>
-    <div class='row g-2'>
+    <div class="row g-2">
       <div class="col-md">
         <div class="form-floating">
           {{subform.Descrizione_Esterna_Segnatura}}
@@ -505,7 +587,7 @@ this should match `loop.index0`, and for the template it should be
   data-index="{{ index }}">
   <div>
     <h5 id="annotazioni_marginali-{{ index }}-formH" class="text-center">1</h5>
-    <div class='row g-2'>
+    <div class="row g-2">
       <div class="col-md">
         <div class="form-floating">
           {{subform.Id_auto_inc}}
@@ -528,7 +610,7 @@ this should match `loop.index0`, and for the template it should be
         </div>
       </div>
     </div>
-    <div class='row g-2'>
+    <div class="row g-2">
 
       <div class="col-md">
         <div class="form-floating">
@@ -543,8 +625,8 @@ this should match `loop.index0`, and for the template it should be
 
       <div class="col-md">
         <div class="form-floating">
-          {{subform.Datazione}}
-          <label for="floatingInputGridDIX3">Datazione</label>
+          {{subform.trascrizione}}
+          <label for="floatingInputGridDIX3">Trascrizione</label>
         </div>
         <div class="alert alert-info" role="alert">
           <b>Per esempio:</b> <i></i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#Datazione"])}}
@@ -552,29 +634,68 @@ this should match `loop.index0`, and for the template it should be
         </div>
       </div>
     </div>
-    <div class='row g-2'>
-
-      <div class="col-md">
-      <div class="form-floating">
-        {{subform.non_prima}}
-        <label for="floatingInputGrid0">Non prima:</label>
+    <div class="row g-2">
+      <div class="col-lg-3">
+        <div class="form-floating">
+          {{subform.Datazione}}
+          <label for="floatingInputGrid1">Datazione</label>
+        </div>
+        <div class="alert alert-info " role="alert">
+          <b>Per esempio:</b> <i>Sec. V med.</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#datazione"])}}
+            class="alert-link">linee guida</a>).
+        </div>
       </div>
-      <div class="alert alert-info " role="alert">
-      <b>Per esempio:</b>  <i>0545-3-1</i>  (vedi <a href={{"".join([url_for("lineeguidacat"),"#datazione"])}} class="alert-link" title="La segnatura rappresenta il un identificativo univocod del codice in questo catalogo viene mantenuta la segnatura moderna e tra parentesi tonde quella antica.">linee guida</a>).
-    </div>
+      <div class="col-lg-2">
+        <div class="form-floating">
+          {{subform.non_prima}}
+          <label for="floatingInputGrid0">Non prima:</label>
+        </div>
+        <div class="alert alert-info " role="alert">
+          <b>Per esempio:</b> <i>0545-3-1</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#datazione"])}}
+            class="alert-link"
+            title="La segnatura rappresenta il un identificativo univocod del codice in questo catalogo viene mantenuta la segnatura moderna e tra parentesi tonde quella antica.">linee
+            guida</a>).
+        </div>
+      </div>
+
+      <div class="col-lg-2">
+        <div class="form-floating">
+          {{subform.non_dopo}}
+          <label for="floatingInputGrid1">Non dopo</label>
+        </div>
+        <div class="alert alert-info " role="alert">
+          <b>Per esempio:</b> <i>0545-3-1</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#datazione"])}}
+            class="alert-link">linee guida</a>).
+        </div>
+      </div>
+      <div class="col-lg-2">
+        <div class="form-floating">
+          {{subform.locus_datazione}}
+          <label for="floatingInputGrid1">Locus datazione</label>
+        </div>
+        <div class="alert alert-info " role="alert">
+          <b>Per esempio:</b> <i>c. 5r</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#datazione"])}}
+            class="alert-link">linee guida</a>).
+        </div>
+      </div>
+      <div class="col-lg-3">
+        <div class="form-floating">
+          {{subform.trascrizione_datazione}}
+          <label for="floatingInputGrid0">Trascrizione datazione</label>
+        </div>
+        <div class="alert alert-info " role="alert">
+          <b>Per esempio:</b> <i>Anno domini XXVII</i> (vedi <a
+            href={{"".join([url_for("lineeguidacat"),"#Segnatura"])}} class="alert-link"
+            title="La segnatura rappresenta il un identificativo univocod del codice in questo catalogo viene mantenuta la segnatura moderna e tra parentesi tonde quella antica.">linee
+            guida</a>).
+        </div>
+      </div>
+
+
     </div>
 
-      <div class="col-md">
-      <div class="form-floating">
-        {{subform.non_dopo}}
-        <label for="floatingInputGrid1">Non dopo</label>
-      </div>
-      <div class="alert alert-info " role="alert">
-      <b>Per esempio:</b>  <i>0545-3-1</i>  (vedi <a href={{"".join([url_for("lineeguidacat"),"#datazione"])}} class="alert-link">linee guida</a>).
-    </div>
-    </div>
-    </div>
-    <div class='row g-2'>
+
+    <div class="row g-2">
 
       <div class="col-md">
         <div class="form-floating">
@@ -598,7 +719,7 @@ this should match `loop.index0`, and for the template it should be
         </div>
       </div>
     </div>
-    <div class='row g-2'>
+    <div class="row g-2">
 
       <div class="col-md">
         <div class="form-floating">
@@ -623,42 +744,45 @@ this should match `loop.index0`, and for the template it should be
         </div>
       </div>
     </div>
-    <div class='row g-2'>
+    <div class="row g-2">
       <div class="col-md">
         <div class="form-floating">
           {{subform.link_img}}
           <label for="floatingInputGridDIX7">Link immagine:</label>
         </div>
         <div class="alert alert-info" role="alert">
-          <b>Per esempio:</b> <i><a href="/iiifjcrop?manifest={{manifest_url}}&dimension=400," target="_blank">Ottieni l'url usando il visualizzatore</a> e muovendoti nella pagina desiderata.</i> (vedi <a
+          <b>Per esempio:</b> <i><a href="/iiifjcrop?manifest={{manifest_url}}&dimension=400," target="_blank">Ottieni
+              l'url usando il visualizzatore</a> e muovendoti nella pagina desiderata.</i> (vedi <a
             href={{"".join([url_for("lineeguidacat"),"#Descrizione_Esterna_Segnatura"])}} class="alert-link">linee
             guida</a>).
         </div>
       </div>
-      
-    <div class="col-md">
-      <div class="form-floating">
-        {{subform.link_ROI}}
-        <label for="floatingInputGridDIX7">Link area dell'immagine di interesse:</label>
-      </div>
-      <div class="alert alert-info" role="alert">
-        <b>Per esempio:</b> <i><a href="/iiifjcrop?manifest={{manifest_url}}&dimension=400," target="_blank">Ottieni l'url usando il visualizzatore</a>, tenere dimension vicino a 400, selezionare la regione dell'immagine con l'annotazione con il mouse e copiare il link.</i></i> (vedi <a
-          href={{"".join([url_for("lineeguidacat"),"#Descrizione_Esterna_Segnatura"])}} class="alert-link">linee
-          guida</a>).
+
+      <div class="col-md">
+        <div class="form-floating">
+          {{subform.link_ROI}}
+          <label for="floatingInputGridDIX7">Link area dell'immagine di interesse:</label>
+        </div>
+        <div class="alert alert-info" role="alert">
+          <b>Per esempio:</b> <i><a href="/iiifjcrop?manifest={{manifest_url}}&dimension=400," target="_blank">Ottieni
+              l'url usando il visualizzatore</a>, tenere dimension vicino a 400, selezionare la regione dell'immagine
+            con l'annotazione con il mouse e copiare il link.</i></i> (vedi <a
+            href={{"".join([url_for("lineeguidacat"),"#Descrizione_Esterna_Segnatura"])}} class="alert-link">linee
+            guida</a>).
+        </div>
       </div>
     </div>
-  </div>
 
-  <div class='row g-2'>
-    <div class="col-md">
-      
+    <div class="row g-2">
+      <div class="col-md">
+
+      </div>
+
+      <div class="col-md">
+        <button type="button" class="remove_3 btn btn-danger">Elimina annotazione marginale</button>
+
+      </div>
     </div>
-    
-  <div class="col-md">
-    <button type="button" class="remove_3 btn btn-danger">Elimina annotazione marginale</button>
-
-  </div>
-</div>
 
     <hr />
   </div>
@@ -670,7 +794,7 @@ this should match `loop.index0`, and for the template it should be
   data-index="{{ index }}">
   <div>
     <h5 id="storia_del_manoscritto-{{ index }}-formH" class="text-center">1</h5>
-    <div class='row g-2'>
+    <div class="row g-2">
 
       <div class="col-md">
         <div class="form-floating">
@@ -694,7 +818,7 @@ this should match `loop.index0`, and for the template it should be
         </div>
       </div>
     </div>
-    <div class='row g-2'>
+    <div class="row g-2">
 
       <div class="col-md">
         <div class="form-floating">
@@ -709,8 +833,8 @@ this should match `loop.index0`, and for the template it should be
 
       <div class="col-md">
         <div class="form-floating">
-          {{subform.Datazione}}
-          <label for="floatingInputGridAT3">Datazione</label>
+          {{subform.trascrizione}}
+          <label for="floatingInputGridAT3">Trascrizione</label>
         </div>
         <div class="alert alert-info" role="alert">
           <b>Per esempio:</b> <i>secolo xiv</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#Datazione"])}}
@@ -719,29 +843,66 @@ this should match `loop.index0`, and for the template it should be
       </div>
     </div>
     <!-- datazione non prima non dopo-->
-    <div class='row g-2'>
-
-      <div class="col-md">
-      <div class="form-floating">
-        {{subform.non_prima}}
-        <label for="floatingInputGrid0">Non prima:</label>
+    <div class="row g-2">
+      <div class="col-lg-3">
+        <div class="form-floating">
+          {{subform.Datazione}}
+          <label for="floatingInputGrid1">Datazione</label>
+        </div>
+        <div class="alert alert-info " role="alert">
+          <b>Per esempio:</b> <i>Sec. V med.</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#datazione"])}}
+            class="alert-link">linee guida</a>).
+        </div>
       </div>
-      <div class="alert alert-info " role="alert">
-      <b>Per esempio:</b>  <i>0545-3-1</i>  (vedi <a href={{"".join([url_for("lineeguidacat"),"#datazione"])}} class="alert-link" title="La segnatura rappresenta il un identificativo univocod del codice in questo catalogo viene mantenuta la segnatura moderna e tra parentesi tonde quella antica.">linee guida</a>).
-    </div>
-    </div>
-
-      <div class="col-md">
-      <div class="form-floating">
-        {{subform.non_dopo}}
-        <label for="floatingInputGrid1">Non dopo</label>
+      <div class="col-lg-2">
+        <div class="form-floating">
+          {{subform.non_prima}}
+          <label for="floatingInputGrid0">Non prima:</label>
+        </div>
+        <div class="alert alert-info " role="alert">
+          <b>Per esempio:</b> <i>0545-3-1</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#datazione"])}}
+            class="alert-link"
+            title="La segnatura rappresenta il un identificativo univocod del codice in questo catalogo viene mantenuta la segnatura moderna e tra parentesi tonde quella antica.">linee
+            guida</a>).
+        </div>
       </div>
-      <div class="alert alert-info " role="alert">
-      <b>Per esempio:</b>  <i>0545-3-1</i>  (vedi <a href={{"".join([url_for("lineeguidacat"),"#datazione"])}} class="alert-link">linee guida</a>).
+
+      <div class="col-lg-2">
+        <div class="form-floating">
+          {{subform.non_dopo}}
+          <label for="floatingInputGrid1">Non dopo</label>
+        </div>
+        <div class="alert alert-info " role="alert">
+          <b>Per esempio:</b> <i>0545-3-1</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#datazione"])}}
+            class="alert-link">linee guida</a>).
+        </div>
+      </div>
+      <div class="col-lg-2">
+        <div class="form-floating">
+          {{subform.locus_datazione}}
+          <label for="floatingInputGrid1">Locus datazione</label>
+        </div>
+        <div class="alert alert-info " role="alert">
+          <b>Per esempio:</b> <i>c. 5r</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#datazione"])}}
+            class="alert-link">linee guida</a>).
+        </div>
+      </div>
+      <div class="col-lg-3">
+        <div class="form-floating">
+          {{subform.trascrizione_datazione}}
+          <label for="floatingInputGrid0">Trascrizione datazione</label>
+        </div>
+        <div class="alert alert-info " role="alert">
+          <b>Per esempio:</b> <i>Anno domini XXVII</i> (vedi <a
+            href={{"".join([url_for("lineeguidacat"),"#Segnatura"])}} class="alert-link"
+            title="La segnatura rappresenta il un identificativo univocod del codice in questo catalogo viene mantenuta la segnatura moderna e tra parentesi tonde quella antica.">linee
+            guida</a>).
+        </div>
+      </div>
+
+
     </div>
-    </div>
-    </div>
-    <div class='row g-2'>
+    <div class="row g-2">
 
       <div class="col-md">
         <div class="form-floating">
@@ -765,7 +926,7 @@ this should match `loop.index0`, and for the template it should be
         </div>
       </div>
     </div>
-    <div class='row g-2'>
+    <div class="row g-2">
 
       <div class="col-md">
         <div class="form-floating">
@@ -791,31 +952,34 @@ this should match `loop.index0`, and for the template it should be
       </div>
     </div>
 
-    <div class='row g-2'>
+    <div class="row g-2">
       <div class="col-md">
         <div class="form-floating">
           {{subform.link_img}}
           <label for="floatingInputGridDIX7">Link immagine:</label>
         </div>
         <div class="alert alert-info" role="alert">
-          <b>Per esempio:</b> <i><a href="/iiifjcrop?manifest={{manifest_url}}&dimension=400," target="_blank">Ottieni l'url usando il visualizzatore</a> e muovendoti nella pagina desiderata.</i> (vedi <a
+          <b>Per esempio:</b> <i><a href="/iiifjcrop?manifest={{manifest_url}}&dimension=400," target="_blank">Ottieni
+              l'url usando il visualizzatore</a> e muovendoti nella pagina desiderata.</i> (vedi <a
             href={{"".join([url_for("lineeguidacat"),"#Descrizione_Esterna_Segnatura"])}} class="alert-link">linee
             guida</a>).
         </div>
       </div>
-      
-    <div class="col-md">
-      <div class="form-floating">
-        {{subform.link_ROI}}
-        <label for="floatingInputGridDIX7">Link area dell'immagine di interesse:</label>
-      </div>
-      <div class="alert alert-info" role="alert">
-        <b>Per esempio:</b> <i><a href="/iiifjcrop?manifest={{manifest_url}}&dimension=400," target="_blank">Ottieni l'url usando il visualizzatore</a>, tenere dimension vicino a 400, selezionare la regione dell'immagine con l'annotazione con il mouse e copiare il link.</i></i> (vedi <a
-          href={{"".join([url_for("lineeguidacat"),"#Descrizione_Esterna_Segnatura"])}} class="alert-link">linee
-          guida</a>).
+
+      <div class="col-md">
+        <div class="form-floating">
+          {{subform.link_ROI}}
+          <label for="floatingInputGridDIX7">Link area dell'immagine di interesse:</label>
+        </div>
+        <div class="alert alert-info" role="alert">
+          <b>Per esempio:</b> <i><a href="/iiifjcrop?manifest={{manifest_url}}&dimension=400," target="_blank">Ottieni
+              l'url usando il visualizzatore</a>, tenere dimension vicino a 400, selezionare la regione dell'immagine
+            con l'annotazione con il mouse e copiare il link.</i> (vedi <a
+            href={{"".join([url_for("lineeguidacat"),"#Descrizione_Esterna_Segnatura"])}} class="alert-link">linee
+            guida</a>).
+        </div>
       </div>
     </div>
-  </div>
 
     <div class="col-md my-auto text-center">
       <button type="button" class="remove_4 btn btn-danger">Rimuovi dalla storia del manoscritto</button>
@@ -832,7 +996,7 @@ this should match `loop.index0`, and for the template it should be
   data-index="{{ index }}">
   <div>
     <h5 id="inc-0-" class="text-center">1</h5>
-    <div class='row g-2'>
+    <div class="row g-2">
 
       <div class="col-md">
         <div class="form-floating">
@@ -856,7 +1020,7 @@ this should match `loop.index0`, and for the template it should be
         </div>
       </div>
     </div>
-    <div class='row g-2'>
+    <div class="row g-2">
 
       <div class="col-md">
         <div class="form-floating">
@@ -880,7 +1044,7 @@ this should match `loop.index0`, and for the template it should be
         </div>
       </div>
     </div>
-    <div class='row g-2'>
+    <div class="row g-2">
 
       <div class="col-md">
         <div class="form-floating">
@@ -904,7 +1068,7 @@ this should match `loop.index0`, and for the template it should be
         </div>
       </div>
     </div>
-    <div class='row g-2'>
+    <div class="row g-2">
 
       <div class="col-md">
         <div class="form-floating">
@@ -928,7 +1092,7 @@ this should match `loop.index0`, and for the template it should be
         </div>
       </div>
     </div>
-    <div class='row g-2'>
+    <div class="row g-2">
 
       <div class="col-md">
         <div class="form-floating">
