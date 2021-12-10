@@ -102,7 +102,55 @@ this should match `loop.index0`, and for the template it should be
 
 
       </div>
-
+        <!-- luogo e trascrizione -->
+        <div class="row g-2">
+          <div class="col-lg-2">
+            <div class="form-floating">
+              {{subform.luogo}}
+              <label for="floatingInputGrid1">Luogo</label>
+            </div>
+            <div class="alert alert-info " role="alert">
+              <b>Per esempio:</b> <i>Sec. V med.</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#datazione"])}}
+                class="alert-link">linee guida</a>).
+            </div>
+          </div>
+          <div class="col-lg-3">
+            <div class="form-floating">
+              {{subform.trascrizione_luogo}}
+              <label for="floatingInputGrid0">Trascizione luogo</label>
+            </div>
+            <div class="alert alert-info " role="alert">
+              <b>Per esempio:</b> <i>0545-3-1</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#datazione"])}}
+                class="alert-link"
+                title="La segnatura rappresenta il un identificativo univocod del codice in questo catalogo viene mantenuta la segnatura moderna e tra parentesi tonde quella antica.">linee
+                guida</a>).
+            </div>
+          </div>
+  
+          <div class="col-lg-2">
+            <div class="form-floating">
+              {{subform.locus_luogo}}
+              <label for="floatingInputGrid1">Locus luogo</label>
+            </div>
+            <div class="alert alert-info " role="alert">
+              <b>Per esempio:</b> <i>0545-3-1</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#datazione"])}}
+                class="alert-link">linee guida</a>).
+            </div>
+          </div>
+          <div class="col-lg-5">
+            <div class="form-floating">
+              {{subform.link_immagine_luogo}}
+              <label for="floatingInputGrid1">Link immagine luogo</label>
+            </div>
+            <div class="alert alert-info " role="alert">
+              <b>Per esempio:</b> non mettere la foto del luogo ma la porzione del manoscritto! (vedi <a href={{"".join([url_for("lineeguidacat"),"#datazione"])}}
+                class="alert-link">linee guida</a>).
+            </div>
+          </div>
+          </div>
+  
+  
+        </div>
     <div class="row g-2">
 
       <div class="col-md">
@@ -182,7 +230,6 @@ this should match `loop.index0`, and for the template it should be
         </div>
       </div>
     </div>
-
     <div class="row g-2">
 
       <div class="col-md">
@@ -212,7 +259,6 @@ this should match `loop.index0`, and for the template it should be
         </div>
       </div>
     </div>
-
     <div class="row g-2">
 
       <div class="col-md">
@@ -320,7 +366,6 @@ this should match `loop.index0`, and for the template it should be
     <div class="row g-2">
       <button type="button" class="remove_0 btn btn-danger">Elimina descrizione esterna</button>
     </div>
-  </div>
   <br><br>
 </div>
 {%- endmacro %}
@@ -334,7 +379,7 @@ this should match `loop.index0`, and for the template it should be
     <h5 id="descrizione_interna-{{ index }}-formH" class="text-center">1</h5>
     <div class="row g-2">
 
-      <div class="col-md">
+      <div class="col-lg-4">
         <div class="form-floating">
           {{subform.autore}}
           <label for="floatingInputGridDI0">Autore</label>
@@ -345,7 +390,7 @@ this should match `loop.index0`, and for the template it should be
         </div>
       </div>
 
-      <div class="col-md">
+      <div class="col-lg-6">
         <div class="form-floating">
           {{subform.titolo}}
           <label for="floatingInputGridDI1">Titolo</label>
@@ -355,13 +400,24 @@ this should match `loop.index0`, and for the template it should be
             class="alert-link">linee guida</a>).
         </div>
       </div>
+
+      <div class="col-lg-2">
+        <div class="form-floating">
+          {{subform.lingua}}
+          <label for="floatingInputGridDI2">Lingua:</label>
+        </div>
+        <div class="alert alert-info" role="alert">
+          <b>Selezionare la lingua prevalente del testo</b> (vedi <a href={{"".join([url_for("lineeguidacat"),"#titolo"])}}
+            class="alert-link">linee guida</a>).
+        </div>
+      </div>
     </div>
 
     <div class="row g-2">
       <div class="col-md">
         <div class="form-floating">
           {{subform.Descrizione_Esterna_Segnatura}}
-          <label for="floatingInputGridDI7">Descrizione esterna segnatura</label>
+          <label for="floatingInputGridDI7">Descrizione esterna ID</label>
         </div>
         <div class="alert alert-info" role="alert">
           <b>Per esempio:</b> <i>XXVIII (26)</i> (vedi <a
@@ -456,7 +512,7 @@ this should match `loop.index0`, and for the template it should be
       <div class="col-md">
         <div class="form-floating">
           {{subform.descid}}
-          <label for="floatingInputGridDI2">ID descrizione interna <i>"padre"</i></label>
+          <label for="floatingInputGridDI2">ID descrizione esterna a cui fa riferimento</label>
         </div>
         {% for field, errors in subform.errors.items() %}
         <div class="alert alert-danger" role="alert">
@@ -487,7 +543,7 @@ this should match `loop.index0`, and for the template it should be
     <h5 id="copisti-{{ index }}-formH" class="text-center">1</h5>
     <div class="row g-2">
 
-      <div class="col-md">
+      <div class="col-lg-2">
         <div class="form-floating">
           {{subform.id_cop}}
           <label for="floatingInputGridDIC0">ID copista</label>
@@ -497,8 +553,17 @@ this should match `loop.index0`, and for the template it should be
             class="alert-link">linee guida</a>).
         </div>
       </div>
-
-      <div class="col-md">
+      <div class="col-lg-8">
+        <div class="form-floating">
+          {{subform.identificazione}}
+          <label for="floatingInputGridDICz">Identificazione del copista</label>
+        </div>
+        <div class="alert alert-info" role="alert">
+          <b>Per esempio:</b> <i>Dionisi, Alberto</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#id"])}}
+            class="alert-link">linee guida</a>).
+        </div>
+      </div>
+      <div class="col-lg-2">
         <div class="form-floating">
           {{subform.intervallo_carte}}
           <label for="floatingInputGridDIC1">Intervallo carte</label>
@@ -511,7 +576,7 @@ this should match `loop.index0`, and for the template it should be
     </div>
     <div class="row g-2">
 
-      <div class="col-md">
+      <div class="col-lg-8">
         <div class="form-floating">
           {{subform.datazione}}
           <label for="floatingInputGridDIC2">Datazione</label>
@@ -521,21 +586,7 @@ this should match `loop.index0`, and for the template it should be
             class="alert-link">linee guida</a>).
         </div>
       </div>
-
-      <div class="col-md">
-        <div class="form-floating">
-          {{subform.tipologia_scrittura}}
-          <label for="floatingInputGridDIC3">Tipologia scrittura</label>
-        </div>
-        <div class="alert alert-info" role="alert">
-          <b>Per esempio:</b> <i>minuscola carolina secondo la tipizzazione veronese</i> (vedi <a
-            href={{"".join([url_for("lineeguidacat"),"#tipologia_scrittura"])}} class="alert-link">linee guida</a>).
-        </div>
-      </div>
-    </div>
-    <div class="row g-2">
-
-      <div class="col-md">
+      <div class="col-lg-2">
         <div class="form-floating">
           {{subform.non_prima}}
           <label for="floatingInputGrid0">Non prima:</label>
@@ -548,7 +599,7 @@ this should match `loop.index0`, and for the template it should be
         </div>
       </div>
 
-      <div class="col-md">
+      <div class="col-lg-2">
         <div class="form-floating">
           {{subform.non_dopo}}
           <label for="floatingInputGrid1">Non dopo</label>
@@ -556,6 +607,19 @@ this should match `loop.index0`, and for the template it should be
         <div class="alert alert-info " role="alert">
           <b>Per esempio:</b> <i>0545-3-1</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#datazione"])}}
             class="alert-link">linee guida</a>).
+        </div>
+      </div>
+
+    </div>
+    <div class="row g-2"> 
+      <div class="col-md">
+        <div class="form-floating">
+          {{subform.tipologia_scrittura}}
+          <label for="floatingInputGridDIC3">Tipologia scrittura</label>
+        </div>
+        <div class="alert alert-info" role="alert">
+          <b>Per esempio:</b> <i>minuscola carolina secondo la tipizzazione veronese</i> (vedi <a
+            href={{"".join([url_for("lineeguidacat"),"#tipologia_scrittura"])}} class="alert-link">linee guida</a>).
         </div>
       </div>
     </div>
@@ -588,7 +652,7 @@ this should match `loop.index0`, and for the template it should be
   <div>
     <h5 id="annotazioni_marginali-{{ index }}-formH" class="text-center">1</h5>
     <div class="row g-2">
-      <div class="col-md">
+      <div class="col-lg-2">
         <div class="form-floating">
           {{subform.Id_auto_inc}}
           <label for="floatingInputGridDIX0">Id auto inc</label>
@@ -598,8 +662,17 @@ this should match `loop.index0`, and for the template it should be
             class="alert-link">linee guida</a>).
         </div>
       </div>
-
-      <div class="col-md">
+      <div class="col-lg-8">
+        <div class="form-floating">
+          {{subform.identificazione}}
+          <label for="floatingInputGridDIX0">Identifiazione della mano</label>
+        </div>
+        <div class="alert alert-info" role="alert">
+          <b>Per esempio:</b> <i>Dionisi, Alberto</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#Id_auto_inc"])}}
+            class="alert-link">linee guida</a>).
+        </div>
+      </div>
+      <div class="col-lg-2">
         <div class="form-floating">
           {{subform.Id_anno}}
           <label for="floatingInputGridDIX1">Id annotazione marginale</label>

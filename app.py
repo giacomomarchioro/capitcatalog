@@ -92,6 +92,7 @@ class Storia_del_manoscritto(Form):
     Id_auto_inc = StringField("Id auto inc",
         validators=[ ],render_kw={'class':"form-control",}
     )
+
     Id_AT = StringField("Id",
             validators=[ ],render_kw={'class':"form-control",}
         )
@@ -140,6 +141,9 @@ class AnnotazioniMarg(Form):
     Id_auto_inc = StringField("Id auto inc",
         validators=[ ],render_kw={'class':"form-control",}
     )
+    identificazione = StringField("identificazione",
+                         validators=[], render_kw={'class': "form-control"}
+                         )
     Id_anno = StringField("ID annotazioni marginali",
             validators=[ ],render_kw={'class':"form-control",}
         )
@@ -196,6 +200,9 @@ class Copisti(Form):
     id_cop = StringField("Id copisti",
                          validators=[], render_kw={'class': "form-control"}
                          )
+    identificazione = StringField("identificazione",
+                         validators=[], render_kw={'class': "form-control"}
+                         )
     intervallo_carte = StringField("Intervallo carte",
                                    validators=[], render_kw={'class': "form-control"}
                                    )
@@ -228,6 +235,8 @@ class DescInt(Form):
     titolo = StringField("Titolo",
                          validators=[], render_kw={'class': "form-control", }
                          )
+    lingua = SelectField("Lingua", choices=[('Latino', 'Latino'),('Volgare italiano', 'Volgare italiano'), ('Italiano', 'Italiano'),('Greco antico', 'Greco antico'),('Greco ellenistico (Koinè)', 'Greco ellenistico (Koinè)'),('Ebraico', 'Ebraico'),(r'ge῾ez',r"ge῾ez") ],render_kw={'class': "form-control", })
+
     descid = StringField("ID descrizione interna padre",
                          #validators=[Regexp('^[1-9]\d*(\.[1-9]\d*)*$',message='ID non valido')],
                          render_kw={'class': "form-control",
@@ -249,7 +258,7 @@ class DescInt(Form):
     rubrica = StringField("Rubrica",
                           render_kw={'class': "form-control", }
                           )
-    Descrizione_Esterna_Segnatura = StringField("Descrizione esterna segnatura",
+    Descrizione_Esterna_Segnatura = StringField("ID Descrizione esterna di riferimento",
                                                 validators=[], render_kw={'class': "form-control", }
                                                 )
     Descrizione_interna_id = StringField("Descrizione interna ID",
@@ -279,6 +288,18 @@ class DescEst(Form):
                             )
     non_dopo =  StringField("Non dopo",
                             validators=[], render_kw={'class': "form-control",'disabled': 'disabled' }
+                            )
+    luogo = StringField("Luogo",
+                            validators=[], render_kw={'class': "form-control", }
+                            )
+    trascrizione_luogo = StringField("Trascrizione luogo",
+                            validators=[], render_kw={'class': "form-control", }
+                            )
+    locus_luogo = StringField("Locus luogo",
+                            validators=[], render_kw={'class': "form-control", }
+                            )
+    link_immagine_luogo = StringField("Link immagine luogo",
+                            validators=[], render_kw={'class': "form-control", }
                             )
     tipo_di_supporto_e_qualita = StringField("Tipo di supporto e qualita",
                                              validators=[], render_kw={'class': "form-control", }
