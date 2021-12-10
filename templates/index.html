@@ -263,7 +263,7 @@
         <a href="#subforms-container_annomg">Annotazioni marginali</a>
         <a href="#subforms-storia_del_manoscritto">Storia del manoscritto</a>
         <a href="#subforms-container_int">Descrizione interna</a>
-        <a href="#subforms-container_biblib">Bibliografia</a>
+        <a href="#subforms-container_biblib">Facsimile</a>
         <button type="submit" class="btn-success">Salva catalogazione</button>
         <a href="#">Salvato alle: {{log}}</a>
         <p>
@@ -350,6 +350,55 @@
       
      
           </div>
+
+          <div class='row g-2'>
+
+            <div class="col-lg-3">
+              <div class="form-floating">
+                {{form.largezza_mm}}
+                <label for="floatingInputGridDI0a">Larghezza (mm)</label>
+              </div>
+              <div class="alert alert-info" role="alert">
+                 Si intende dell'oggetto chiuso senza custodia. (vedi <a
+                  href={{"".join([url_for("lineeguidacat"),"#autore"])}} class="alert-link">linee guida</a>).
+              </div>
+            </div>
+
+            <div class="col-lg-3">
+                <div class="form-floating">
+                  {{form.ampiezza_mm}}
+                  <label for="floatingInputGridDI0b">Ampiezza (mm)</label>
+                </div>
+                <div class="alert alert-info" role="alert">
+                    Si intende dell'oggetto chiuso senza custodia. (vedi <a
+                    href={{"".join([url_for("lineeguidacat"),"#autore"])}} class="alert-link">linee guida</a>).
+                </div>
+              </div>
+
+              <div class="col-lg-3">
+                <div class="form-floating">
+                  {{form.profondita_mm}}
+                  <label for="floatingInputGridDI0c">Profondita (mm) </label>
+                </div>
+                <div class="alert alert-info" role="alert">
+                    Si intende dell'oggetto chiuso senza custodia. (vedi <a
+                    href={{"".join([url_for("lineeguidacat"),"#autore"])}} class="alert-link">linee guida</a>).
+                </div>
+              </div>
+
+              <div class="col-lg-3">
+                <div class="form-floating">
+                  {{form.custodia}}
+                  <label for="floatingInputGridDI0d">Custodia</label>
+                </div>
+                <div class="alert alert-info" role="alert">
+                  La custodia è un elemento rimuovibile dove è contenuto l'oggetto. (vedi <a
+                    href={{"".join([url_for("lineeguidacat"),"#autore"])}} class="alert-link">linee guida</a>).
+                </div>
+              </div>
+      
+     
+          </div>
           <div class="mb-3">
             <label for="floatingInputGridDI1">Sommario descrizione:</label>
             {{form.sommario_desc}}
@@ -433,7 +482,7 @@
 
 
         <div>
-            <h3 class="headersec">Bibliografia interna libri </h3>
+            <h3 class="headersec">Facsimile</h3>
         </div>
         <hr />
         <div id="subforms-container_biblib">
@@ -442,7 +491,7 @@
             {% endfor %}
         </div>
         <a id="add_5" href="#subforms-container_biblib" class="btn btn-primary btn-sm" tabindex="-1" role="button"
-            aria-disabled="true">Aggiungi riferimento bibliografico </a>
+            aria-disabled="true">Aggiungi facsimile </a>
 
 
         <br><br><br>

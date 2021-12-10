@@ -18,7 +18,7 @@ this should match `loop.index0`, and for the template it should be
     <h5 id="descrizione_esterna-{{ index }}-formH" class="text-center">1</h5>
     <div class="row g-2">
 
-      <div class="col-md">
+      <div class="col-lg-4">
         <div class="form-floating">
           {{subform.Segnatura}}
           <label for="floatingInputGrid0">Segnatura</label>
@@ -30,8 +30,19 @@ this should match `loop.index0`, and for the template it should be
             guida</a>).
         </div>
       </div>
-
-      <div class="col-md">
+      <div class="col-lg-4">
+        <div class="form-floating">
+          {{subform.rilegatura}}
+          <label for="floatingInputGrid0">Rilegatura</label>
+        </div>
+        <div class="alert alert-info " role="alert">
+          <b>Selezionare la rilegatura</b> (vedi <a href={{"".join([url_for("lineeguidacat"),"#Segnatura"])}}
+            class="alert-link"
+            title="La segnatura rappresenta il un identificativo univocod del codice in questo catalogo viene mantenuta la segnatura moderna e tra parentesi tonde quella antica.">linee
+            guida</a>).
+        </div>
+      </div>
+      <div class="col-lg-4">
         <div class="form-floating">
           {{subform.scriptio}}
           <label for="floatingInputGrid1">Scriptio</label>
@@ -1071,9 +1082,9 @@ this should match `loop.index0`, and for the template it should be
     <h5 id="inc-0-" class="text-center">1</h5>
     <div class="row g-2">
 
-      <div class="col-md">
+      <div class="col-lg-3">
         <div class="form-floating">
-          {{subform.id_biblib}}
+          {{subform.id_facsimile}}
           <label for="floatingInputGridBL0">Id</label>
         </div>
         <div class="alert alert-info" role="alert">
@@ -1082,116 +1093,137 @@ this should match `loop.index0`, and for the template it should be
         </div>
       </div>
 
-      <div class="col-md">
+      <div class="col-lg-3">
         <div class="form-floating">
-          {{subform.titolo}}
-          <label for="floatingInputGridBL1">Titolo</label>
+          {{subform.tipologia}}
+          <label for="floatingInputGridBL1">Tipologia</label>
         </div>
         <div class="alert alert-info" role="alert">
-          <b>Per esempio:</b> <i>De Civitate Dei</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#titolo"])}}
+          <b>Per esempio:</b> <i>Microfilim</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#titolo"])}}
+            class="alert-link">linee guida</a>).
+        </div>
+      </div>
+      <div class="col-lg-3">
+        <div class="form-floating">
+          {{subform.completezza}}
+          <label for="floatingInputGrid0">Completezza</label>
+        </div>
+        <div class="alert alert-info " role="alert">
+          <b>Per esempio:</b> <i>0545-3-1</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#datazione"])}}
+            class="alert-link"
+            title="La segnatura rappresenta il un identificativo univocod del codice in questo catalogo viene mantenuta la segnatura moderna e tra parentesi tonde quella antica.">linee
+            guida</a>).
+        </div>
+      </div>
+      <div class="col-lg-3">
+        <div class="form-floating">
+          {{subform.id_origine}}
+          <label for="floatingInputGridBL2">Sorgente</label>
+        </div>
+        <div class="alert alert-info" role="alert">
+          <b>Da dove viene ricavoto il facsimile? Dall'originale o da un altro facsimile, specificare l'ID. Per esempio:</b> <i>2</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#id"])}}
             class="alert-link">linee guida</a>).
         </div>
       </div>
     </div>
-    <div class="row g-2">
 
-      <div class="col-md">
+    <div class="row g-2">
+      <div class="col-lg-4">
         <div class="form-floating">
-          {{subform.anno}}
-          <label for="floatingInputGridBL2">Anno</label>
+          {{subform.creatore}}
+          <label for="floatingInputGridBL1">Creatore</label>
         </div>
         <div class="alert alert-info" role="alert">
-          <b>Per esempio:</b> <i>1955</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#anno"])}}
+          <b>Per esempio:</b> <i>Istituto Patologia del Libro</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#titolo"])}}
             class="alert-link">linee guida</a>).
         </div>
       </div>
-
-      <div class="col-md">
+      <div class="col-lg-4">
         <div class="form-floating">
-          {{subform.numero_pagine}}
-          <label for="floatingInputGridBL3">Numero pagine</label>
+          {{subform.datazione}}
+          <label for="floatingInputGridDIC2">Datazione</label>
         </div>
         <div class="alert alert-info" role="alert">
-          <b>Per esempio:</b> <i></i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#numero_pagine"])}}
+          <b>Per esempio:</b> <i></i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#datazione"])}}
+            class="alert-link">linee guida</a>).
+        </div>
+      </div>
+      <div class="col-lg-2">
+        <div class="form-floating">
+          {{subform.non_prima}}
+          <label for="floatingInputGrid0">Non prima:</label>
+        </div>
+        <div class="alert alert-info " role="alert">
+          <b>Per esempio:</b> <i>0545-3-1</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#datazione"])}}
+            class="alert-link"
+            title="La segnatura rappresenta il un identificativo univocod del codice in questo catalogo viene mantenuta la segnatura moderna e tra parentesi tonde quella antica.">linee
+            guida</a>).
+        </div>
+      </div>
+      <div class="col-lg-2">
+        <div class="form-floating">
+          {{subform.non_dopo}}
+          <label for="floatingInputGrid1">Non dopo</label>
+        </div>
+        <div class="alert alert-info " role="alert">
+          <b>Per esempio:</b> <i>0545-3-1</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#datazione"])}}
             class="alert-link">linee guida</a>).
         </div>
       </div>
     </div>
+
     <div class="row g-2">
 
-      <div class="col-md">
+      <div class="col-lg-8">
         <div class="form-floating">
-          {{subform.citta}}
-          <label for="floatingInputGridBL4">Città</label>
+          {{subform.descrizione}}
+          <label for="floatingInputGridDIC3">Descrizione</label>
         </div>
         <div class="alert alert-info" role="alert">
-          <b>Per esempio:</b> <i>Turnhout</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#citta"])}}
+          <b>Per esempio:</b> <i></i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#datazione"])}}
+            class="alert-link">linee guida</a>).
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="form-floating">
+          {{subform.luogo_di_custodia}}
+          <label for="floatingInputGridBL0">Luogo di custodia</label>
+        </div>
+        <div class="alert alert-info" role="alert">
+          <b>Dove è conservato l'originale? Per esempio:</b> <i>Istituto di patologia del libro</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#id"])}}
             class="alert-link">linee guida</a>).
         </div>
       </div>
 
-      <div class="col-md">
-        <div class="form-floating">
-          {{subform.casa_editrice}}
-          <label for="floatingInputGridBL5">Casa editrice</label>
-        </div>
-        <div class="alert alert-info" role="alert">
-          <b>Per esempio:</b> <i>B. Dombart - A Kalb</i> (vedi <a
-            href={{"".join([url_for("lineeguidacat"),"#casa_editrice"])}} class="alert-link">linee guida</a>).
-        </div>
-      </div>
     </div>
+
     <div class="row g-2">
 
       <div class="col-md">
         <div class="form-floating">
-          {{subform.collana}}
-          <label for="floatingInputGridBL6">Collana</label>
+          {{subform.link_online}}
+          <label for="floatingInputGridBL10">Link online</label>
         </div>
         <div class="alert alert-info" role="alert">
-          <b>Per esempio:</b> <i>CCSL</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#collana"])}}
+          <b>Da dove viene ricavoto il facsimile? Dall'originale o da un altro facsimile, specificare l'ID. Per esempio:</b> <i>2</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#id"])}}
             class="alert-link">linee guida</a>).
         </div>
       </div>
 
       <div class="col-md">
         <div class="form-floating">
-          {{subform.n_collana}}
-          <label for="floatingInputGridBL7">N collana</label>
+          {{subform.manifest}}
+          <label for="floatingInputGridBL11">Manifest</label>
         </div>
         <div class="alert alert-info" role="alert">
-          <b>Per esempio:</b> <i>XLVII-XLVIII</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#n_collana"])}}
-            class="alert-link">linee guida</a>).
-        </div>
-      </div>
-    </div>
-    <div class="row g-2">
-
-      <div class="col-md">
-        <div class="form-floating">
-          {{subform.autore_nome_cognome}}
-          <label for="floatingInputGridBL8">Autore nome cognome</label>
-        </div>
-        <div class="alert alert-info" role="alert">
-          <b>Per esempio:</b> <i>Sancti Aurelii Augustini</i> (vedi <a
-            href={{"".join([url_for("lineeguidacat"),"#autore_nome_cognome"])}} class="alert-link">linee guida</a>).
-        </div>
-      </div>
-
-      <div class="col-md">
-        <div class="form-floating">
-          {{subform.Descrizione_interna_id}}
-          <label for="floatingInputGridBL9">Descrizione interna id</label>
-        </div>
-        <div class="alert alert-info" role="alert">
-          <b>Per esempio:</b> <i>102</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#Descrizione_interna_id"])}}
+          <b>Per esempio:</b> <i>Istituto Patologia del Libro</i> (vedi <a href={{"".join([url_for("lineeguidacat"),"#titolo"])}}
             class="alert-link">linee guida</a>).
         </div>
       </div>
     </div>
 
     <div class="col-md my-auto text-center">
-      <button type="button" class="remove_5 btn btn-danger">Elimina riferimento bibliografico</button>
+      <button type="button" class="remove_5 btn btn-danger">Elimina facsimile</button>
 
     </div>
     <hr />

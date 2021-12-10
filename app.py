@@ -55,37 +55,42 @@ def sort_storia(var):
 #globalvar = []
 #globalvarn = []
 
-class Biblio_int_libri(Form):
-    id_biblib = StringField("Id",
+class Facsimile(Form):
+    id_facsimile = StringField("Id", #
         validators=[ ],render_kw={'class':"form-control",}
     )
-    titolo = StringField("Titolo",
-            render_kw={'class':"form-control",}
-        )
-    anno = StringField("Anno",
+    tipologia = SelectField(u'Tipologia', choices=[('Edizione a stampa', 'Edizione a stampa'),('Negativo', 'Negativo'), ('Positivo', 'Positivo'),('Riproduzione digitale', 'Riproduzione digitale'), ],render_kw={'class': "form-control", })
+    
+    descrizione = StringField("Descrizione",#
             validators=[ ],render_kw={'class':"form-control",}
         )
-    numero_pagine = StringField("Numero pagine",
+    datazione = StringField("Datazione",#
             validators=[ ],render_kw={'class':"form-control",}
         )
-    citta = StringField("Citta",
+    non_prima = StringField("Non prima:",#
             validators=[ ],render_kw={'class':"form-control",}
         )
-    casa_editrice = StringField("Casa editrice",
+    non_dopo = StringField("Non dopo:", #
             validators=[ ],render_kw={'class':"form-control",}
         )
-    collana = StringField("Collana",
+    id_origine = StringField("Sorgente", #
+            validators=[ ],default="Originale",render_kw={'class':"form-control",}
+        )
+    creatore = StringField("Creatore",#
             validators=[ ],render_kw={'class':"form-control",}
         )
-    n_collana = StringField("N collana",
+    luogo_di_custodia = StringField("Luogo di custodia",#
             validators=[ ],render_kw={'class':"form-control",}
         )
-    autore_nome_cognome = StringField("Autore nome cognome",
+    manifest = StringField("Manifest",
             validators=[ ],render_kw={'class':"form-control",}
         )
-    Descrizione_interna_id = StringField("Descrizione interna id",
+    link_online = StringField("Link:",#
             validators=[ ],render_kw={'class':"form-control",}
-    )
+        )
+    completezza = StringField("Completezza",
+            validators=[ ],render_kw={'class':"form-control",}
+        )
 
 
 class Storia_del_manoscritto(Form):
@@ -274,6 +279,8 @@ class DescEst(Form):
                             )
     scriptio = SelectField(u"Scriptio", choices=[('superior', 'superior'),('inferior', 'inferior') ],render_kw={'class': "form-control", })
 
+    rilegatura = SelectField(u"Rilegatura", choices=[('rilegato', 'rilegato'),('fascicoli', 'fascicoli'),('fogli sciolti', 'fogli sciolti') ],render_kw={'class': "form-control", })
+
     datazione = StringField("Datazione",
                             validators=[], render_kw={'class': "form-control", }
                             )
@@ -344,9 +351,8 @@ class DescEst(Form):
     decorazioni = StringField("Decorazioni",
                         validators=[], render_kw={'class': "form-control", }
                         )
-    filigrana = StringField("Filigrana",
-                        validators=[], render_kw={'class': "form-control", }
-                        )
+    filigrana = SelectField(u"Filigrana", choices=[( True,'ravvisabile'),( False,'non ravvisabile') ],render_kw={'class': "form-control", })
+    
     orchid = StringField("Orch.ID.",
                     validators=[],
                     render_kw={'class': "form-control",
@@ -375,6 +381,16 @@ class MainForm(FlaskForm):
                             validators=[], render_kw={'class': "form-control",
                             'pattern':"^http:\/\/lezioni\.meneghetti\.univr\.it\/\/imageapi\/.*" }
                             )
+    largezza_mm = IntegerField("Larghezza (mm)",
+                            validators=[], render_kw={'class': "form-control"}
+                            )
+    ampiezza_mm = IntegerField("Ampiezza (mm):",
+                            validators=[], render_kw={'class': "form-control" }
+                            )
+    profondita_mm = IntegerField("Profondità (mm):",
+                            validators=[], render_kw={'class': "form-control"}
+                            )
+    custodia = SelectField('Custodia', choices=[('No', 'No'),('In cartone', 'In cartone'), ('In pelle ', 'In pelle')],render_kw={'class': "form-control", })
 
     sommario_desc = TextAreaField("Sommario:",
                             validators=[], render_kw={'class': "form-control",'rows':"4" }
@@ -413,7 +429,7 @@ class MainForm(FlaskForm):
 
      
     biblio_int_libri = FieldList(
-        FormField(Biblio_int_libri),
+        FormField(Facsimile),
         min_entries=1,
         max_entries=200
     )
@@ -518,7 +534,7 @@ def insertfield(segnatura):
     template_form2 = Copisti(prefix='copisti-_-')
     template_form3 = AnnotazioniMarg(prefix='annotazioni_marginali-_-')
     template_form4 = Storia_del_manoscritto(prefix='storia_del_manoscritto-_-')
-    template_form5 = Biblio_int_libri(prefix='biblio_int_libri-_-')
+    template_form5 = Facsimile(prefix='biblio_int_libri-_-')
     template_form6 = DescEst(prefix='descrizione_esterna-_-')
     log = "n.d."   
     if form.validate_on_submit():
