@@ -55,6 +55,12 @@ def convertdate(text):
                 "2.quarto":[25,-50],
                 "3.quarto":[50,-25],
                 "4.quarto":[70,0]}
+    notes = ""
+    if text.isdigit():
+        # 1234
+        final = int(text)+1
+        return "%s-01-01"%text.zfill(4),"%s-01-01"%str(final).zfill(4),notes
+
     splitted = text.split(" ")  
     modi,modf = 0,0
     if splitted[0].lower() in dictmes.keys():
