@@ -120,10 +120,10 @@ class Storia_del_manoscritto(Form):
                             validators=[], render_kw={'class': "form-control", }
                             ) 
     non_prima =  StringField("Non prima",
-                            validators=[], render_kw={'class': "form-control",'disabled': 'disabled' }
+                            validators=[], render_kw={'class': "form-control", }
                             )
     non_dopo =  StringField("Non dopo",
-                            validators=[], render_kw={'class': "form-control",'disabled': 'disabled' }
+                            validators=[], render_kw={'class': "form-control", }
                             )
     trascrizione = StringField("Trascrizione",
                             validators=[], render_kw={'class': "form-control", }
@@ -173,10 +173,10 @@ class AnnotazioniMarg(Form):
                             validators=[], render_kw={'class': "form-control", }
                             ) 
     non_prima =  StringField("Non prima",
-                            validators=[], render_kw={'class': "form-control",'disabled': 'disabled' }
+                            validators=[], render_kw={'class': "form-control", }
                             )
     non_dopo =  StringField("Non dopo",
-                            validators=[], render_kw={'class': "form-control", 'disabled': 'disabled'}
+                            validators=[], render_kw={'class': "form-control", }
                             )
     trascrizione = StringField("Trascrizione",
                             validators=[], render_kw={'class': "form-control", }
@@ -221,10 +221,10 @@ class Copisti(Form):
                             validators=[], render_kw={'class': "form-control"}
                             )
     non_prima =  StringField("Non prima",
-                            validators=[], render_kw={'class': "form-control",'disabled': 'disabled' }
+                            validators=[], render_kw={'class': "form-control", }
                             )
     non_dopo =  StringField("Non dopo",
-                            validators=[], render_kw={'class': "form-control",'disabled': 'disabled' }
+                            validators=[], render_kw={'class': "form-control", }
                             )
     tipologia_scrittura = StringField("Tipologia scrittura",
                                       validators=[], render_kw={'class': "form-control"}
@@ -294,10 +294,10 @@ class DescEst(Form):
                             validators=[], render_kw={'class': "form-control", }
                             ) 
     non_prima =  StringField("Non prima",
-                            validators=[], render_kw={'class': "form-control",'disabled': 'disabled' }
+                            validators=[], render_kw={'class': "form-control", }
                             )
     non_dopo =  StringField("Non dopo",
-                            validators=[], render_kw={'class': "form-control",'disabled': 'disabled' }
+                            validators=[], render_kw={'class': "form-control", }
                             )
     luogo = StringField("Luogo",
                             validators=[], render_kw={'class': "form-control", }
@@ -384,13 +384,13 @@ class MainForm(FlaskForm):
                             validators=[], render_kw={'class': "form-control",
                             'pattern':"^http:\/\/lezioni\.meneghetti\.univr\.it\/\/imageapi\/.*" }
                             )
-    largezza_mm = IntegerField("Larghezza (mm)",
+    largezza_mm = StringField("Larghezza (mm)",
                             validators=[], render_kw={'class': "form-control"}
                             )
-    ampiezza_mm = IntegerField("Ampiezza (mm):",
+    ampiezza_mm = StringField("Ampiezza (mm):",
                             validators=[], render_kw={'class': "form-control" }
                             )
-    profondita_mm = IntegerField("Profondità (mm):",
+    profondita_mm = StringField("Profondità (mm):",
                             validators=[], render_kw={'class': "form-control"}
                             )
     custodia = SelectField('Custodia', choices=[('No', 'No'),('In cartone', 'In cartone'), ('In pelle ', 'In pelle')],render_kw={'class': "form-control", })
