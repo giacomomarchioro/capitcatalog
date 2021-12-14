@@ -15,18 +15,24 @@ import json
 import datetime
 from bson.objectid import ObjectId
 from converter import convertdate
-
 # pprint library is used to make the output look more pretty
 from pprint import pprint
 # connect to MongoDB, change the << MONGODB URL >> to reflect your own connection string
 client = MongoClient(connectionstring)
-db=client.admin
+#db=client.admin
 # Issue the serverStatus command and print the results
 #serverStatusResult=db.command("serverStatus")
 #pprint(serverStatusResult)
 
 
-#var = client.capitolare.codici.find_one({"segnatura_idx":"XXVII"}) 
+#var = client.capitolare.codici.find_one({segnatura_idx: 'm0257_0'}) 
+
+def convertdatesafe(date):
+    try:
+        return convertdate(date)
+    except:
+        return ("","","")
+
 
 def sort_dec_int(var):
 	try:
@@ -131,9 +137,11 @@ class Storia_del_manoscritto(Form):
     Tipologia_scrittura = StringField("Tipologia scrittura",
             validators=[ ],render_kw={'class':"form-control",}
         )
-    Descrizione_Esterna_Segnatura = StringField("Descrizione esterna segnatura",
-            validators=[ ],render_kw={'class':"form-control",}
-        )
+    Descrizione_Esterna_Segnatura = SelectField(u'ID_descrizione_esterna', choices=[('Non assegnato', 'Non assegnato')],validate_choice=False,render_kw={'class': "form-control", })
+    
+    #StringField("Descrizione esterna segnatura",
+    #        validators=[ ],render_kw={'class':"form-control",}
+    #    )
     link_img = StringField("Link immagine:",
             validators=[ ],render_kw={'class':"form-control",}
         )
@@ -182,9 +190,7 @@ class AnnotazioniMarg(Form):
     Tipologia_scrittura = StringField("Tipologia scrittura",
             validators=[ ],render_kw={'class':"form-control",}
         )
-    Descrizione_Esterna_Segnatura = StringField("Descrizione esterna segnatura",
-            validators=[ ],render_kw={'class':"form-control",}
-        )
+    Descrizione_Esterna_Segnatura = SelectField(u'ID_descrizione_esterna', choices=[('Non assegnato', 'Non assegnato')],validate_choice=False,render_kw={'class': "form-control", })
 
     link_img = StringField("Link immagine:",
             validators=[ ],render_kw={'class':"form-control",
@@ -223,9 +229,7 @@ class Copisti(Form):
     tipologia_scrittura = StringField("Tipologia scrittura",
                                       validators=[], render_kw={'class': "form-control"}
                                       )
-    Descrizione_Esterna_Segnatura = StringField("Descrizione esterna segnatura",
-                                                validators=[], render_kw={'class': "form-control"}
-                                                )
+    Descrizione_Esterna_Segnatura = SelectField(u'ID_descrizione_esterna', choices=[('Non assegnato', 'Non assegnato')],validate_choice=False,render_kw={'class': "form-control", })
 
 
 class DescInt(Form):
@@ -263,9 +267,8 @@ class DescInt(Form):
     rubrica = StringField("Rubrica",
                           render_kw={'class': "form-control", }
                           )
-    Descrizione_Esterna_Segnatura = StringField("ID Descrizione esterna di riferimento",
-                                                validators=[], render_kw={'class': "form-control", }
-                                                )
+    Descrizione_Esterna_Segnatura = SelectField(u'ID_descrizione_esterna', choices=[('Non assegnato', 'Non assegnato')],validate_choice=False,render_kw={'class': "form-control", })
+    
     Descrizione_interna_id = StringField("Descrizione interna ID",
                                         #validators=[Regexp('^[1-9]\d*(\.[1-9]\d*)*$',message='ID non valido')],
                                         render_kw={'class': "form-control",
@@ -526,7 +529,7 @@ def index():
 @app.route('/insertfield/<segnatura>', methods=['GET', 'POST'])
 def insertfield(segnatura):
     varx = client.capitolare.codici.find_one({'segnatura_idx': segnatura})
-    
+    #import pdb; pdb.set_trace()
     #form = MainForm(MultiDict(varx))
     form = MainForm()
     #form.populate_obj(varx)
@@ -534,6 +537,16 @@ def insertfield(segnatura):
     template_form2 = Copisti(prefix='copisti-_-')
     template_form3 = AnnotazioniMarg(prefix='annotazioni_marginali-_-')
     template_form4 = Storia_del_manoscritto(prefix='storia_del_manoscritto-_-')
+    if varx is not None:
+        descrizioni_esterne_id = [(i['Descrizione_Esterna_Segnatura'],i['Descrizione_Esterna_Segnatura']) for i in varx['descrizione_esterna']]
+        descrizioni_esterne_id =  list(reversed(descrizioni_esterne_id))
+        if descrizioni_esterne_id[0] != ("",""): 
+            template_form.Descrizione_Esterna_Segnatura.choices = descrizioni_esterne_id
+            template_form2.Descrizione_Esterna_Segnatura.choices = descrizioni_esterne_id
+            template_form3.Descrizione_Esterna_Segnatura.choices = descrizioni_esterne_id
+            template_form4.Descrizione_Esterna_Segnatura.choices = descrizioni_esterne_id
+
+
     template_form5 = Facsimile(prefix='biblio_int_libri-_-')
     template_form6 = DescEst(prefix='descrizione_esterna-_-')
     log = "n.d."   
@@ -555,16 +568,16 @@ def insertfield(segnatura):
         sort_dec_int(data_dict)
         for anno in data_dict['annotazioni_marginali']:
             if anno['Datazione'] != "":# and (anno['non_dopo'] == "" or anno['non_prima'] == ""):
-                anno['non_prima'],anno['non_dopo'],_ = convertdate(anno['Datazione'])
+                anno['non_prima'],anno['non_dopo'],_ = convertdatesafe(anno['Datazione'])
         for st in data_dict['storia_del_manoscritto']:
             if st['Datazione'] != "":#  and (st['non_dopo'] == "" or st['non_prima'] == ""):
-                st['non_prima'],st['non_dopo'],_ = convertdate(st['Datazione'])
+                st['non_prima'],st['non_dopo'],_ = convertdatesafe(st['Datazione'])
         for de in data_dict['descrizione_esterna']:
             if de['datazione'] != "":#  and (de['non_dopo'] == "" or de['non_prima'] == ""):
-                de['non_prima'],de['non_dopo'],_ = convertdate(de['datazione'])
+                de['non_prima'],de['non_dopo'],_ = convertdatesafe(de['datazione'])
         for cop in data_dict['copisti']:
             if cop['datazione'] != "":#  and (cop['non_dopo'] == "" or cop['non_prima'] == ""):
-                cop['non_prima'],cop['non_dopo'],_ = convertdate(cop['datazione'])
+                cop['non_prima'],cop['non_dopo'],_ = convertdatesafe(cop['datazione'])
 
         if varx is None:
             client.capitolare.codici.insert_one(data_dict)
@@ -590,8 +603,20 @@ def insertfield(segnatura):
         print("Non valido")
 
     if varx is not None:
+        #import pdb; pdb.set_trace()
         form.process(data=varx)
-    #import pdb; pdb.set_trace()
+        # we dynamically add the choices
+        if descrizioni_esterne_id[0] != ("",""): 
+            for sm in form.storia_del_manoscritto:
+                sm.Descrizione_Esterna_Segnatura.choices = descrizioni_esterne_id
+            for am in form.annotazioni_marginali:
+                am.Descrizione_Esterna_Segnatura.choices = descrizioni_esterne_id
+            for cp in form.copisti:
+                cp.Descrizione_Esterna_Segnatura.choices = descrizioni_esterne_id
+            for di in form.descrizione_interna:
+                di.Descrizione_Esterna_Segnatura.choices = descrizioni_esterne_id
+
+        #import pdb; pdb.set_trace()
     return render_template(
         'index.html',
         form=form,
