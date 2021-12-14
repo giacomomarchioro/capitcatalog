@@ -287,18 +287,33 @@
         </div>
         <div class='row g-2'>
 
-            <div class="col-md">
-              <div class="form-floating">
-                {{form.status}}
-                <label for="floatingInputGridDI0">Stato</label>
-              </div>
-              <div class="alert alert-info" role="alert">
-                <b>Per esempio:</b> <i>Settare su concluso una volta terminato. Usare presentabile per permetterne la visualizzazione. </i>  <a
-                  href={{"".join([url_for("lineeguidacat"),"#autore"])}} class="alert-link">ℹ️</a>.
-              </div>
+ 
+            <div class="col-lg-2">
+                <span>Identificatore database:</span>
+                <span class="h4" >{{segnatura}}</span>
+                <div class="alert alert-info" role="alert">
+                    Identifica il record nel database.
+                </div>
             </div>
-      
-            <div class="col-md">
+            <div class="col-lg-2">
+                <a id="add_altind" href="/insertaltidentifier/{{segnatura}}" class="btn btn-primary btn-block" tabindex="-1" role="button"
+                aria-disabled="true">Aggiungi identificatore alternativo</a>
+                <div class="alert alert-info" role="alert">
+                    Aggiungere altri identificatori per permettere al record di essere trovato.
+                </div>
+            </div>
+            
+            <div class="col-lg-2">
+                <div class="form-floating">
+                  {{form.status}}
+                  <label for="floatingInputGridDI0">Stato</label>
+                </div>
+                <div class="alert alert-info" role="alert">
+                  <i>Settare su concluso una volta terminato. Usare presentabile per permetterne la visualizzazione. </i>  <a
+                    href={{"".join([url_for("lineeguidacat"),"#autore"])}} class="alert-link">ℹ️</a>.
+                </div>
+              </div>
+            <div class="col-lg-6">
               <div class="form-floating">
                 {{form.manifest}}
                 <label for="floatingInputGridDI1">Manifest</label>
