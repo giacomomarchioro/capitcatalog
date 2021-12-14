@@ -258,8 +258,8 @@
 
     <form id="descrizione_interna-form" action="" method="POST" role="form">
     <div class="sidenav">
-        <a href="#subforms-container_esterna">Descrizione esterna</a>
-        <a href="#subforms-container_cp">Copisti</a>
+        <a href="#subforms-container_esterna">Unità codicologiche</a>
+        <a href="#subforms-container_cp">Scriventi principali</a>
         <a href="#subforms-container_annomg">Annotazioni marginali</a>
         <a href="#subforms-storia_del_manoscritto">Storia del manoscritto</a>
         <a href="#subforms-container_int">Descrizione interna</a>
@@ -425,11 +425,11 @@
           </div>
           
           <div>
-            <h3 class="headersec">Descrizione Esterna</h3>
+            <h3 class="headersec">Unità codicologiche</h3>
         </div>
         <div>
-            La descrizione esterna rappresenta una unità del bene che viene segnalata sotto la stessa segnatura. Per esempio:
-            più fascicoli in un faldone, un codice composito, un palinsesto. 
+            La unità codicologica rappresenta una unità del bene che viene segnalata sotto la stessa segnatura. Per esempio:
+            più fascicoli in un faldone, le parti di un codice composito. Il palinsesto in questa catalogazione è considerato un unità codicologica. 
         </div>
         
         <div id="subforms-container_esterna">
@@ -438,13 +438,13 @@
             {% endfor %}
         </div>
         <a id="add_0" href="#subforms-container_esterna" class="btn btn-primary btn-block" tabindex="-1" role="button"
-            aria-disabled="true">Aggiungi descrizione esterna</a>
+            aria-disabled="true">Aggiungi unità codicologica</a>
         
         <br><br>
 
             {# Show all copisti #}
         <div>
-            <h3 class="headersec">Copisti </h3>
+            <h3 class="headersec">Scriventi principali </h3>
         </div>
         <hr />
         <div id="subforms-container_cp">
