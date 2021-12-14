@@ -28,9 +28,11 @@
                             <tr>
                                 <!--special characters and spaces not allowed in data-field name-->
                                 <th data-field="columnA" data-filter-control="input" data-sortable="true">ID</th>
+                                <th data-field="columnA2" data-filter-control="input" data-sortable="true">Segnatura</th>
                                 <th data-field="columnB" data-filter-control="select" data-sortable="true">Versione</th>
                                 <th data-field="columnC" data-filter-control="input" data-sortable="true"> Ultima modifica</th>
                                 <th data-field="columnF" data-filter-control="select" data-sortable="true">Stato</th>
+                                <th data-field="columnE" data-filter-control="select" data-sortable="true">Autore</th>
                                 <th data-field="columnD" data-sortable="true" data-formatter="LinkFormatter"> Azioni</th>
                                 
                             </tr>
@@ -40,9 +42,11 @@
                             <tr id="{{ row["segnatura_idx"] }}">
                                 <!--special characters and spaces not allowed in data-field name-->
                                 <td>{{ row["segnatura_idx"] }}</td>
+                                <td>{{ row['descrizione_esterna'][0]['Segnatura'] }}</td>
                                 <td>{{ row["version"] }}</td>
-                                <td>{{ row["last_modified"] }}</td>
+                                <td>{{ row["last_modified"].strftime("%Y-%m-%d %H:%M:%S") }}</td>
                                 <td>{{ row["status"] }}</td>
+                                <td>{{ row["descrizione_esterna"][0]["utenti_email"] }}</td>
                                 <td>{{ url_for('insertfield', segnatura=row["segnatura_idx"]) }}</td>
                             </tr>
                             {% endfor %}
