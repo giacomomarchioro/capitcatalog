@@ -365,7 +365,7 @@ class DescEst(Form):
     decorazioni = StringField("Decorazioni",
                         validators=[], render_kw={'class': "form-control", }
                         )
-    filigrana = SelectField(u"Filigrana", choices=[( True,'ravvisabile'),( False,'non ravvisabile') ],render_kw={'class': "form-control", })
+    filigrana = SelectField(u"Filigrana", choices=[( 'Ravvisabile','ravvisabile'),( 'Non ravvisabile','non ravvisabile') ],render_kw={'class': "form-control", })
     
     orchid = StringField("Orch.ID.",
                     validators=[],
