@@ -551,11 +551,12 @@ def insertfield(segnatura):
     if varx is not None:
         descrizioni_esterne_id = [(i['Descrizione_Esterna_Segnatura'],i['Descrizione_Esterna_Segnatura']) for i in varx['descrizione_esterna']]
         descrizioni_esterne_id =  list(reversed(descrizioni_esterne_id))
+        descrizioni_esterne_id2 = descrizioni_esterne_id + [('altro','altro')]
         if descrizioni_esterne_id[0] != ("",""): 
             template_form.Descrizione_Esterna_Segnatura.choices = descrizioni_esterne_id
             template_form2.Descrizione_Esterna_Segnatura.choices = descrizioni_esterne_id
             template_form3.Descrizione_Esterna_Segnatura.choices = descrizioni_esterne_id
-            template_form4.Descrizione_Esterna_Segnatura.choices = descrizioni_esterne_id
+            template_form4.Descrizione_Esterna_Segnatura.choices = descrizioni_esterne_id2
 
 
     template_form5 = Facsimile(prefix='biblio_int_libri-_-')
@@ -620,7 +621,7 @@ def insertfield(segnatura):
         # we dynamically add the choices
         if descrizioni_esterne_id[0] != ("",""): 
             for sm in form.storia_del_manoscritto:
-                sm.Descrizione_Esterna_Segnatura.choices = descrizioni_esterne_id
+                sm.Descrizione_Esterna_Segnatura.choices = descrizioni_esterne_id2
             for am in form.annotazioni_marginali:
                 am.Descrizione_Esterna_Segnatura.choices = descrizioni_esterne_id
             for cp in form.copisti:
