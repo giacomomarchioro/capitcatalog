@@ -18,7 +18,7 @@ this should match `loop.index0`, and for the template it should be
     <h5 id="descrizione_esterna-{{ index }}-formH" class="text-center">1</h5>
     <div class="row g-2">
 
-      <div class="col-lg-4">
+      <div class="col-lg-3">
         <div class="form-floating">
           {{subform.Segnatura}}
           <label for="floatingInputGrid0">Segnatura</label>
@@ -29,7 +29,7 @@ this should match `loop.index0`, and for the template it should be
             title="La segnatura rappresenta il un identificativo univocod del codice in questo catalogo viene mantenuta la segnatura moderna e tra parentesi tonde quella antica.">ℹ️</a>.
         </div>
       </div>
-      <div class="col-lg-4">
+      <div class="col-lg-3">
         <div class="form-floating">
           {{subform.rilegatura}}
           <label for="floatingInputGrid0">Rilegatura</label>
@@ -40,7 +40,7 @@ this should match `loop.index0`, and for the template it should be
             title="La segnatura rappresenta il un identificativo univocod del codice in questo catalogo viene mantenuta la segnatura moderna e tra parentesi tonde quella antica.">ℹ️</a>.
         </div>
       </div>
-      <div class="col-lg-4">
+      <div class="col-lg-3">
         <div class="form-floating">
           {{subform.scriptio}}
           <label for="floatingInputGrid1">Scriptio</label>
@@ -48,6 +48,17 @@ this should match `loop.index0`, and for the template it should be
         <div class="alert alert-info " role="alert">
           <b>Se si tratta di palinsesto usare inferior:</b>  <a
             href={{"".join([url_for("lineeguidacat"),"#datazione"])}} class="alert-link">ℹ️</a>.
+        </div>
+      </div>
+
+      <div class="col-lg-3">
+        <div class="form-floating">
+          {{subform.Descrizione_Esterna_Segnatura}}
+          <label for="floatingInputGrid13">ID Unità codicologica</label>
+        </div>
+        <div class="alert alert-info " role="alert">
+          <b>Per esempio:</b> <i> 01-Gaio, 02-Calderini,</i>  <a
+            href={{"".join([url_for("lineeguidacat"),"#Descrizione_Esterna_Segnatura"])}} class="alert-link">ℹ️</a>.
         </div>
       </div>
     </div>
@@ -351,16 +362,7 @@ this should match `loop.index0`, and for the template it should be
         </div>
       </div>
 
-      <div class="col-md">
-        <div class="form-floating">
-          {{subform.Descrizione_Esterna_Segnatura}}
-          <label for="floatingInputGrid13">ID descrizione esterna</label>
-        </div>
-        <div class="alert alert-info " role="alert">
-          <b>Per esempio:</b> <i> 01-Gaio, 02-Calderini,</i>  <a
-            href={{"".join([url_for("lineeguidacat"),"#Descrizione_Esterna_Segnatura"])}} class="alert-link">ℹ️</a>.
-        </div>
-      </div>
+
     </div>
     <div class="row g-2">
       <button type="button" class="remove_0 btn btn-danger">Elimina descrizione esterna</button>
@@ -510,7 +512,7 @@ this should match `loop.index0`, and for the template it should be
       <div class="col-md">
         <div class="form-floating">
           {{subform.descid}}
-          <label for="floatingInputGridDI2">ID descrizione esterna a cui fa riferimento</label>
+          <label for="floatingInputGridDI2">Unità codicologica a cui fa riferimento</label>
         </div>
         {% for field, errors in subform.errors.items() %}
         <div class="alert alert-danger" role="alert">
@@ -564,7 +566,7 @@ this should match `loop.index0`, and for the template it should be
       <div class="col-lg-2">
         <div class="form-floating">
           {{subform.intervallo_carte}}
-          <label for="floatingInputGridDIC1">Intervallo carte</label>
+          <label for="floatingInputGridDIC1">Locus</label>
         </div>
         <div class="alert alert-info" role="alert">
           <b>Per esempio:</b> <i>1v-6r,102r,248br</i>  <a
@@ -624,10 +626,10 @@ this should match `loop.index0`, and for the template it should be
       <div class="col-md">
         <div class="form-floating">
           {{subform.Descrizione_Esterna_Segnatura}}
-          <label for="floatingInputGridDIC4">ID descrizione esterna</label>
+          <label for="floatingInputGridDIC4">Unità codicologica</label>
         </div>
         <div class="alert alert-info" role="alert">
-          <b>Per esempio:</b> <i>XXVIII (26)</i>  <a
+          Seleziona l'unità codicologica a cui fa riferimento (usare cmd o Ctrl per selezionare più di un unità)<a
             href={{"".join([url_for("lineeguidacat"),"#Descrizione_Esterna_Segnatura"])}} class="alert-link">ℹ️</a>.
         </div>
       </div>
@@ -671,7 +673,7 @@ this should match `loop.index0`, and for the template it should be
       <div class="col-lg-2">
         <div class="form-floating">
           {{subform.Id_anno}}
-          <label for="floatingInputGridDIX1">Id annotazione marginale</label>
+          <label for="floatingInputGridDIX1">ID</label>
         </div>
         <div class="alert alert-info" role="alert">
           <b>Per esempio:</b> <i>a</i>  <a href={{"".join([url_for("lineeguidacat"),"#Id"])}}
@@ -684,7 +686,7 @@ this should match `loop.index0`, and for the template it should be
       <div class="col-md">
         <div class="form-floating">
           {{subform.intervallo_carte}}
-          <label for="floatingInputGridDIX2">Intervallo carte</label>
+          <label for="floatingInputGridDIX2">Locus</label>
         </div>
         <div class="alert alert-info" role="alert">
           <b>Per esempio:</b> <i>8v</i>  <a href={{"".join([url_for("lineeguidacat"),"#intervallo_carte"])}}
@@ -802,7 +804,7 @@ this should match `loop.index0`, and for the template it should be
       <div class="col-md">
         <div class="form-floating">
           {{subform.Descrizione_Esterna_Segnatura}}
-          <label for="floatingInputGridDIX7">ID descrizione esterna</label>
+          <label for="floatingInputGridDIX7">Unità codicologica</label>
         </div>
         <div class="alert alert-info" role="alert">
           <b>Per esempio:</b> <i>XXVIII (26)</i>  <a
@@ -887,7 +889,7 @@ this should match `loop.index0`, and for the template it should be
       <div class="col-md">
         <div class="form-floating">
           {{subform.intervallo_carte}}
-          <label for="floatingInputGridAT2">Intervallo carte</label>
+          <label for="floatingInputGridAT2">Locus</label>
         </div>
         <div class="alert alert-info" role="alert">
           <b>Per esempio:</b> <i>None</i>  <a href={{"".join([url_for("lineeguidacat"),"#intervallo_carte"])}}
@@ -1004,7 +1006,7 @@ this should match `loop.index0`, and for the template it should be
       <div class="col-md">
         <div class="form-floating">
           {{subform.Descrizione_Esterna_Segnatura}}
-          <label for="floatingInputGridAT7">ID descrizione esterna</label>
+          <label for="floatingInputGridAT7">Unità codicologica</label>
         </div>
         <div class="alert alert-info" role="alert">
           <b>Per esempio:</b> <i>XXVIII (26)</i>  <a
