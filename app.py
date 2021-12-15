@@ -4,7 +4,7 @@
 from flask import Flask, render_template,url_for, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import FlaskForm
-from wtforms import Form, FieldList, FormField, IntegerField, SelectField, \
+from wtforms import Form, FieldList, FormField, SelectMultipleField, SelectField, \
     StringField, TextAreaField, SubmitField
 from wtforms import validators
 from pymongo import MongoClient
@@ -58,8 +58,19 @@ def sort_storia(var):
 	except ValueError:
 		return "Errorre ID storia del manoscritto."
 
+def sort_DescEst(var):
+	try:
+		var['descrizione_esterna'] = sorted(var['descrizione_esterna'], key= lambda s: s['Descrizione_Esterna_Segnatura'])
+	except ValueError:
+		return "Errorre Descrizione Esterna non disponibile."
+        
+
 #globalvar = []
 #globalvarn = []
+
+class NonValidatingSelectMulipleField(SelectMultipleField):
+    def pre_validate(self, form):
+        pass 
 
 class Facsimile(Form):
     id_facsimile = StringField("Id", #
@@ -229,7 +240,7 @@ class Copisti(Form):
     tipologia_scrittura = StringField("Tipologia scrittura",
                                       validators=[], render_kw={'class': "form-control"}
                                       )
-    Descrizione_Esterna_Segnatura = SelectField(u'ID_descrizione_esterna', choices=[('Non assegnato', 'Non assegnato')],validate_choice=False,render_kw={'class': "form-control", })
+    Descrizione_Esterna_Segnatura = NonValidatingSelectMulipleField(u'ID_descrizione_esterna', choices=[('Non assegnato', 'Non assegnato')],validate_choice=False,render_kw={'class': "form-select","multiple":True,"style":"height: 100px"})
 
 
 class DescInt(Form):
@@ -566,6 +577,7 @@ def insertfield(segnatura):
         sort_storia(data_dict)
         sort_annotazioni(data_dict)
         sort_dec_int(data_dict)
+        sort_DescEst(data_dict)
         for anno in data_dict['annotazioni_marginali']:
             if anno['Datazione'] != "":# and (anno['non_dopo'] == "" or anno['non_prima'] == ""):
                 anno['non_prima'],anno['non_dopo'],_ = convertdatesafe(anno['Datazione'])
