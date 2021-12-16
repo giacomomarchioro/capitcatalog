@@ -580,16 +580,16 @@ def insertfield(segnatura):
         sort_dec_int(data_dict)
         sort_DescEst(data_dict)
         for anno in data_dict['annotazioni_marginali']:
-            if anno['Datazione'] != "":# and (anno['non_dopo'] == "" or anno['non_prima'] == ""):
+            if anno['Datazione'] != "" and (anno['non_dopo'] == "" or anno['non_prima'] == ""):
                 anno['non_prima'],anno['non_dopo'],_ = convertdatesafe(anno['Datazione'])
         for st in data_dict['storia_del_manoscritto']:
-            if st['Datazione'] != "":#  and (st['non_dopo'] == "" or st['non_prima'] == ""):
+            if st['Datazione'] != ""  and (st['non_dopo'] == "" or st['non_prima'] == ""):
                 st['non_prima'],st['non_dopo'],_ = convertdatesafe(st['Datazione'])
         for de in data_dict['descrizione_esterna']:
-            if de['datazione'] != "":#  and (de['non_dopo'] == "" or de['non_prima'] == ""):
+            if de['datazione'] != ""  and (de['non_dopo'] == "" or de['non_prima'] == ""):
                 de['non_prima'],de['non_dopo'],_ = convertdatesafe(de['datazione'])
         for cop in data_dict['copisti']:
-            if cop['datazione'] != "":#  and (cop['non_dopo'] == "" or cop['non_prima'] == ""):
+            if cop['datazione'] != ""  and (cop['non_dopo'] == "" or cop['non_prima'] == ""):
                 cop['non_prima'],cop['non_dopo'],_ = convertdatesafe(cop['datazione'])
 
         if varx is None:

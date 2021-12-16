@@ -128,7 +128,7 @@ this should match `loop.index0`, and for the template it should be
               <label for="floatingInputGrid1">Luogo</label>
             </div>
             <div class="alert alert-info " role="alert">
-              <b>Per esempio:</b> <i>Sec. V med.</i>  <a href={{"".join([url_for("lineeguidacat"),"#datazione"])}}
+              <b>Per esempio:</b> <i>Verona</i>  <a href={{"".join([url_for("lineeguidacat"),"#datazione"])}}
                 class="alert-link">ℹ️</a>.
             </div>
           </div>
@@ -138,7 +138,7 @@ this should match `loop.index0`, and for the template it should be
               <label for="floatingInputGrid0">Trascizione luogo</label>
             </div>
             <div class="alert alert-info " role="alert">
-              <b>Per esempio:</b> <i>0545-3-1</i>  <a href={{"".join([url_for("lineeguidacat"),"#datazione"])}}
+              <b>Per esempio:</b> <i>Veronae</i>  <a href={{"".join([url_for("lineeguidacat"),"#datazione"])}}
                 class="alert-link"
                 title="La segnatura rappresenta il un identificativo univocod del codice in questo catalogo viene mantenuta la segnatura moderna e tra parentesi tonde quella antica.">ℹ️</a>.
             </div>
@@ -150,7 +150,7 @@ this should match `loop.index0`, and for the template it should be
               <label for="floatingInputGrid1">Locus luogo</label>
             </div>
             <div class="alert alert-info " role="alert">
-              <b>Per esempio:</b> <i>0545-3-1</i>  <a href={{"".join([url_for("lineeguidacat"),"#datazione"])}}
+              <b>Per esempio:</b> <i>c. 3r</i>  <a href={{"".join([url_for("lineeguidacat"),"#datazione"])}}
                 class="alert-link">ℹ️</a>.
             </div>
           </div>
@@ -356,7 +356,7 @@ this should match `loop.index0`, and for the template it should be
           <label for="floatingInputGrid12">Decorazioni:</label>
         </div>
         <div class="alert alert-info " role="alert">
-          <b>Per esempio:</b> <i>Donatella Tronca</i>  <a
+          <b>Per esempio:</b> <i>Iniziali miniate, disegni a penna</i>  <a
             href={{"".join([url_for("lineeguidacat"),"#utenti_email"])}} class="alert-link"
             title="voluptate velit esse cillum dolore eu fugiat nulla pariatur cillum dolore eu fugiat nulla pariatur cillum dolore eu fugiat nulla pariatur cillum dolore eu fugiat nulla pariatur.">ℹ️</a>.
         </div>
@@ -418,10 +418,10 @@ this should match `loop.index0`, and for the template it should be
       <div class="col-md">
         <div class="form-floating">
           {{subform.Descrizione_Esterna_Segnatura}}
-          <label for="floatingInputGridDI7">Descrizione esterna ID</label>
+          <label for="floatingInputGridDI7">ID unità codicologica.</label>
         </div>
         <div class="alert alert-info" role="alert">
-          <b>Per esempio:</b> <i>XXVIII (26)</i>  <a
+          Selezionare dalla tendina.  <a
             href={{"".join([url_for("lineeguidacat"),"#Descrizione_Esterna_Segnatura"])}} class="alert-link">ℹ️</a>.
         </div>
       </div>
@@ -448,7 +448,7 @@ this should match `loop.index0`, and for the template it should be
           <label for="floatingInputGridDI3">Incipit</label>
         </div>
         <div class="alert alert-info" role="alert">
-          <b>Per esempio:</b> <i>incipit</i>  <a href={{"".join([url_for("lineeguidacat"),"#incipit"])}}
+          <b>Per esempio:</b> <i>Arma viator puluerem uides sacrum</i>  <a href={{"".join([url_for("lineeguidacat"),"#incipit"])}}
             class="alert-link">ℹ️</a>.
         </div>
       </div>
@@ -473,7 +473,7 @@ this should match `loop.index0`, and for the template it should be
           <label for="floatingInputGridDI4">Explicit</label>
         </div>
         <div class="alert alert-info" role="alert">
-          <b>Per esempio:</b> <i>explicit</i>  <a href={{"".join([url_for("lineeguidacat"),"#explicit"])}}
+          <b>Per esempio:</b> <i>	Abi uiator sat:tuis oculis debes</i>  <a href={{"".join([url_for("lineeguidacat"),"#explicit"])}}
             class="alert-link">ℹ️</a>.
         </div>
       </div>
@@ -481,7 +481,7 @@ this should match `loop.index0`, and for the template it should be
       <div class="col-md">
         <div class="form-floating">
           {{subform.carte}}
-          <label for="floatingInputGridDI5">Carte</label>
+          <label for="floatingInputGridDI5">Locus</label>
         </div>
         <div class="alert alert-info" role="alert">
           <b>Per esempio:</b> <i>1r-251v</i>  <a href={{"".join([url_for("lineeguidacat"),"#carte"])}}
@@ -546,7 +546,7 @@ this should match `loop.index0`, and for the template it should be
       <div class="col-lg-2">
         <div class="form-floating">
           {{subform.id_cop}}
-          <label for="floatingInputGridDIC0">ID copista</label>
+          <label for="floatingInputGridDIC0">ID scrivente</label>
         </div>
         <div class="alert alert-info" role="alert">
           <b>Per esempio:</b> <i>A</i>  <a href={{"".join([url_for("lineeguidacat"),"#id"])}}
@@ -556,7 +556,7 @@ this should match `loop.index0`, and for the template it should be
       <div class="col-lg-8">
         <div class="form-floating">
           {{subform.identificazione}}
-          <label for="floatingInputGridDICz">Identificazione del copista</label>
+          <label for="floatingInputGridDICz">Identificazione dello scrivente</label>
         </div>
         <div class="alert alert-info" role="alert">
           <b>Per esempio:</b> <i>Dionisi, Alberto</i>  <a href={{"".join([url_for("lineeguidacat"),"#id"])}}
@@ -700,7 +700,7 @@ this should match `loop.index0`, and for the template it should be
           <label for="floatingInputGridDIX3">Trascrizione</label>
         </div>
         <div class="alert alert-info" role="alert">
-          <b>Per esempio:</b> <i></i>  <a href={{"".join([url_for("lineeguidacat"),"#Datazione"])}}
+          <b>Per esempio:</b> <i>Hic sunt leones</i>  <a href={{"".join([url_for("lineeguidacat"),"#Datazione"])}}
             class="alert-link">ℹ️</a>.
         </div>
       </div>
@@ -783,7 +783,7 @@ this should match `loop.index0`, and for the template it should be
           <label for="floatingInputGridDIX5">Posizione</label>
         </div>
         <div class="alert alert-info" role="alert">
-          <b>Per esempio:</b> <i>c. 8v</i>  <a href={{"".join([url_for("lineeguidacat"),"#Posizione"])}}
+          <b>Per esempio:</b> <i></i>  <a href={{"".join([url_for("lineeguidacat"),"#Posizione"])}}
             class="alert-link">ℹ️</a>.
         </div>
       </div>
