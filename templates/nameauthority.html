@@ -1,0 +1,196 @@
+<html>
+    <head>
+        <title>Inserire record name authority</title>
+
+    </head>
+
+    <body>
+        <script>
+            var getJSON = function(url, callback) {
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', url, true);
+                xhr.responseType = 'json';
+                xhr.onload = function() {
+                var status = xhr.status;
+                if (status === 200) {
+                    callback(null, xhr.response);
+                } else {
+                    callback(status, xhr.response);
+                }
+                };
+                xhr.send();
+            };
+
+            const inputHandler = function(e) {
+                term = e.target.value
+                if (term.length > 3) {
+                    url = "https://www.wikidata.org/w/api.php?action=wbsearchentities&search="+term+"&format=json&errorformat=plaintext&language=it&uselang=it&type=item&origin=*"
+                    getJSON(url,
+                    function(err, data) {
+                    if (err !== null) {
+                        alert('Something went wrong: ' + err);
+                    } else {
+                        wikilist = document.getElementById("listawikidata")
+                        wikilist.innerHTML = ""
+                        for (let index = 0; index < data.search.length; ++index) {
+                            const element = data.search[index];
+                            const node = document.createElement("li");
+                            const label = document.createTextNode(element.label+" - ");
+                            node.appendChild(label);
+                            const textnode = document.createTextNode(element.description);
+                            node.appendChild(textnode);
+                            span = document.createElement('span');
+                            span.innerHTML = '<button id="butnxx' + index +'" onclick="updatefromwikidata(\''+element.id+'\')"> ⬆️ </button>';
+                            /* btn = document.createElement("button");
+                            btn.innerHTML = "Click Me";; */
+                            node.appendChild(span);
+                            wikilist.appendChild(node);
+                        }
+                        return data;
+                        }
+                    });
+                }
+            }
+            const updatefromwikidata = function(QID) {
+                    let QIDX = QID;
+                    url = "https://www.wikidata.org/w/api.php?action=wbgetentities&ids="+QID+"&format=json&languages=it&props=labels|descriptions|claims|sitelinks/urls&origin=*"
+                    document.getElementById('wikidata').value = QID;
+                    document.getElementById('idauthority').value = QID;
+                    getJSON(url,
+                    function(err, data) {
+                    if (err !== null) {
+                        alert('Non sono riuscito a caricare i dati da wikidata ' + err);
+                    } else {
+
+                        // descrizione
+                        try {
+                            descr = data.entities[QIDX].descriptions['it']['value']
+                            desc = document.getElementById('descrizione')
+                            desc.value = descr
+                        } catch (error) {
+                            console.log(error)
+                        }
+                        // identificativo
+                        try {
+                            labelvalue = data.entities[QIDX].labels['it']['value']
+                            label = document.getElementById('identificativo')
+                            label.value = labelvalue
+                        } catch (error) {
+                            console.log(error)
+                        }
+                        // determine if is human
+                        if ("P31" in data.entities[QIDX].claims) {
+                            if (data.entities[QIDX].claims["P31"]) {
+                                array = data.entities[QIDX].claims["P31"]
+                                for (let index = 0; index < array.length; index++) {
+                                    const element = array[index];
+                                    if (element['mainsnak']['datavalue']['value']['id'] == 'Q5') {
+                                        console.log("Human")
+                                        document.getElementById('tipologia').value = 'Persona';
+                                        // determine if is date of birth P569 and death P570   
+                                        try {
+                                            birth = data.entities[QIDX].claims['P569'][0]['mainsnak']['datavalue']['value']['time']
+                                            document.getElementById('non_prima').value = birth;
+
+                                        } catch (error) {
+                                            console.log(error)
+                                        }
+                                        try {
+                                            death = data.entities[QIDX].claims['P570'][0]['mainsnak']['datavalue']['value']['time']
+                                            document.getElementById('non_dopo').value = death;
+
+                                        } catch (error) {
+                                            console.log(error)
+                                        }
+                                    }    
+                                }
+                            }
+                        // we check if it is listed as entity of  GeoName DB
+                        }else if ("P1566" in data.entities[QIDX].claims){
+                            document.getElementById('tipologia').value = 'Luogo';
+                        }
+                        console.log(data)
+
+                        // mirabile P7986
+                        try {
+                            idmirabile = data.entities[QIDX].claims['P7986'][0]['mainsnak']['datavalue']['value'];
+                            document.getElementById('mirabile').value = idmirabile;
+                        } catch (error) {
+                            console.log(error)
+                        }
+                        }
+                    });
+            }
+            document.addEventListener('DOMContentLoaded', function() {
+            const source = document.getElementById('identificativo');
+            source.addEventListener('input', inputHandler);
+            source.addEventListener('propertychange', inputHandler);
+            }, false);
+            
+
+        </script>
+        {%for i in namelist %}
+        <div>
+            <hr>
+             {{i['identificativo']}} {{i['descrizione']}}
+             <a href="https://www.wikidata.org/wiki/{{i['wikidata']}}"> {{i['wikidata']}}</a>
+             <a href="https://www.mirabileweb.it/author/-/{{i['mirabile']}}"> Mirabile ID: {{i['mirabile']}}</a>
+
+             <a href="/nameauthority?id={{i['_id']|string}}"> Modifica</a>
+             <a href="/deletename?id={{i['_id']|string}}" onclick="return confirm('Sicuri di voler eliminare la voce?')"> Elimina </a>
+        </div>
+
+        {% endfor %}
+        <hr/>
+
+        <form id="lap-form" action="" method="POST" role="form">
+            
+            <div class="form-group">
+            {{ form.csrf_token }}
+
+            <div>
+                <div>
+                    {{ form.identificativo}} {{ form.tipologia }}
+                </div>
+                <div>
+                    {{ form.idauthority.label}} {{ form.idauthority }}
+                </div>
+                <div>
+                    {{ form.descrizione.label }}
+                    {{ form.descrizione }}
+                </div>
+                <div>
+                    {{ form.altre_forme.label }}
+                    {{ form.altre_forme }}
+                </div>
+                <div>
+                    {{ form.non_prima.label }}
+                    {{ form.non_prima }}
+                </div>
+                <div>
+                    {{ form.non_dopo.label }}
+                    {{ form.non_dopo }}
+                </div>
+                <div>
+                    {{ form.wikidata.label }}
+                    {{ form.wikidata }}
+                </div>
+                <div>
+                    {{ form.mirabile.label }}
+                    {{ form.mirabile }}
+                </div>
+                <hr/>
+            </div>
+            </div>
+            <button type="submit">Salva identificatore</button>
+            <a href="/nameauthority"> Termina le modifiche e passa a nuova voce</a>
+        </form>
+
+        {% if form.errors %}
+            {{ form.errors }}
+        {% endif %}
+     <div id="listawikidata">
+
+     </div>
+    </body>
+</html>

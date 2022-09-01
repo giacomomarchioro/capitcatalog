@@ -442,7 +442,7 @@ class MainForm(FlaskForm):
     )
 
      
-    biblio_int_libri = FieldList(
+    facsimile = FieldList(
         FormField(Facsimile),
         min_entries=1,
         max_entries=200
@@ -455,27 +455,37 @@ class NewRecord(FlaskForm):
 
 
 ## FORMS for alternative identifiers
-class Identifier(Form):
+class AuthoirityRecord(FlaskForm):
     """Parent form."""
-    text = StringField("Testo",
+    idauthority = StringField("idauthority",
                         validators=[], render_kw={'class': "form-control", })
-    tipologia = SelectField(u'Tipologia', choices=[('Titolo', 'Titolo'),('Segnatura', 'Segnatura'), ('Collocazione', 'Collocazione'),('Conosciuto come', 'Conosciuto come'), ],render_kw={'class': "form-control", })
-   
-    descrizione = StringField("Descrizione",
+    identificativo = StringField("identificativo",
                         validators=[], render_kw={'class': "form-control", })
-    datazione = StringField("Datazione",
+    tipologia = SelectField(u'Tipologia', choices=[('Famiglia', 'Famiglia'),('Persona', 'Persona'), ('Ente', 'Ente'),('Luogo', 'Luogo') ],render_kw={'class': "form-control", })
+    descrizione = StringField("descrizione",
                         validators=[], render_kw={'class': "form-control", })
-    used_not_before = StringField("Utilizzata non prima:",
-                    validators=[], render_kw={'class': "form-control", })
-    used_not_after = StringField("Utilizzata non dopo:",
-                    validators=[], render_kw={'class': "form-control", })
+    altre_forme = StringField(" altre_forme",
+                        validators=[], render_kw={'class': "form-control", })
+    non_prima = StringField("non_prima",
+                        validators=[], render_kw={'class': "form-control", })
+    non_dopo = StringField("non_dopo",
+                        validators=[], render_kw={'class': "form-control", })
+    wikidata = StringField("wikidata",
+                        validators=[], render_kw={'class': "form-control", })
+    mirabile = StringField("mirabile",
+                        validators=[], render_kw={'class': "form-control", })
+    manus_CNMN = StringField("manus_CNMN",
+                        validators=[], render_kw={'class': "form-control", })
+    reicat_opacSBN = StringField("reicat_opacSBN",
+                        validators=[], render_kw={'class': "form-control", })
 
+## FORMS for alternative identifiers
 
 class altIdentifier(FlaskForm):
     """Parent form."""
     text = StringField("Testo",
                         validators=[], render_kw={'class': "form-control", })
-    tipologia = SelectField(u'Tipologia', choices=[('Titolo', 'Titolo'),('Segnatura', 'Segnatura'), ('Collocazione', 'Collocazione'),('Conosciuto come', 'Conosciuto come'), ],render_kw={'class': "form-control", })
+    tipologia = SelectField(u'Tipologia', choices=[('Titolo', 'Titolo'),('Segnatura', 'Segnatura'), ('Collocazione', 'Collocazione'),('Conosciuto come', 'Conosciuto come'),('Numero di inventario','Numero di inventario') ],render_kw={'class': "form-control", })
    
     descrizione = StringField("Descrizione",
                         validators=[], render_kw={'class': "form-control", })
@@ -486,13 +496,9 @@ class altIdentifier(FlaskForm):
     used_not_after = StringField("Utilizzata non dopo:",
                     validators=[], render_kw={'class': "form-control", })
 
-class MainIdentifiersForm(FlaskForm):
-    """Parent form."""
-    laps = FieldList(
-        FormField(Identifier),
-        min_entries=1,
-        max_entries=30
-    )
+
+## Name  Authoirity
+
 # Initialize app
 app = Flask(__name__)
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
@@ -679,7 +685,6 @@ def insertaltidentifier(segnatura):
             varx = client.capitolare.identificativi.find_one({"_id": ObjectId(el_id)})
 
     else:
-        #import pdb; pdb.set_trace()
         print("Non valido")
 
     if varx is not None:
@@ -701,6 +706,56 @@ def deletealtidentifier(segnatura):
     client.capitolare.identificativi.remove({"_id": ObjectId(el_id)})
     return redirect("/insertaltidentifier/%s" %segnatura)
 
+
+@app.route('/nameauthority', methods=['GET', 'POST'])
+def nameauthority():
+    namelist = client.capitolare.nameauthority.find()
+    form = AuthoirityRecord()
+    stato = ""
+    varx = None
+    mod = False
+    el_id = request.args.get('id',None)
+    if el_id is not None:
+        print("Modifica")
+        mod = True
+        varx = client.capitolare.nameauthority.find_one({"_id": ObjectId(el_id)})
+    if form.validate_on_submit():
+        #import pdb; pdb.set_trace()
+        notvalidchr = "~:/?#[]@!$&'()*+;="
+        if any((c in notvalidchr) for c in form.identificativo.data):
+            stato = ["alert alert-danger","I seguenti caratteri (~:/?#[]@!$&'()*+;=) non possono essere usati nell'ID"]
+            return render_template(
+                'nameauthority.html',namelist=namelist, form=form, stato=stato)
+
+    
+        data_dict = form.data
+        if 'csrf_token' in data_dict.keys():
+            del data_dict['csrf_token']
+        data_dict['created'] = datetime.datetime.utcnow()
+        data_dict['last_modified'] = datetime.datetime.utcnow()
+        data_dict['version'] = 1
+        #access_url = url_for('insertfield', segnatura=form.segnatura_idx.data)
+        stato = ["alert alert-success",
+        "Nuovo record inserito con successo! Accedilo al seguente <a href=''> link </a>linkattraverso la tabella principale"]
+    #return redirect('/success')
+        if varx is None:
+            client.capitolare.nameauthority.insert_one(data_dict)
+        else:
+            client.capitolare.nameauthority.update_one({'_id': varx['_id']},{'$set':data_dict}, upsert=False)
+            #TO DO: Avoid query
+            log = datetime.datetime.now().strftime("%H:%M:%S")
+            varx = client.capitolare.nameauthority.find_one({"_id": ObjectId(el_id)})
+    if varx is not None:
+        form.process(data=varx)
+    return render_template(
+        'nameauthority.html',namelist=namelist, form=form, stato=stato,mod=mod)
+
+@app.route('/deletename', methods=['GET', 'POST'])
+def deletename():     
+    el_id = request.args.get('id',None)
+    print("cancellato")
+    client.capitolare.nameauthority.remove({"_id": ObjectId(el_id)})
+    return redirect("/nameauthority")
 
 @app.route('/lineeguidacatalog')
 def lineeguidacat():
