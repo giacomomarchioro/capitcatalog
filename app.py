@@ -461,7 +461,7 @@ class AuthoirityRecord(FlaskForm):
                         validators=[], render_kw={'class': "form-control", })
     identificativo = StringField("identificativo",
                         validators=[], render_kw={'class': "form-control", })
-    tipologia = SelectField(u'Tipologia', choices=[('Famiglia', 'Famiglia'),('Persona', 'Persona'), ('Ente', 'Ente'),('Luogo', 'Luogo') ],render_kw={'class': "form-control", })
+    tipologia = SelectField(u'Tipologia', choices=[('Persona', 'Persona'),('Famiglia', 'Famiglia'), ('Ente', 'Ente'),('Luogo', 'Luogo') ],render_kw={'class': "form-control", })
     descrizione = StringField("descrizione",
                         validators=[], render_kw={'class': "form-control", })
     altre_forme = StringField(" altre_forme",
@@ -474,7 +474,7 @@ class AuthoirityRecord(FlaskForm):
                         validators=[], render_kw={'class': "form-control", })
     mirabile = StringField("mirabile",
                         validators=[], render_kw={'class': "form-control", })
-    manus_CNMN = StringField("manus_CNMN",
+    SBN_author = StringField("SBN_author",
                         validators=[], render_kw={'class': "form-control", })
     reicat_opacSBN = StringField("reicat_opacSBN",
                         validators=[], render_kw={'class': "form-control", })
@@ -739,6 +739,13 @@ def nameauthority():
         "Nuovo record inserito con successo! Accedilo al seguente <a href=''> link </a>linkattraverso la tabella principale"]
     #return redirect('/success')
         if varx is None:
+            if data_dict['idauthority'] == "":
+                ids = client.capitolare.nameauthority.distinct('idauthority')
+                newid = 0
+                while "L"+str(newid).zfill(5)  in ids:
+                    newid +=1
+                data_dict['idauthority'] = "L"+str(newid).zfill(5)
+
             client.capitolare.nameauthority.insert_one(data_dict)
         else:
             client.capitolare.nameauthority.update_one({'_id': varx['_id']},{'$set':data_dict}, upsert=False)
@@ -747,8 +754,13 @@ def nameauthority():
             varx = client.capitolare.nameauthority.find_one({"_id": ObjectId(el_id)})
     if varx is not None:
         form.process(data=varx)
+
+    emojidict  = {  "Ente":"🏛️",
+                     "Persona":"👤",
+                     "Famiglia":"👥",
+                     "Luogo":"🗺️"}
     return render_template(
-        'nameauthority.html',namelist=namelist, form=form, stato=stato,mod=mod)
+        'nameauthority.html',namelist=namelist, form=form, stato=stato,mod=mod,emojidict=emojidict)
 
 @app.route('/deletename', methods=['GET', 'POST'])
 def deletename():     
