@@ -18,7 +18,7 @@ this should match `loop.index0`, and for the template it should be
     <h5 id="descrizione_esterna-{{ index }}-formH" class="text-center">1</h5>
     <div class="row g-2">
 
-      <div class="col-lg-3">
+      <div class="col-lg-2">
         <div class="form-floating">
           {{subform.Segnatura}}
           <label for="floatingInputGrid0">Segnatura</label>
@@ -29,10 +29,10 @@ this should match `loop.index0`, and for the template it should be
             title="La segnatura rappresenta il un identificativo univocod del codice in questo catalogo viene mantenuta la segnatura moderna e tra parentesi tonde quella antica.">ℹ️</a>.
         </div>
       </div>
-      <div class="col-lg-3">
+      <div class="col-lg-2">
         <div class="form-floating">
-          {{subform.rilegatura}}
-          <label for="floatingInputGrid0">Rilegatura</label>
+          {{subform.tipologia}}
+          <label for="floatingInputGrid0">Tipologia</label>
         </div>
         <div class="alert alert-info " role="alert">
           <b>Selezionare la rilegatura</b>  <a href={{"".join([url_for("lineeguidacat"),"#Segnatura"])}}
@@ -40,10 +40,21 @@ this should match `loop.index0`, and for the template it should be
             title="La segnatura rappresenta il un identificativo univocod del codice in questo catalogo viene mantenuta la segnatura moderna e tra parentesi tonde quella antica.">ℹ️</a>.
         </div>
       </div>
-      <div class="col-lg-3">
+      <div class="col-lg-2">
         <div class="form-floating">
-          {{subform.scriptio}}
-          <label for="floatingInputGrid1">Scriptio</label>
+          {{subform.caratteri_utilizzati}}
+          <label for="floatingInputGrid0">Caratteri Utilizzati</label>
+        </div>
+        <div class="alert alert-info " role="alert">
+          <b>Selezionare la rilegatura</b>  <a href={{"".join([url_for("lineeguidacat"),"#Segnatura"])}}
+            class="alert-link"
+            title="La segnatura rappresenta il un identificativo univocod del codice in questo catalogo viene mantenuta la segnatura moderna e tra parentesi tonde quella antica.">ℹ️</a>.
+        </div>
+      </div>
+      <div class="col-lg-2">
+        <div class="form-floating">
+          {{subform.forma}}
+          <label for="floatingInputGrid1">Forma</label>
         </div>
         <div class="alert alert-info " role="alert">
           <b>Se si tratta di palinsesto usare inferior:</b>  <a
@@ -51,7 +62,7 @@ this should match `loop.index0`, and for the template it should be
         </div>
       </div>
 
-      <div class="col-lg-3">
+      <div class="col-lg-2">
         <div class="form-floating">
           {{subform.Descrizione_Esterna_Segnatura}}
           <label for="floatingInputGrid13">ID Unità codicologica</label>
@@ -346,8 +357,6 @@ this should match `loop.index0`, and for the template it should be
         </div>
       </div>
     </div>
-
-
     <div class="row g-2">
 
       <div class="col-md">
@@ -359,6 +368,22 @@ this should match `loop.index0`, and for the template it should be
           <b>Per esempio:</b> <i>Iniziali miniate, disegni a penna</i>  <a
             href={{"".join([url_for("lineeguidacat"),"#utenti_email"])}} class="alert-link"
             title="voluptate velit esse cillum dolore eu fugiat nulla pariatur cillum dolore eu fugiat nulla pariatur cillum dolore eu fugiat nulla pariatur cillum dolore eu fugiat nulla pariatur.">ℹ️</a>.
+        </div>
+      </div>
+
+
+    </div>
+    <div class="row g-2">
+
+      <div class="col-md">
+        <div class="form-floating">
+          {{subform.note}}
+          <label for="floatingInputGrid12">Note:</label>
+        </div>
+        <div class="alert alert-info " role="alert">
+          <b>Per esempio:</b> <i>Posizione</i>  <a
+            href={{"".join([url_for("lineeguidacat"),"#utenti_email"])}} class="alert-link"
+            >ℹ️</a>.
         </div>
       </div>
 

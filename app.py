@@ -291,9 +291,13 @@ class DescEst(Form):
     Segnatura = StringField("Segnatura",
                             validators=[], render_kw={'class': "form-control", }
                             )
-    scriptio = SelectField(u"Scriptio", choices=[('superior', 'superior'),('inferior', 'inferior') ],render_kw={'class': "form-control", })
+    #scriptio = SelectField(u"Scriptio", choices=[('superior', 'superior'),('inferior', 'inferior') ],render_kw={'class': "form-control", })
 
-    rilegatura = SelectField(u"Rilegatura", choices=[('rilegato', 'rilegato'),('fascicoli', 'fascicoli'),('fogli sciolti', 'fogli sciolti') ],render_kw={'class': "form-control", })
+    tipologia = SelectField(u"Tipologia", choices=[('Unità codicologica', 'Unità codicologica'),('Unità palinsesto', 'Unità palinsesto'),('Frammento manoscritto', 'Frammento manoscritto'),('Frammento a stampa', 'Frammento a stampa') ],render_kw={'class': "form-control", })
+
+    caratteri_utilizzati = SelectMultipleField(u"Caratteri utilizzati", choices=[('Alfabeto greco', 'Alfabeto greco'),('Alfabeto latino', 'Alfabeto latino'),('Notazione musicale', 'Notazione musicale')],render_kw={'class': "form-control", })
+
+    forma = SelectField(u"Forma", choices=[('rilegato', 'rilegato'),('fascicoli', 'fascicoli'),('fogli sciolti', 'fogli sciolti'),('rotolo', 'rotolo') ],render_kw={'class': "form-control", })
 
     datazione = StringField("Datazione",
                             validators=[], render_kw={'class': "form-control", }
@@ -373,6 +377,9 @@ class DescEst(Form):
                          'required pattern':"^https:\/\/orcid\.org\/.*"
                                         }
                          )
+    note =  TextAreaField("Note:",
+                            validators=[], render_kw={'class': "form-control",'rows':"4" }
+                            )
     
 
 class MainForm(FlaskForm):
