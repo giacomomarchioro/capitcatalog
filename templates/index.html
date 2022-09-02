@@ -245,6 +245,16 @@
             adjustIndices(-1,"subform5");
             // yourFunction(param1, param2);
         };
+
+        function VaiAlForm(elem){
+            segnatura = "{{segnatura}}"
+            id_componente = elem.parentElement.parentElement.getElementsByClassName('id-componente')[0].value.replace(".","-")
+            id_textual_unit = elem.parentElement.parentElement.getElementsByClassName('id-textual-unit')[0].value.replace(".","-")
+            locus = elem.parentElement.parentElement.getElementsByClassName('locus')[0].value.replace(".","-")
+            lastpart = id_textual_unit +"?locus="+locus
+            url = [segnatura,id_componente,lastpart,].join("/")
+            alert(url)
+        };
     </script>
 
     <style>

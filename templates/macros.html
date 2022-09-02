@@ -403,6 +403,69 @@ this should match `loop.index0`, and for the template it should be
 
   <div>
     <h5 id="descrizione_interna-{{ index }}-formH" class="text-center">1</h5>
+
+    <div class="row g-2">
+
+      <div class="col-lg-2">
+        <div class="form-floating">
+          {{subform.carte}}
+          <label for="floatingInputGridDI5">Locus</label>
+        </div>
+        <div class="alert alert-info" role="alert">
+          <b>Per esempio:</b> <i>1r-251v</i>  <a href={{"".join([url_for("lineeguidacat"),"#carte"])}}
+            class="alert-link">ℹ️</a>.
+        </div>
+      </div>
+
+
+      <div class="col-lg-2">
+        <div class="form-floating">
+          {{subform.Descrizione_interna_id}}
+          <label for="floatingInputGridDI8">Descrizione interna ID</label>
+        </div>
+        {% for field, errors in subform.errors.items() %}
+        <div class="alert alert-danger" role="alert">
+          {{ ', '.join(errors) }}
+        </div>
+        {% endfor %}
+        <div class="alert alert-info" role="alert">
+          <b>Per esempio:</b> <i>None</i>  <a
+            href={{"".join([url_for("lineeguidacat"),"#Descrizione_interna_id"])}} class="alert-link">ℹ️</a>.
+        </div>
+      </div>
+
+
+      <div class="col-lg-3">
+        <div class="form-floating">
+          {{subform.Descrizione_Esterna_Segnatura}}
+          <label for="floatingInputGridDI7">ID componente.</label>
+        </div>
+        <div class="alert alert-info" role="alert">
+          Selezionare dalla tendina.  <a
+            href={{"".join([url_for("lineeguidacat"),"#Descrizione_Esterna_Segnatura"])}} class="alert-link">ℹ️</a>.
+        </div>
+      </div>
+
+      <div class="col-lg-3">
+        <div class="form-floating">
+          {{subform.tipologia_di_testo}}
+          <label for="floatingInputGridDI7">Tipologia di testo:</label>
+        </div>
+        <div class="alert alert-info" role="alert">
+          Selezionare dalla tendina.  <a
+            href={{"".join([url_for("lineeguidacat"),"#Descrizione_Esterna_Segnatura"])}} class="alert-link">ℹ️</a>.
+        </div>
+      </div>
+
+      <div class="col-lg-2">
+        <button type="button" class="btn btn-primary" onclick="VaiAlForm(this)">Aggiungi responsabilità</button>
+      <div class="alert alert-info" role="alert">
+        <b>Per esempio:</b> <i>102</i>  <a href={{"".join([url_for("lineeguidacat"),"#id"])}}
+          class="alert-link">ℹ️</a>.
+      </div>
+      </div>
+    </div>
+
     <div class="row g-2">
 
       <div class="col-lg-2">
@@ -436,41 +499,22 @@ this should match `loop.index0`, and for the template it should be
             class="alert-link">ℹ️</a>.
         </div>
       </div>
+
       <div class="col-lg-2">
         <div class="form-floating">
-          {{subform.carte}}
-          <label for="floatingInputGridDI5">Locus</label>
+          {{subform.lingua}}
+          <label for="floatingInputGridDI2">Lingua:</label>
         </div>
         <div class="alert alert-info" role="alert">
-          <b>Per esempio:</b> <i>1r-251v</i>  <a href={{"".join([url_for("lineeguidacat"),"#carte"])}}
+          <b>Selezionare la lingua prevalente del testo</b>  <a href={{"".join([url_for("lineeguidacat"),"#titolo"])}}
             class="alert-link">ℹ️</a>.
         </div>
       </div>
+
+
     </div>
 
     <div class="row g-2">
-      <div class="col-lg-3">
-        <div class="form-floating">
-          {{subform.Descrizione_Esterna_Segnatura}}
-          <label for="floatingInputGridDI7">ID componente.</label>
-        </div>
-        <div class="alert alert-info" role="alert">
-          Selezionare dalla tendina.  <a
-            href={{"".join([url_for("lineeguidacat"),"#Descrizione_Esterna_Segnatura"])}} class="alert-link">ℹ️</a>.
-        </div>
-      </div>
-
-      <div class="col-lg-3">
-        <div class="form-floating">
-          {{subform.tipologia_di_testo}}
-          <label for="floatingInputGridDI7">Tipologia di testo:</label>
-        </div>
-        <div class="alert alert-info" role="alert">
-          Selezionare dalla tendina.  <a
-            href={{"".join([url_for("lineeguidacat"),"#Descrizione_Esterna_Segnatura"])}} class="alert-link">ℹ️</a>.
-        </div>
-      </div>
-
       <div class="col-lg-6">
         <div class="form-floating">
           {{subform.rubrica}}
@@ -482,12 +526,7 @@ this should match `loop.index0`, and for the template it should be
         </div>
       </div>
 
-
-    </div>
-
-
-    <div class="row g-2">
-      <div class="col-md">
+      <div class="col-lg-6">
         <div class="form-floating">
           {{subform.incipit}}
           <label for="floatingInputGridDI3">Incipit</label>
@@ -497,17 +536,7 @@ this should match `loop.index0`, and for the template it should be
             class="alert-link">ℹ️</a>.
         </div>
       </div>
-      <div class="col-md">
-        <div class="form-floating">
-          {{subform.incipit_url}}
-          <label for="floatingInputGridDI9">Incipit URL</label>
-        </div>
-        <div class="alert alert-info" role="alert">
-          <b>Per esempio:</b>
-          <i>http://lezioni.meneghetti.univr.it/UVjs/?manifest=http://lezioni.meneghetti.univr.it//manifests/b698a7d2668205fbe7cd023e0ded1784.json&indx=12</i>
-           <a href={{"".join([url_for("lineeguidacat"),"#incipit_url"])}} class="alert-link">ℹ️</a>.
-        </div>
-      </div>
+   
     </div>
 
     <div class="row g-2">
@@ -525,34 +554,19 @@ this should match `loop.index0`, and for the template it should be
 
       <div class="col-md">
         <div class="form-floating">
-          {{subform.lingua}}
-          <label for="floatingInputGridDI2">Lingua:</label>
+          {{subform.incipit_url}}
+          <label for="floatingInputGridDI9">Incipit URL</label>
         </div>
         <div class="alert alert-info" role="alert">
-          <b>Selezionare la lingua prevalente del testo</b>  <a href={{"".join([url_for("lineeguidacat"),"#titolo"])}}
-            class="alert-link">ℹ️</a>.
+          <b>Per esempio:</b>
+          <i>http://lezioni.meneghetti.univr.it/UVjs/?manifest=http://lezioni.meneghetti.univr.it//manifests/b698a7d2668205fbe7cd023e0ded1784.json&indx=12</i>
+           <a href={{"".join([url_for("lineeguidacat"),"#incipit_url"])}} class="alert-link">ℹ️</a>.
         </div>
       </div>
+
     </div>
 
-
     <div class="row g-2">
-
-      <div class="col-lg-3">
-        <div class="form-floating">
-          {{subform.Descrizione_interna_id}}
-          <label for="floatingInputGridDI8">Descrizione interna ID</label>
-        </div>
-        {% for field, errors in subform.errors.items() %}
-        <div class="alert alert-danger" role="alert">
-          {{ ', '.join(errors) }}
-        </div>
-        {% endfor %}
-        <div class="alert alert-info" role="alert">
-          <b>Per esempio:</b> <i>None</i>  <a
-            href={{"".join([url_for("lineeguidacat"),"#Descrizione_interna_id"])}} class="alert-link">ℹ️</a>.
-        </div>
-      </div>
 
       <div class="col-lg-3">
         <div class="form-floating">
@@ -582,8 +596,11 @@ this should match `loop.index0`, and for the template it should be
             <b>Per esempio:</b> <i>102</i>  <a href={{"".join([url_for("lineeguidacat"),"#id"])}}
               class="alert-link">ℹ️</a>.
        </div>
+
+
       </div>
       
+
       
     </div>
     <div class="row g-2">
