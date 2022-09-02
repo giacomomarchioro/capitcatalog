@@ -259,7 +259,7 @@ class DescInt(Form):
 
     descid = StringField("ID descrizione interna padre",
                          #validators=[Regexp('^[1-9]\d*(\.[1-9]\d*)*$',message='ID non valido')],
-                         render_kw={'class': "form-control",
+                         render_kw={'class': "form-control id-father-unit",
                          'required pattern':"^[1-9]\d*(\.[1-9]\d*)*$"
                                         }
                          )
@@ -273,7 +273,7 @@ class DescInt(Form):
                             render_kw={'class': "form-control", }
                            )
     carte = StringField("Carte",
-                        validators=[], render_kw={'class': "form-control", }
+                        validators=[], render_kw={'class': "form-control locus", }
                         )
     rubrica = StringField("Rubrica",
                           render_kw={'class': "form-control", }
@@ -286,11 +286,11 @@ class DescInt(Form):
 
     mutilo = BooleanField(u'Tipologia di testo:')
 
-    Descrizione_Esterna_Segnatura = SelectField(u'ID_descrizione_esterna', choices=[('Non assegnato', 'Non assegnato')],validate_choice=False,render_kw={'class': "form-control", })
+    Descrizione_Esterna_Segnatura = SelectField(u'ID_descrizione_esterna', choices=[('Non assegnato', 'Non assegnato')],validate_choice=False,render_kw={'class': "form-control id-componente", })
     
     Descrizione_interna_id = StringField("Descrizione interna ID",
                                         #validators=[Regexp('^[1-9]\d*(\.[1-9]\d*)*$',message='ID non valido')],
-                                        render_kw={'class': "form-control",
+                                        render_kw={'class': "form-control id-textual-unit",
                                         'required pattern':"^[1-9]\d*(\.[1-9]\d*)*$"
                                         }
                                          )
@@ -469,7 +469,7 @@ class NewRecord(FlaskForm):
 
 
 
-## FORMS for alternative identifiers
+## FORMS authority records
 class AuthoirityRecord(FlaskForm):
     """Parent form."""
     idauthority = StringField("idauthority",
@@ -495,7 +495,6 @@ class AuthoirityRecord(FlaskForm):
                         validators=[], render_kw={'class': "form-control", })
 
 ## FORMS for alternative identifiers
-
 class altIdentifier(FlaskForm):
     """Parent form."""
     text = StringField("Testo",
@@ -510,6 +509,13 @@ class altIdentifier(FlaskForm):
                     validators=[], render_kw={'class': "form-control", })
     used_not_after = StringField("Utilizzata non dopo:",
                     validators=[], render_kw={'class': "form-control", })
+
+## FORMS for alternative identifiers
+class TagTesto(FlaskForm):
+    """Parent form."""
+    autore_mittente = StringField("Autore o mittente:",
+                        validators=[])
+  
 
 
 ## Name  Authoirity
@@ -791,6 +797,18 @@ def lineeguidacat():
     return render_template(
         'lineeguidacatalog.html'
     )
+
+@app.route('/tagtesto', methods=['GET', 'POST'])
+def tagtesto():
+    form = TagTesto()
+    stato = ""
+    varx = None
+    mod = False
+    el_id = request.args.get('id',None)
+   
+    if form.validate_on_submit():
+        print(form.data)
+    return render_template('tagtesto.html',form=form)
 
 @app.route('/test')
 def test():
