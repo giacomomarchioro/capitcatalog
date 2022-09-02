@@ -5,7 +5,7 @@ from flask import Flask, render_template,url_for, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import FlaskForm
 from wtforms import Form, FieldList, FormField, SelectMultipleField, SelectField, \
-    StringField, TextAreaField, SubmitField
+    StringField, TextAreaField, SubmitField,BooleanField
 from wtforms import validators
 from pymongo import MongoClient
 from wtforms.validators import DataRequired,Regexp
@@ -278,6 +278,14 @@ class DescInt(Form):
     rubrica = StringField("Rubrica",
                           render_kw={'class': "form-control", }
                           )
+    tipologia_di_titolo = SelectField(u'Tipologia di testo:', choices=[('Titolo esplicito', 'Titolo esplicito'),('Titolo dedotto', 'Titolo dedotto'),('Titolo aggiunto', 'Titolo aggiunto')],validate_choice=False,render_kw={'class': "form-control", })
+    
+    tipologia_di_testo = SelectField(u'Tipologia di testo:', choices=[('testo', 'testo'),('proemio/introduzione', 'proemio/introduzione'),('dedica', 'dedica'),('commento', 'commento'),('prologo/conclusione', 'prologo/conclusione'),('sommario', 'sommario')],validate_choice=False,render_kw={'class': "form-control", })
+
+    acefalo = BooleanField(u'Acefalo:')
+
+    mutilo = BooleanField(u'Tipologia di testo:')
+
     Descrizione_Esterna_Segnatura = SelectField(u'ID_descrizione_esterna', choices=[('Non assegnato', 'Non assegnato')],validate_choice=False,render_kw={'class': "form-control", })
     
     Descrizione_interna_id = StringField("Descrizione interna ID",
