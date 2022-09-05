@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # app.py
 
-from flask import Flask, render_template,url_for, request, redirect
+from flask import Flask, render_template,url_for, request, redirect,jsonify 
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import FlaskForm
 from wtforms import Form, FieldList, FormField, SelectMultipleField, SelectField, \
@@ -13,10 +13,13 @@ from databasecredential import connectionstring
 from werkzeug.datastructures import MultiDict
 import json
 import datetime
+import ast
 from bson.objectid import ObjectId
 from converter import convertdate
 # pprint library is used to make the output look more pretty
 from pprint import pprint
+import re
+
 # connect to MongoDB, change the << MONGODB URL >> to reflect your own connection string
 client = MongoClient(connectionstring)
 #db=client.admin
@@ -512,10 +515,25 @@ class altIdentifier(FlaskForm):
 
 ## FORMS for alternative identifiers
 class TagTesto(FlaskForm):
-    """Parent form."""
+    """Parent form.""" 
     autore_mittente = StringField("Autore o mittente:",
                         validators=[])
-  
+    commentatore = StringField("Commentatore:",
+                        validators=[])
+    dedicatario = StringField("Dedicatario:",
+                        validators=[]),
+    destinatario = StringField("Destinatario:",
+                        validators=[]),
+    epitomatore = StringField("Epitomatore:",
+                        validators=[]),
+    glossatore = StringField("Glossatore:",
+                        validators=[]),
+    traduttore_adattatore = StringField("Traduttore Adattatore:",
+                        validators=[]),
+    copista = StringField("Copista:",
+                        validators=[]),
+    bibliografia = StringField("Bibliografia:",
+                        validators=[]),
 
 
 ## Name  Authoirity
@@ -736,6 +754,10 @@ def nameauthority():
     varx = None
     mod = False
     el_id = request.args.get('id',None)
+    emojidict  = {  "Ente":"🏛️",
+                    "Persona":"👤",
+                    "Famiglia":"👥",
+                    "Luogo":"🗺️"}
     if el_id is not None:
         print("Modifica")
         mod = True
@@ -743,10 +765,10 @@ def nameauthority():
     if form.validate_on_submit():
         #import pdb; pdb.set_trace()
         notvalidchr = "~:/?#[]@!$&'()*+;="
-        if any((c in notvalidchr) for c in form.identificativo.data):
-            stato = ["alert alert-danger","I seguenti caratteri (~:/?#[]@!$&'()*+;=) non possono essere usati nell'ID"]
-            return render_template(
-                'nameauthority.html',namelist=namelist, form=form, stato=stato)
+        #if any((c in notvalidchr) for c in form.identificativo.data):
+        #    stato = ["alert alert-danger","I seguenti caratteri (~:/?#[]@!$&'()*+;=) non possono essere usati nell'ID"]
+        #    return render_template(
+        #        'nameauthority.html',namelist=namelist, form=form, stato=stato,mod=mod,emojidict=emojidict)
 
     
         data_dict = form.data
@@ -776,10 +798,7 @@ def nameauthority():
     if varx is not None:
         form.process(data=varx)
 
-    emojidict  = {  "Ente":"🏛️",
-                     "Persona":"👤",
-                     "Famiglia":"👥",
-                     "Luogo":"🗺️"}
+  
     return render_template(
         'nameauthority.html',namelist=namelist, form=form, stato=stato,mod=mod,emojidict=emojidict)
 
@@ -798,6 +817,28 @@ def lineeguidacat():
         'lineeguidacatalog.html'
     )
 
+@app.route('/cercapersona/<jsonformat>/')
+def cercapersona(jsonformat):
+    q = request.args.get('q',None)
+    regx = re.compile(q, re.IGNORECASE)
+    query = {"$and" : [{"tipologia":"Persona"},
+                    {"$or":[{"identificativo": regx},
+                            {"altre_forme": regx}]}]}
+    persone = client.capitolare.nameauthority.find(query)
+    datadict = dict()
+    datadict['results'] = []
+    if jsonformat == "keyvalue":
+        for persona in persone: 
+            dataentity = dict()
+            dataentity['value'] = persona['identificativo']
+            dataentity['key'] = persona['idauthority']
+            datadict['results'].append(dataentity)
+
+    response = jsonify(datadict)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+
 @app.route('/tagtesto', methods=['GET', 'POST'])
 def tagtesto():
     form = TagTesto()
@@ -805,9 +846,10 @@ def tagtesto():
     varx = None
     mod = False
     el_id = request.args.get('id',None)
-   
+    ast.literal_eval("{'muffin' : 'lolz', 'foo' : 'kitty'}")
     if form.validate_on_submit():
         print(form.data)
+    breakpoint()
     return render_template('tagtesto.html',form=form)
 
 @app.route('/test')
@@ -819,4 +861,5 @@ def iiifjcrop():
     return render_template('microvisualizzatoremanifest.html')
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
+
