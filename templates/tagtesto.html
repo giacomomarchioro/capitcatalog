@@ -63,7 +63,8 @@ window.onload = function (){
 
       // show loading animation and hide the suggestions dropdown
       tagifyobj.loading(true).dropdown.hide()
-        fetch('http://127.0.0.1:5000/cercapersona/keyvalue/?q=' + value, {signal:controller.signal})
+        // fetch('http://127.0.0.1:5000/cercapersona/keyvalue/?q=' + value, {signal:controller.signal})
+        fetch("{{url_for('cercapersona', jsonformat='keyvalue',q='')}}" + value, {signal:controller.signal})
           .then(RES => RES.json())
           .then(function(newWhitelist){
             //output = newWhitelist.map(e => ({["value"]:e.data.title,["key"]:e.key}));
