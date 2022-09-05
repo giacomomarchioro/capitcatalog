@@ -516,24 +516,15 @@ class altIdentifier(FlaskForm):
 ## FORMS for alternative identifiers
 class TagTesto(FlaskForm):
     """Parent form.""" 
-    autore_mittente = StringField("Autore o mittente:",
-                        validators=[])
-    commentatore = StringField("Commentatore:",
-                        validators=[])
-    dedicatario = StringField("Dedicatario:",
-                        validators=[]),
-    destinatario = StringField("Destinatario:",
-                        validators=[]),
-    epitomatore = StringField("Epitomatore:",
-                        validators=[]),
-    glossatore = StringField("Glossatore:",
-                        validators=[]),
-    traduttore_adattatore = StringField("Traduttore Adattatore:",
-                        validators=[]),
-    copista = StringField("Copista:",
-                        validators=[]),
-    bibliografia = StringField("Bibliografia:",
-                        validators=[]),
+    autore_mittente = StringField("Autore o mittente:",validators=[])
+    commentatore = StringField("Commentatore:",validators=[])
+    dedicatario = StringField("Dedicatario:",validators=[])
+    destinatario = StringField("Destinatario:",validators=[])
+    epitomatore = StringField("Epitomatore:",validators=[])
+    glossatore = StringField("Glossatore:",validators=[])
+    traduttore_adattatore = StringField("Traduttore Adattatore:",validators=[])
+    copista = StringField("Copista:",validators=[])
+    bibliografia = StringField("Bibliografia:",validators=[])
 
 
 ## Name  Authoirity
@@ -645,20 +636,6 @@ def insertfield(segnatura):
             #TO DO: Avoid query
             log = datetime.datetime.now().strftime("%H:%M:%S")
             varx = client.capitolare.codici.find_one({'segnatura_idx': segnatura})
-
-    else:
-
-        #db.session.add(new_race)
-
-        # for lap in form.laps.data:
-        #    new_lap = Lap(**lap)
-
-        # Add to race
-        #    new_race.laps.append(new_lap)
-
-        # db.session.commit()
-        #import pdb; pdb.set_trace()
-        print("Non valido")
 
     if varx is not None:
         #import pdb; pdb.set_trace()
@@ -839,17 +816,56 @@ def cercapersona(jsonformat):
     return response
 
 
-@app.route('/tagtesto', methods=['GET', 'POST'])
-def tagtesto():
+@app.route('/tagtesto/<segnatura>/<componente>/<idint>', methods=['GET', 'POST'])
+def tagtesto(segnatura,componente,idint):
+    # http://localhost:5000/tagtesto/mtesto/test/1-2?l=2r-57v
+
     form = TagTesto()
+    l = request.args.get('l',None)
     stato = ""
-    varx = None
+    query = { "$and" : [ {"segnatura":segnatura},{"componente":componente},{"idint":idint}]}
+    varx = client.capitolare.riferimenti.find_one(query)
     mod = False
     el_id = request.args.get('id',None)
-    ast.literal_eval("{'muffin' : 'lolz', 'foo' : 'kitty'}")
+    def parseresult(field):
+        ids = []
+        string = form.data[field]
+        if string != "":
+            data = ast.literal_eval(string)
+            for i in data:
+                key = i['key']
+                if "?" in i['value']:
+                    key += "?"
+                ids.append(key)
+        return ids
+
     if form.validate_on_submit():
-        print(form.data)
-    breakpoint()
+        data_dict = form.data
+        data_dict['segnatura'] = segnatura
+        data_dict['componente'] = componente
+        data_dict['idint'] = idint
+        data_dict['locus'] = l
+        data_dict['autore_mittente_ids'] = parseresult('autore_mittente')
+        data_dict['commentatore_ids'] = parseresult('commentatore')
+        data_dict['dedicatario_ids'] = parseresult('dedicatario')
+        data_dict['destinatario_ids'] = parseresult('destinatario')
+        data_dict['epitomatore_ids'] = parseresult('epitomatore')
+        data_dict['glossatore_ids'] = parseresult('glossatore')
+        data_dict['traduttore_adattatore_ids'] = parseresult('traduttore_adattatore')
+        data_dict['copista_ids'] = parseresult('copista')
+        if 'csrf_token' in data_dict.keys():
+            del data_dict['csrf_token']
+        if varx is None:
+            client.capitolare.riferimenti.insert_one(data_dict)
+            varx = client.capitolare.riferimenti.find_one(query)
+        else:
+            client.capitolare.riferimenti.update_one({'_id': varx['_id']},{'$set':data_dict}, upsert=False)
+            #TO DO: Avoid query
+            log = datetime.datetime.now().strftime("%H:%M:%S")
+            varx = client.capitolare.riferimenti.find_one(query)
+    #breakpoint()
+    if varx is not None:
+        form.process(data=varx)
     return render_template('tagtesto.html',form=form)
 
 @app.route('/test')
