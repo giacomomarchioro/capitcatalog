@@ -42,11 +42,16 @@
                             <tr id="{{ row["segnatura_idx"] }}">
                                 <!--special characters and spaces not allowed in data-field name-->
                                 <td>{{ row["segnatura_idx"] }}</td>
+                                {% if 'descrizione_esterna'in row %}
                                 <td>{{ row['descrizione_esterna'][0]['Segnatura'] }}</td>
+                                <td>{{ row["descrizione_esterna"][0]["utenti_email"] }}</td>
+                                {% else %}
+                                <td>n.d.</td>
+                                <td>n.d.</td>
+                                {% endif %}
                                 <td>{{ row["version"] }}</td>
                                 <td>{{ row["last_modified"].strftime("%Y-%m-%d %H:%M:%S") }}</td>
                                 <td>{{ row["status"] }}</td>
-                                <td>{{ row["descrizione_esterna"][0]["utenti_email"] }}</td>
                                 <td>{{ url_for('insertfield', segnatura=row["segnatura_idx"]) }}</td>
                             </tr>
                             {% endfor %}
