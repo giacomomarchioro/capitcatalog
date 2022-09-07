@@ -586,14 +586,15 @@ def insertfield(segnatura):
     template_form3 = AnnotazioniMarg(prefix='annotazioni_marginali-_-')
     template_form4 = Storia_del_manoscritto(prefix='storia_del_manoscritto-_-')
     if varx is not None:
-        descrizioni_esterne_id = [(i['Descrizione_Esterna_Segnatura'],i['Descrizione_Esterna_Segnatura']) for i in varx['descrizione_esterna']]
-        descrizioni_esterne_id =  list(reversed(descrizioni_esterne_id))
-        descrizioni_esterne_id2 = descrizioni_esterne_id + [('altro','altro')]
-        if descrizioni_esterne_id[0] != ("",""): 
-            template_form.Descrizione_Esterna_Segnatura.choices = descrizioni_esterne_id
-            template_form2.Descrizione_Esterna_Segnatura.choices = descrizioni_esterne_id
-            template_form3.Descrizione_Esterna_Segnatura.choices = descrizioni_esterne_id
-            template_form4.Descrizione_Esterna_Segnatura.choices = descrizioni_esterne_id2
+        if varx['status'] != 'appena creato':
+            descrizioni_esterne_id = [(i['Descrizione_Esterna_Segnatura'],i['Descrizione_Esterna_Segnatura']) for i in varx['descrizione_esterna']]
+            descrizioni_esterne_id =  list(reversed(descrizioni_esterne_id))
+            descrizioni_esterne_id2 = descrizioni_esterne_id + [('altro','altro')]
+            if descrizioni_esterne_id[0] != ("",""): 
+                template_form.Descrizione_Esterna_Segnatura.choices = descrizioni_esterne_id
+                template_form2.Descrizione_Esterna_Segnatura.choices = descrizioni_esterne_id
+                template_form3.Descrizione_Esterna_Segnatura.choices = descrizioni_esterne_id
+                template_form4.Descrizione_Esterna_Segnatura.choices = descrizioni_esterne_id2
 
 
     template_form5 = Facsimile(prefix='biblio_int_libri-_-')
@@ -640,17 +641,18 @@ def insertfield(segnatura):
 
     if varx is not None:
         #import pdb; pdb.set_trace()
-        form.process(data=varx)
-        # we dynamically add the choices
-        if descrizioni_esterne_id[0] != ("",""): 
-            for sm in form.storia_del_manoscritto:
-                sm.Descrizione_Esterna_Segnatura.choices = descrizioni_esterne_id2
-            for am in form.annotazioni_marginali:
-                am.Descrizione_Esterna_Segnatura.choices = descrizioni_esterne_id
-            for cp in form.copisti:
-                cp.Descrizione_Esterna_Segnatura.choices = descrizioni_esterne_id
-            for di in form.descrizione_interna:
-                di.Descrizione_Esterna_Segnatura.choices = descrizioni_esterne_id
+        if varx['status'] != 'appena creato':
+            form.process(data=varx)
+            # we dynamically add the choices
+            if descrizioni_esterne_id[0] != ("",""): 
+                for sm in form.storia_del_manoscritto:
+                    sm.Descrizione_Esterna_Segnatura.choices = descrizioni_esterne_id2
+                for am in form.annotazioni_marginali:
+                    am.Descrizione_Esterna_Segnatura.choices = descrizioni_esterne_id
+                for cp in form.copisti:
+                    cp.Descrizione_Esterna_Segnatura.choices = descrizioni_esterne_id
+                for di in form.descrizione_interna:
+                    di.Descrizione_Esterna_Segnatura.choices = descrizioni_esterne_id
 
         #import pdb; pdb.set_trace()
     return render_template(
