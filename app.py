@@ -283,7 +283,7 @@ class DescInt(Form):
     rubrica = StringField("Rubrica",
                           render_kw={'class': "form-control", }
                           )
-    tipologia_di_titolo = SelectField(u'Tipologia di testo:', choices=[('Titolo esplicito', 'Titolo esplicito'),('Titolo dedotto', 'Titolo dedotto'),('Titolo aggiunto', 'Titolo aggiunto')],validate_choice=False,render_kw={'class': "form-control", })
+    tipologia_di_titolo = SelectField(u'Tipologia di testo:', choices=[('Presente originale', 'Presente originale'),('Presente non-originale', 'Presente non-originale'),('Dedotto dal catalogatore', 'Dedotto dal catalogatore'),('Aggiunto dal catalogatore', 'Aggiunto dal catalogatore')],validate_choice=False,render_kw={'class': "form-control", })
     
     tipologia_di_testo = SelectField(u'Tipologia di testo:', choices=[('testo', 'testo'),('proemio/introduzione', 'proemio/introduzione'),('dedica', 'dedica'),('commento', 'commento'),('prologo/conclusione', 'prologo/conclusione'),('sommario', 'sommario')],validate_choice=False,render_kw={'class': "form-control", })
 
@@ -571,7 +571,6 @@ def index():
         form.segnatura_idx.data
         print(form.data)
         #return redirect('/success')
-
     return render_template(
         'homepage.html',varx=varx, form=form, stato=stato)
 
