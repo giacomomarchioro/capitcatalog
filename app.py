@@ -19,6 +19,8 @@ from converter import convertdate
 # pprint library is used to make the output look more pretty
 from pprint import pprint
 import re
+from bson.json_util import dumps
+
 
 # connect to MongoDB, change the << MONGODB URL >> to reflect your own connection string
 client = MongoClient(connectionstring)
@@ -476,26 +478,26 @@ class NewRecord(FlaskForm):
 class AuthoirityRecord(FlaskForm):
     """Parent form."""
     idauthority = StringField("idauthority",
-                        validators=[], render_kw={'class': "form-control", })
+                        validators=[], render_kw={'class': "form-control-x", })
     identificativo = StringField("identificativo",
-                        validators=[], render_kw={'class': "form-control", })
-    tipologia = SelectField(u'Tipologia', choices=[('Persona', 'Persona'),('Famiglia', 'Famiglia'), ('Ente', 'Ente'),('Luogo', 'Luogo') ],render_kw={'class': "form-control", })
+                        validators=[], render_kw={'class': "form-control-x", })
+    tipologia = SelectField(u'Tipologia', choices=[('Persona', 'Persona'),('Famiglia', 'Famiglia'), ('Ente', 'Ente'),('Luogo', 'Luogo'),('Opera', 'Opera') ],render_kw={'class': "form-control-x", })
     descrizione = StringField("descrizione",
-                        validators=[], render_kw={'class': "form-control", })
+                        validators=[], render_kw={'class': "form-control-x", })
     altre_forme = StringField(" altre_forme",
-                        validators=[], render_kw={'class': "form-control", })
+                        validators=[], render_kw={'class': "form-control-x", })
     non_prima = StringField("non_prima",
-                        validators=[], render_kw={'class': "form-control", })
+                        validators=[], render_kw={'class': "form-control-x", })
     non_dopo = StringField("non_dopo",
-                        validators=[], render_kw={'class': "form-control", })
+                        validators=[], render_kw={'class': "form-control-x", })
     wikidata = StringField("wikidata",
-                        validators=[], render_kw={'class': "form-control", })
+                        validators=[], render_kw={'class': "form-control-x", })
     mirabile = StringField("mirabile",
-                        validators=[], render_kw={'class': "form-control", })
+                        validators=[], render_kw={'class': "form-control-x", })
     SBN_author = StringField("SBN_author",
-                        validators=[], render_kw={'class': "form-control", })
+                        validators=[], render_kw={'class': "form-control-x", })
     reicat_opacSBN = StringField("reicat_opacSBN",
-                        validators=[], render_kw={'class': "form-control", })
+                        validators=[], render_kw={'class': "form-control-x", })
 
 ## FORMS for alternative identifiers
 class altIdentifier(FlaskForm):
@@ -513,7 +515,7 @@ class altIdentifier(FlaskForm):
     used_not_after = StringField("Utilizzata non dopo:",
                     validators=[], render_kw={'class': "form-control", })
 
-## FORMS for alternative identifiers
+## FORMS for tagging the text
 class TagTesto(FlaskForm):
     """Parent form.""" 
     autore_mittente = StringField("Autore o mittente:",validators=[])
@@ -524,10 +526,10 @@ class TagTesto(FlaskForm):
     glossatore = StringField("Glossatore:",validators=[])
     traduttore_adattatore = StringField("Traduttore Adattatore:",validators=[])
     copista = StringField("Copista:",validators=[])
+    opera_identificata = StringField("Opera identificata:",validators=[])
     bibliografia = StringField("Bibliografia:",validators=[])
 
 
-## Name  Authoirity
 
 # Initialize app
 app = Flask(__name__)
@@ -722,6 +724,13 @@ def deletealtidentifier(segnatura):
     client.capitolare.identificativi.remove({"_id": ObjectId(el_id)})
     return redirect("/insertaltidentifier/%s" %segnatura)
 
+@app.route('/getnameauthoritydb')
+def getnameauthoritydb():
+    namelist = client.capitolare.nameauthority.find()
+    offset = request.args.get('offset',None)
+    breakpoint()
+    data = json.loads(dumps(list(namelist)))
+    return {'data': data}
 
 @app.route('/nameauthority', methods=['GET', 'POST'])
 def nameauthority():
@@ -734,7 +743,8 @@ def nameauthority():
     emojidict  = {  "Ente":"🏛️",
                     "Persona":"👤",
                     "Famiglia":"👥",
-                    "Luogo":"🗺️"}
+                    "Luogo":"🗺️",
+                    "Opera":"📖"}
     if el_id is not None:
         print("Modifica")
         mod = True

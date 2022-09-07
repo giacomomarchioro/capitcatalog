@@ -1,10 +1,14 @@
 <html>
     <head>
         <title>Inserire record name authority</title>
-
+        <link href="https://unpkg.com/tabulator-tables@5.3.3/dist/css/tabulator.min.css" rel="stylesheet">
+        <script type="text/javascript" src="https://unpkg.com/tabulator-tables@5.3.3/dist/js/tabulator.min.js"></script>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
     </head>
 
     <body>
+
         <script>
             var getJSON = function(url, callback) {
                 var xhr = new XMLHttpRequest();
@@ -34,16 +38,16 @@
                         wikilist.innerHTML = ""
                         for (let index = 0; index < data.search.length; ++index) {
                             const element = data.search[index];
-                            const node = document.createElement("li");
+                            const node = document.createElement("p");
+                            span = document.createElement('span');
+                            span.innerHTML = '<button id="butnxx' + index +'" onclick="updatefromwikidata(\''+element.id+'\')"> ↔️ </button>';
+                            node.appendChild(span);
                             const label = document.createTextNode(element.label+" - ");
                             node.appendChild(label);
-                            const textnode = document.createTextNode(element.description);
-                            node.appendChild(textnode);
-                            span = document.createElement('span');
-                            span.innerHTML = '<button id="butnxx' + index +'" onclick="updatefromwikidata(\''+element.id+'\')"> ⬆️ </button>';
                             /* btn = document.createElement("button");
                             btn.innerHTML = "Click Me";; */
-                            node.appendChild(span);
+                            const textnode = document.createTextNode(element.description);
+                            node.appendChild(textnode);
                             wikilist.appendChild(node);
                         }
                         return data;
@@ -109,6 +113,10 @@
                         if ("P1566" in data.entities[QIDX].claims){
                             document.getElementById('tipologia').value = 'Luogo';
                         };
+                        // we check if it is a work of art P1476
+                        if ("P1476" in data.entities[QIDX].claims){
+                            document.getElementById('tipologia').value = 'Opera';
+                        };
                         // mirabile P7986
                         try {
                             idmirabile = data.entities[QIDX].claims['P7986'][0]['mainsnak']['datavalue']['value'];
@@ -133,76 +141,123 @@
             
 
         </script>
-        {%for i in namelist %}
-        <div>
-            <hr>
-                {{emojidict[i['tipologia']]}}
-                {{i['identificativo']}} {{i['descrizione']}}
-                <a href="https://www.wikidata.org/wiki/{{i['wikidata']}}"> {{i['wikidata']}}</a>
-                <a href="https://www.mirabileweb.it/author/-/{{i['mirabile']}}"> Mirabile ID: {{i['mirabile']}}</a>
-
-                <a href="/nameauthority?id={{i['_id']|string}}"> Modifica</a>
-                <a href="/deletename?id={{i['_id']|string}}" onclick="return confirm('Sicuri di voler eliminare la voce?')"> Elimina </a>
+        <div class="container">
+            <h1> Lista nameauthority </h1>
+            Comincia a digitare nel campo per visualizzare ed importare usando il bottone ↔️ i record da wikidata. Compila le altre forme con il nome trovato nel manoscritto.
         </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm">
+                    <form id="lap-form" action="" method="POST" role="form">
+                        <div class="form-group bg-light">
+                        <hr>
+                        {{ form.csrf_token }}
+                        <table>
+                            <tr>
+                                <td>Nome:</td>
+                                <td>{{ form.identificativo}}</td>
+                                <td>{{ form.tipologia }}</td>
+                            </tr>
+                            <tr>
+                                <td>ID nome:</td>
+                                <td>{{ form.idauthority }}</td>
+                            </tr>
+                            <tr>
+                                <td>Descrizione: </td>
+                                <td>{{ form.descrizione }}</td>
+                            </tr>
+                            <tr>
+                                <td>Altre forme presenti:</td>
+                                <td>{{ form.altre_forme }}</td>
+                            </tr>
+                            <tr>
+                                <td> Non prima:</td>
+                                <td>{{ form.non_prima }}</td>
+                            </tr>
+                            <tr>
+                                <td> Non dopo:</td>
+                                <td>{{ form.non_dopo }}</td>
+                            </tr>
+                            <tr>
+                                <td> ID wikidata:</td>
+                                <td>{{ form.wikidata }}</td>
+                            </tr>
+                            <tr>
+                                <td> ID SBN (autore):</td>
+                                <td> {{ form.SBN_author }}</td>
+                            </tr>
+                            <tr>
+                                <td> Forma REICAT SBN:</td>
+                                <td> {{ form.reicat_opacSBN}}</td>
+                            </tr>
+                          </table>
+                            <hr/>
+                        </div>
+                        <button type="submit">Salva identificatore</button>
+                        <a href="/nameauthority"> Annulla le modifiche non salvate e passa a nuova voce</a>
+                    </form>
+                </div>
+                <div class="col-sm">
+                    {% if form.errors %}
+                    {{ form.errors }}
+                    {% endif %}
+                <div id="listawikidata">
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div id="example-table"></div>
+        </div>
+        <script>
+            var tableData = [
+              {%for i in namelist %}
+                {tipologia:"{{emojidict[i['tipologia']]}}{{i['tipologia']}}",
+                 identificativo:"{{i['identificativo']|safe}}",
+                 descrizione: "{{i['descrizione']|safe}}",
+                 wikidata:"{{i['wikidata']}}",
+                 mirabile:"{{i['mirabile']}}",
+                 SBN_author:"{{i['SBN_author']}}",
+                 modifica:"{{i['_id']|string}}",
+                 elimina:"<a href=\"/deletename?id={{i['_id']|string}}\" onclick=\"return confirm('Sicuri di voler eliminare la voce?')\"> 🗑️ </a>"},
+              {% endfor %}
+            ]
 
-        {% endfor %}
+            var table = new Tabulator("#example-table", {
+                data:tableData, //set initial table data
+                columns:[
+                    {title:"Tipologia", field:"tipologia"},
+                    {title:"Identificativo", field:"identificativo"},
+                    {title:"Descrizione", field:"descrizione"},
+                    {title:"Wikidata", field:"wikidata", formatter:"link", formatterParams:{
+                        labelField:"wikidata",
+                        urlPrefix:"https://www.wikidata.org/wiki/",
+                        target:"_blank",
+                    }},
+                    {title:"Mirabile", field:"mirabile", formatter:"link", formatterParams:{
+                        labelField:"mirabile",
+                        urlPrefix:"https://www.mirabileweb.it/author/-/",
+                        target:"_blank",
+                    }},
+                    {title:"SBN", field:"SBN_author", formatter:"link", formatterParams:{
+                        labelField:"SBN_author",
+                        urlPrefix:"https://www.mirabileweb.it/author/-/",
+                        target:"_blank",
+                    }},
+                    //https://www.mirabileweb.it/author/-/
+                    {title:"Modifica",field:"modifica",formatter:"link", formatterParams:{
+                        label:"Modifica",
+                        urlPrefix:"/nameauthority?id=",
+                        target:"_blank",
+                    }},
+                    {title:"Elimina", field:"elimina", formatter:"html"},
+                ],
+            });
+        </script>
         <hr/>
 
-        <form id="lap-form" action="" method="POST" role="form">
-            
-            <div class="form-group">
-            {{ form.csrf_token }}
+       
 
-            <div>
-                <div>
-                    {{ form.identificativo}} {{ form.tipologia }}
-                </div>
-                <div>
-                    {{ form.idauthority.label}} {{ form.idauthority }} Lasciare bianco se non completato.
-                </div>
-                <div>
-                    {{ form.descrizione.label }}
-                    {{ form.descrizione }}
-                </div>
-                <div>
-                    {{ form.altre_forme.label }}
-                    {{ form.altre_forme }}
-                </div>
-                <div>
-                    {{ form.non_prima.label }}
-                    {{ form.non_prima }}
-                </div>
-                <div>
-                    {{ form.non_dopo.label }}
-                    {{ form.non_dopo }}
-                </div>
-                <div>
-                    {{ form.wikidata.label }}
-                    {{ form.wikidata }}
-                </div>
-                <div>
-                    {{ form.mirabile.label }}
-                    {{ form.mirabile }}
-                </div>
-                <div>
-                    {{ form.SBN_author.label }}
-                    {{ form.SBN_author }}
-                </div>
-                <div>
-                    {{ form.reicat_opacSBN.label}}
-                    {{ form.reicat_opacSBN}} Opzionale se l'entità è stata identificata su altri repository.    
-                </div>
-                <hr/>
-            </div>
-            </div>
-            <button type="submit">Salva identificatore</button>
-            <a href="/nameauthority"> Annulla le modifiche non salvate e passa a nuova voce</a>
-        </form>
 
-        {% if form.errors %}
-            {{ form.errors }}
-        {% endif %}
-     <div id="listawikidata">
 
      </div>
     </body>
