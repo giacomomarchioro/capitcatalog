@@ -13,12 +13,15 @@
 </head>
 <body>
   <div class="container">
-    <h1 class="h3">Inserimento nomi collegati alla descrizione interna.</h1>
-    <b>Segnatura:</b> {{segnatura}} <b>Componente:  </b> {{componente}} <b>ID descrizione:</b> {{idint}} <b>Locus:</b> {{l}}
-    <p> Comincia a digitare le prime tre lettere per inserire un nome collegato alla descrizione intera. 
-      Usa la forma con il punto di domanda per esprimere incertezza. Se il nome cercato non appare inserire un nuovo record nell'<a href="{{url_for('nameauthority')}}" target="_blank">indice dei nomi</a>.</p>
-
-
+    <div class="p-3 bg-light">
+      <hr>
+      <h1 class="h3">Inserimento nomi collegati alla descrizione interna {{idint}}.</h1>
+      <b>Segnatura:</b> {{segnatura}} <b>Componente:  </b> {{componente}}  <b>Locus:</b> {{l}}
+      <p> Comincia a digitare le prime tre lettere per inserire un nome collegato alla descrizione intera. 
+        Usa la forma con il punto di domanda per esprimere incertezza. Se il nome cercato non appare inserire un nuovo record nell'<a href="{{url_for('nameauthority')}}" target="_blank">indice dei nomi</a>.</p>  
+      <hr>
+      </div>
+   
     <div class="container bg-light">
 
     <hr>
