@@ -113,7 +113,7 @@ class Facsimile(Form):
     completezza = StringField("Completezza",
             validators=[ ],render_kw={'class':"form-control",}
         )
-
+    # parte di riferimento
 
 class Storia_del_manoscritto(Form):
     Id_auto_inc = StringField("Id auto inc",
@@ -393,13 +393,37 @@ class DescEst(Form):
     note =  TextAreaField("Note:",
                             validators=[], render_kw={'class': "form-control",'rows':"4" }
                             )
-    
+
+class Parte(Form):
+    identificativo_parte = StringField("Identificativo",
+                           validators=[], render_kw={'class': "form-control", })
+    legatura = StringField("Legatura",
+                           validators=[], render_kw={'class': "form-control", })
+    carte_di_guardia = StringField("Carte di guardia",
+                                   validators=[], render_kw={'class': "form-control", })
+    consistenza = StringField("Consistenza",
+                              validators=[], render_kw={'class': "form-control", })
+    collocazione = StringField("Collocazione",
+                              validators=[], render_kw={'class': "form-control", })
+    largezza_mm = StringField("Larghezza (mm)",
+                            validators=[], render_kw={'class': "form-control"}
+                            )
+    ampiezza_mm = StringField("Ampiezza (mm):",
+                            validators=[], render_kw={'class': "form-control" }
+                            )
+    profondita_mm = StringField("Profondità (mm):",
+                            validators=[], render_kw={'class': "form-control"}
+                            )
+
 
 class MainForm(FlaskForm):
     """Parent form."""
  
     status = SelectField(u'Stato', choices=[('In lavorazione', 'In lavorazione'),('Concluso', 'concluso'), ('Abbandonato', 'abbandonato'),('Presentabile', 'presentabile'), ],render_kw={'class': "form-control", })
-
+    
+    segnatura = StringField("Segnatura",
+                            validators=[], render_kw={'class': "form-control", }
+                            )
     manifest = StringField("Manifest:",
                             validators=[], render_kw={'class': "form-control", }
                             )
@@ -429,8 +453,13 @@ class MainForm(FlaskForm):
     sommario_desc = TextAreaField("Sommario:",
                             validators=[], render_kw={'class': "form-control",'rows':"4" }
                             )
+    storia_desc = TextAreaField("Sommario:",
+                            validators=[], render_kw={'class': "form-control",'rows':"4" }
+                            )
+    id_segnature_collegate = StringField("Segnature collegate:",
+                            validators=[], render_kw={'class': "form-control", }
+                            )
                             
-
     descrizione_esterna = FieldList(
         FormField(DescEst),
         min_entries=1,
@@ -826,6 +855,27 @@ def cercapersona(jsonformat):
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
+@app.route('/cercaopera/<jsonformat>/')
+def cercaopera(jsonformat):
+    q = request.args.get('q',None)
+    regx = re.compile(q, re.IGNORECASE)
+    query = {"$and" : [{"tipologia":"Opera"},
+                    {"$or":[{"identificativo": regx},
+                            {"altre_forme": regx}]}]}
+    opere = client.capitolare.nameauthority.find(query)
+    datadict = dict()
+    datadict['results'] = []
+    if jsonformat == "keyvalue":
+        for opera in opere: 
+            dataentity = dict()
+            dataentity['value'] = opera['identificativo']
+            dataentity['key'] = opera['idauthority']
+            datadict['results'].append(dataentity)
+
+    response = jsonify(datadict)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
 
 @app.route('/tagtesto/<segnatura>/<componente>/<idint>', methods=['GET', 'POST'])
 def tagtesto(segnatura,componente,idint):
@@ -842,12 +892,7 @@ def tagtesto(segnatura,componente,idint):
         ids = []
         string = form.data[field]
         if string != "":
-            data = ast.literal_eval(string)
-            for i in data:
-                key = i['key']
-                if "?" in i['value']:
-                    key += "?"
-                ids.append(key)
+            ids = [ i['key'] for i in  ast.literal_eval(string)]
         return ids
 
     if form.validate_on_submit():
@@ -877,7 +922,12 @@ def tagtesto(segnatura,componente,idint):
     #breakpoint()
     if varx is not None:
         form.process(data=varx)
-    return render_template('tagtesto.html',form=form)
+    return render_template('tagtesto.html',
+                            form=form,
+                            segnatura=segnatura,
+                            componente=componente,
+                            idint=idint,
+                            locus=l)
 
 @app.route('/test')
 def test():

@@ -12,21 +12,59 @@
   integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
 </head>
 <body>
-  
+  <div class="container">
+    <h1 class="h3">Inserimento nomi collegati alla descrizione interna.</h1>
+    <b>Segnatura:</b> {{segnatura}} <b>Componente:  </b> {{componente}} <b>ID descrizione:</b> {{idint}} <b>Locus:</b> {{l}}
+    <p> Comincia a digitare le prime tre lettere per inserire un nome collegato alla descrizione intera. 
+      Usa la forma con il punto di domanda per esprimere incertezza. Se il nome cercato non appare inserire un nuovo record nell'<a href="{{url_for('nameauthority')}}" target="_blank">indice dei nomi</a>.</p>
+
+
+    <div class="container bg-light">
+
+    <hr>
+
     <form id="nameauthority-form" action="" method="post" role="form">
       {{ form.csrf_token }}
-      <div> Autore: {{form.autore_mittente}}</div>
-      <div> Commentatore: {{form.commentatore}}</div>
-      <div> Dedicatario: {{form.dedicatario}} </div>
-      <div> Destinatario: {{form.destinatario}} </div>
-      <div> Epitomatore: {{form.epitomatore}}</div>
-      <div> Glossatore: {{form.glossatore}}</div>
-      <div> Traduttore o adattatore: {{form.traduttore_adattatore}}</div>
-      <div> Copista: {{form.copista}}</div>
-      <div> Opera identificata: {{form.opera_identificata}}</div>
-      <div> Bibliografia: {{form.bibliografia}}</div>       
-        <button type="submit"> Salva</button>
+      <div class="row">
+        <div class="col">
+          <div class="p-1"> Autore: {{form.autore_mittente}}</div>
+        </div>
+        <div class="col">
+          <div class="p-1"> Commentatore: {{form.commentatore}}</div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="p-1"> Dedicatario: {{form.dedicatario}} </div>
+        </div>
+        <div class="col">
+          <div class="p-1"> Destinatario: {{form.destinatario}} </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="p-1"> Epitomatore: {{form.epitomatore}}</div>
+        </div>
+        <div class="col">
+          <div class="p-1"> Glossatore: {{form.glossatore}}</div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="p-1"> Traduttore o adattatore: {{form.traduttore_adattatore}}</div>
+        </div>
+        <div class="col">
+          <div class="p-1"> Copista: {{form.copista}}</div>
+        </div>
+      </div>
+      <div class="p-1"> Opera identificata: {{form.opera_identificata}}</div>
+      <div class="p-1"> Bibliografia: {{form.bibliografia}}</div>       
+        <button class="btn btn-primary" type="submit"> Salva</button>
     </form>
+    <hr>
+    <div>
+  </div>
+    
 <script>
 function transformTag( tagData ){
     // tagData.style = "--tag-bg:" + getRandomColor();
@@ -52,10 +90,10 @@ window.onload = function (){
   controller = new AbortController()
   controller; // for aborting the call
 
-
-  function getdata (e,tagifyobj){
+  var urlcercapersona = "{{url_for('cercapersona', jsonformat='keyvalue',q='')}}"
+  function getdata (e,tagifyobj,ajaxurl){
     var value = e.detail.value
-    if (value.length > 3) {
+    if (value.length > 2) {
       tagifyobj.whitelist = null // reset the whitelist
 
       // https://developer.mozilla.org/en-US/docs/Web/API/AbortController/abort
@@ -65,12 +103,13 @@ window.onload = function (){
       // show loading animation and hide the suggestions dropdown
       tagifyobj.loading(true).dropdown.hide()
         // fetch('http://127.0.0.1:5000/cercapersona/keyvalue/?q=' + value, {signal:controller.signal})
-        fetch("{{url_for('cercapersona', jsonformat='keyvalue',q='')}}" + value, {signal:controller.signal})
+        fetch( ajaxurl + value, {signal:controller.signal})
           .then(RES => RES.json())
           .then(function(newWhitelist){
             //output = newWhitelist.map(e => ({["value"]:e.data.title,["key"]:e.key}));
             output = newWhitelist.results.map(e => ({["value"]:e.value,["key"]:e.key}));
-            mergedoutput = output.concat(tagifyobj.value);
+            output_incerto = newWhitelist.results.map(e => ({["value"]:e.value+"?",["key"]:e.key+"?"}));
+            mergedoutput = output.concat(tagifyobj.value,output_incerto);
             tagifyobj.whitelist = mergedoutput // update inwhitelist Array in-place
             tagifyobj.loading(false).dropdown.show(value) // render the suggestions dropdown
         })
@@ -83,7 +122,7 @@ window.onload = function (){
   // listen to any keystrokes which modify tagify's input
   tagify.on('input', onInput)
   function onInput( e ){ 
-    getdata(e,tagify)
+    getdata(e,tagify,urlcercapersona)
    /*  tagify.whitelist = null // reset the whitelist
 
     // https://developer.mozilla.org/en-US/docs/Web/API/AbortController/abort
@@ -108,7 +147,7 @@ window.onload = function (){
   // listen to any keystrokes which modify tagify's input
   tagifycommentatore.on('input', onInputcommentatore)
   function onInputcommentatore( e ){ 
-    getdata(e,tagifycommentatore)
+    getdata(e,tagifycommentatore,urlcercapersona)
 
   }
 
@@ -118,7 +157,7 @@ window.onload = function (){
   // listen to any keystrokes which modify tagify's input
   tagifydedicatario.on('input', onInputdedicatario)
   function onInputdedicatario( e ){ 
-    getdata(e,tagifydedicatario)
+    getdata(e,tagifydedicatario,urlcercapersona)
 
   }
   
@@ -128,7 +167,7 @@ window.onload = function (){
   // listen to any keystrokes which modify tagify's input
   tagifydestinatario.on('input', onInputdestinatario)
   function onInputdestinatario( e ){ 
-    getdata(e,tagifydestinatario)
+    getdata(e,tagifydestinatario,urlcercapersona)
 
   }
 
@@ -138,7 +177,7 @@ window.onload = function (){
   // listen to any keystrokes which modify tagify's input
   tagifyepitomatore.on('input', onInputepitomatore)
   function onInputepitomatore( e ){ 
-    getdata(e,tagifyepitomatore)
+    getdata(e,tagifyepitomatore,urlcercapersona)
 
   }
 
@@ -148,7 +187,7 @@ window.onload = function (){
   // listen to any keystrokes which modify tagify's input
   tagifyglossatore.on('input', onInputglossatore)
   function onInputglossatore( e ){ 
-    getdata(e,tagifyglossatore)
+    getdata(e,tagifyglossatore,urlcercapersona)
 
   }
   
@@ -158,8 +197,7 @@ window.onload = function (){
   // listen to any keystrokes which modify tagify's input
   tagifytraduttore_adattatore.on('input', onInputtraduttore_adattatore)
   function onInputtraduttore_adattatore( e ){ 
-    getdata(e,tagifytraduttore_adattatore)
-
+    getdata(e,tagifytraduttore_adattatore,urlcercapersona)
   }
 
   var inputcopista = document.querySelector('input[name=copista]')
@@ -168,9 +206,20 @@ window.onload = function (){
   // listen to any keystrokes which modify tagify's input
   tagifycopista.on('input', onInputcopista)
   function onInputcopista( e ){ 
-    getdata(e,tagifycopista)
-
+    getdata(e,tagifycopista,urlcercapersona)
   }
+  
+  var urloperaidentificata = "{{url_for('cercaopera', jsonformat='keyvalue',q='')}}"
+  var inputopera_identificata = document.querySelector('input[name=opera_identificata]')
+  // init Tagify script on the above inputs
+  tagifyopera_identificata = new Tagify(inputopera_identificata,{whitelist:parseinput(inputopera_identificata),enforceWhitelist:true});
+  // listen to any keystrokes which modify tagify's input
+  tagifyopera_identificata.on('input', onInputcopista)
+  function onInputcopista( e ){ 
+    getdata(e,tagifyopera_identificata,urloperaidentificata)
+  }
+
+
   
   var input2 = document.querySelector('input[name=bibliografia]'),
   tagify2 = new Tagify(input2,{transformTag : transformTag});
@@ -194,7 +243,7 @@ window.onload = function (){
         tagify2.loading(false).dropdown.show(value) // render the suggestions dropdown
      })
   
-}}
+  }}
 
   // // "remove all tags" button event listener
   // document.querySelector('.tags--removeAllBtn')

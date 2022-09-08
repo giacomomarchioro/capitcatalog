@@ -251,10 +251,15 @@
             baseurl = 'tagtesto'
             id_componente = elem.parentElement.parentElement.getElementsByClassName('id-componente')[0].value.replace(".","-")
             id_textual_unit = elem.parentElement.parentElement.getElementsByClassName('id-textual-unit')[0].value.replace(".","-")
-            locus = elem.parentElement.parentElement.getElementsByClassName('locus')[0].value.replace(".","-")
-            lastpart = id_textual_unit +"?locus="+locus
-            URL = [window.parent.location.origin,baseurl,segnatura,id_componente,lastpart,].join("/")
-            window.open(URL, '_blank');
+            if (id_textual_unit == '') {
+                alert("Associa un id alla descrizione interna prima di aggiungere una responsabilità.")
+            }else{
+                locus = elem.parentElement.parentElement.getElementsByClassName('locus')[0].value.replace(".","-")
+                lastpart = id_textual_unit +"?locus="+locus
+                URL = [window.parent.location.origin,baseurl,segnatura,id_componente,lastpart,].join("/")
+                window.open(URL, '_blank');
+            }
+           
         };
     </script>
 
@@ -428,6 +433,11 @@
           <div class="mb-3">
             <label for="floatingInputGridDI1">Sommario descrizione:</label>
             {{form.sommario_desc}}
+           
+          </div>
+          <div class="mb-3">
+            <label for="floatingInputGridDI1">Sommario della storia del manoscritto:</label>
+            {{form.storia_desc}}
            
           </div>
           <div class="alert alert-info" role="alert">
