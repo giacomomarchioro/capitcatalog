@@ -127,6 +127,14 @@ class Storia_del_manoscritto(Form):
     intervallo_carte = StringField("Intervallo carte",
             validators=[ ],render_kw={'class':"form-control",}
         )
+    tipologia_di_elemento = SelectField(u'Tipologia', choices=[
+        ('Annotazione','Annotazione'),
+        ('Timbro', 'Timbro'),
+        ('Sigillo', 'Sigillo'),
+        ('Etichetta', 'Etichetta'),
+        ('Stemma', 'Stemma'),],
+        render_kw={'class': "form-control", })
+    
     Datazione = StringField("Datazione",
             validators=[ ],render_kw={'class':"form-control",}
         )
@@ -243,9 +251,22 @@ class Copisti(Form):
     non_dopo =  StringField("Non dopo",
                             validators=[], render_kw={'class': "form-control", }
                             )
-    tipologia_scrittura = StringField("Tipologia scrittura",
-                                      validators=[], render_kw={'class': "form-control"}
-                                      )
+    tipologia_scrittura = SelectField(u'Tipologia', choices=[
+        ('Capitale Romana','Capitale Romana'),
+        ('Corsiva Romana','Corsiva Romana'),
+        ('Onciale', 'Onciale'),
+        ('Semi-onciale', 'Semi-onciale'),
+        ('Insulare', 'Insulare'),
+        ('Visigotica', 'Visigotica'),
+        ('Beneventana', 'Beneventana'),
+        ('Carolina', 'Carolina'),
+        ('Gotica', 'Gotica'),
+        ('Umanistica', 'Umanistica')
+        ],
+        render_kw={'class': "form-control", })
+    note_sulla_scrittura =  StringField("Note sulla scrittura",
+                            validators=[], render_kw={'class': "form-control", }
+                            )
     Descrizione_Esterna_Segnatura = NonValidatingSelectMulipleField(u'ID_descrizione_esterna', choices=[('Non assegnato', 'Non assegnato')],validate_choice=False,render_kw={'class': "form-select","multiple":True,"style":"height: 100px"})
 
 
@@ -540,16 +561,19 @@ class altIdentifier(FlaskForm):
     """Parent form."""
     text = StringField("Testo",
                         validators=[], render_kw={'class': "form-control", })
-    tipologia = SelectField(u'Tipologia', choices=[('Titolo', 'Titolo'),('Segnatura', 'Segnatura'), ('Collocazione', 'Collocazione'),('Conosciuto come', 'Conosciuto come'),('Numero di inventario','Numero di inventario') ],render_kw={'class': "form-control", })
+    tipologia = SelectField(u'Tipologia', choices=[('Titolo', 'Titolo'),
+                                                   ('Segnatura', 'Segnatura'),
+                                                   ('Collocazione', 'Collocazione'),
+                                                   ('Conosciuto come', 'Conosciuto come'),
+                                                   ('Numero di inventario','Numero di inventario')
+                                                    ],
+                                                    render_kw={'class': "form-control", })
    
-    descrizione = StringField("Descrizione",
-                        validators=[], render_kw={'class': "form-control", })
-    datazione = StringField("Datazione",
-                        validators=[], render_kw={'class': "form-control", })
-    used_not_before = StringField("Utilizzata non prima:",
-                    validators=[], render_kw={'class': "form-control", })
-    used_not_after = StringField("Utilizzata non dopo:",
-                    validators=[], render_kw={'class': "form-control", })
+    descrizione = StringField("Descrizione",validators=[])
+    in_uso = BooleanField("In uso")
+    datazione = StringField("Datazione",validators=[])
+    used_not_before = StringField("Utilizzata non prima:",validators=[])
+    used_not_after = StringField("Utilizzata non dopo:",validators=[])
 
 ## FORMS for tagging the text
 class TagTesto(FlaskForm):

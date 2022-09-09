@@ -61,7 +61,7 @@ this should match `loop.index0`, and for the template it should be
     </div>
     <div class="row g-2">
 
-      <div class="col-lg-3">
+      <div class="col-lg-2">
         <div class="form-floating">
           {{subform.largezza_mm}}
           <label for="floatingInputGridDI0a">Larghezza (mm)</label>
@@ -72,7 +72,7 @@ this should match `loop.index0`, and for the template it should be
         </div>
       </div>
 
-      <div class="col-lg-3">
+      <div class="col-lg-2">
           <div class="form-floating">
             {{subform.ampiezza_mm}}
             <label for="floatingInputGridDI0b">Ampiezza (mm)</label>
@@ -83,7 +83,7 @@ this should match `loop.index0`, and for the template it should be
           </div>
       </div>
 
-      <div class="col-lg-3">
+      <div class="col-lg-2">
           <div class="form-floating">
             {{subform.profondita_mm}}
             <label for="floatingInputGridDI0c">Profondita (mm) </label>
@@ -94,7 +94,7 @@ this should match `loop.index0`, and for the template it should be
           </div>
       </div>
 
-      <div class="col-lg-3">
+      <div class="col-lg-6">
           <div class="form-floating">
             {{subform.legatura}}
             <label for="floatingInputGridDI0d">Legatura</label>
@@ -437,31 +437,6 @@ this should match `loop.index0`, and for the template it should be
 
       <div class="col-md">
         <div class="form-floating">
-          {{subform.utenti_email}}
-          <label for="floatingInputGrid12">Autore scheda:</label>
-        </div>
-        <div class="alert alert-info " role="alert">
-          <b>Per esempio:</b> <i>Donatella Tronca</i>  <a
-            href={{"".join([url_for("lineeguidacat"),"#utenti_email"])}} class="alert-link"
-            title="voluptate velit esse cillum dolore eu fugiat nulla pariatur cillum dolore eu fugiat nulla pariatur cillum dolore eu fugiat nulla pariatur cillum dolore eu fugiat nulla pariatur.">ℹ️</a>.
-        </div>
-      </div>
-
-      <div class="col-md">
-        <div class="form-floating">
-          {{subform.orchid}}
-          <label for="floatingInputGrid13">ORCID iD</label>
-        </div>
-        <div class="alert alert-info " role="alert">
-          <b>Per esempio:</b> <i>https://orcid.org/0000-0002-3379-5239</i>  <a
-            href={{"".join([url_for("lineeguidacat"),"#Descrizione_Esterna_Segnatura"])}} class="alert-link">ℹ️</a>.
-        </div>
-      </div>
-    </div>
-    <div class="row g-2">
-
-      <div class="col-md">
-        <div class="form-floating">
           {{subform.decorazioni}}
           <label for="floatingInputGrid12">Decorazioni:</label>
         </div>
@@ -489,6 +464,31 @@ this should match `loop.index0`, and for the template it should be
     </div>
 
 
+    </div>
+    <div class="row g-2">
+
+      <div class="col-md">
+        <div class="form-floating">
+          {{subform.utenti_email}}
+          <label for="floatingInputGrid12">Autore scheda:</label>
+        </div>
+        <div class="alert alert-info " role="alert">
+          <b>Per esempio:</b> <i>Donatella Tronca</i>  <a
+            href={{"".join([url_for("lineeguidacat"),"#utenti_email"])}} class="alert-link"
+            title="voluptate velit esse cillum dolore eu fugiat nulla pariatur cillum dolore eu fugiat nulla pariatur cillum dolore eu fugiat nulla pariatur cillum dolore eu fugiat nulla pariatur.">ℹ️</a>.
+        </div>
+      </div>
+
+      <div class="col-md">
+        <div class="form-floating">
+          {{subform.orchid}}
+          <label for="floatingInputGrid13">ORCID iD</label>
+        </div>
+        <div class="alert alert-info " role="alert">
+          <b>Per esempio:</b> <i>https://orcid.org/0000-0002-3379-5239</i>  <a
+            href={{"".join([url_for("lineeguidacat"),"#Descrizione_Esterna_Segnatura"])}} class="alert-link">ℹ️</a>.
+        </div>
+      </div>
     </div>
     <div class="row g-2">
       <button type="button" class="remove_0 btn btn-danger">Elimina descrizione esterna</button>
@@ -753,8 +753,27 @@ this should match `loop.index0`, and for the template it should be
       </div>
     </div>
     <div class="row g-2">
-
-      <div class="col-lg-8">
+      <div class="col-md-2">
+        <div class="form-floating">
+          {{subform.tipologia_scrittura}}
+          <label for="floatingInputGridDIC3">Tipologia scrittura</label>
+        </div>
+        <div class="alert alert-info" role="alert">
+          <b>Per esempio:</b> <i>minuscola carolina secondo la tipizzazione veronese</i>  <a
+            href={{"".join([url_for("lineeguidacat"),"#tipologia_scrittura"])}} class="alert-link">ℹ️</a>.
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-floating">
+          {{subform.note_sulla_scrittura}}
+          <label for="floatingInputGridDIC3">Note sulla scrittura</label>
+        </div>
+        <div class="alert alert-info" role="alert">
+          <b>Per esempio:</b> <i>minuscola carolina secondo la tipizzazione veronese</i>  <a
+            href={{"".join([url_for("lineeguidacat"),"#tipologia_scrittura"])}} class="alert-link">ℹ️</a>.
+        </div>
+      </div>
+      <div class="col-lg-2">
         <div class="form-floating">
           {{subform.datazione}}
           <label for="floatingInputGridDIC2">Datazione</label>
@@ -789,16 +808,7 @@ this should match `loop.index0`, and for the template it should be
 
     </div>
     <div class="row g-2"> 
-      <div class="col-md">
-        <div class="form-floating">
-          {{subform.tipologia_scrittura}}
-          <label for="floatingInputGridDIC3">Tipologia scrittura</label>
-        </div>
-        <div class="alert alert-info" role="alert">
-          <b>Per esempio:</b> <i>minuscola carolina secondo la tipizzazione veronese</i>  <a
-            href={{"".join([url_for("lineeguidacat"),"#tipologia_scrittura"])}} class="alert-link">ℹ️</a>.
-        </div>
-      </div>
+     
     </div>
     <div class="row g-2">
       <div class="col-md">
@@ -1039,19 +1049,27 @@ this should match `loop.index0`, and for the template it should be
   <div>
     <h5 id="storia_del_manoscritto-{{ index }}-formH" class="text-center">1</h5>
     <div class="row g-2">
-
-      <div class="col-md">
+      <div class="col-md-2">
         <div class="form-floating">
-          {{subform.Id_auto_inc}}
-          <label for="floatingInputGridAT0">Id auto inc</label>
+          {{subform.intervallo_carte}}
+          <label for="floatingInputGridAT2">Locus</label>
         </div>
         <div class="alert alert-info" role="alert">
-          <b>Per esempio:</b> <i>10</i>  <a href={{"".join([url_for("lineeguidacat"),"#Id_auto_inc"])}}
+          <b>Per esempio:</b> <i>None</i>  <a href={{"".join([url_for("lineeguidacat"),"#intervallo_carte"])}}
             class="alert-link">ℹ️</a>.
         </div>
       </div>
-
-      <div class="col-md">
+      <div class="col-md-3">
+        <div class="form-floating">
+          {{subform.Posizione}}
+          <label for="floatingInputGridAT5">Posizione</label>
+        </div>
+        <div class="alert alert-info" role="alert">
+          <b>Per esempio:</b> <i>c. 1r</i>  <a href={{"".join([url_for("lineeguidacat"),"#Posizione"])}}
+            class="alert-link">ℹ️</a>.
+        </div>
+      </div>
+      <div class="col-md-2">
         <div class="form-floating">
           {{subform.Id_AT}}
           <label for="floatingInputGridAT1">Id</label>
@@ -1061,17 +1079,39 @@ this should match `loop.index0`, and for the template it should be
             class="alert-link">ℹ️</a>.
         </div>
       </div>
-    </div>
-    <div class="row g-2">
 
-      <div class="col-md">
+      <div class="col-md-2">
         <div class="form-floating">
-          {{subform.intervallo_carte}}
-          <label for="floatingInputGridAT2">Locus</label>
+          {{subform.Descrizione_Esterna_Segnatura}}
+          <label for="floatingInputGridAT7">componente</label>
         </div>
         <div class="alert alert-info" role="alert">
-          <b>Per esempio:</b> <i>None</i>  <a href={{"".join([url_for("lineeguidacat"),"#intervallo_carte"])}}
+          <b>Per esempio:</b> <i>XXVIII (26)</i>  <a
+            href={{"".join([url_for("lineeguidacat"),"#Descrizione_Esterna_Segnatura"])}} class="alert-link">ℹ️</a>.
+        </div>
+      </div>
+
+      <div class="col-md-2">
+        <div class="form-floating">
+          {{subform.tipologia_di_elemento}}
+          <label for="floatingInputGridAT1">Tipologia di elemento</label>
+        </div>
+        <div class="alert alert-info" role="alert">
+          <b>Per esempio:</b> <i></i>  <a href={{"".join([url_for("lineeguidacat"),"#Id"])}}
             class="alert-link">ℹ️</a>.
+        </div>
+      </div>
+    </div>
+    <div class="row g-2">
+     
+      <div class="col-md">
+        <div class="form-floating">
+          {{subform.Contenuto}}
+          <label for="floatingInputGridAT4">Contenuto</label>
+        </div>
+        <div class="alert alert-info" role="alert">
+          <b>Per esempio:</b> <i>Beati augustini de civitate dei libri vi. videlicet xj, xjj, xiij, xiiij, xv, xvj</i>
+           <a href={{"".join([url_for("lineeguidacat"),"#Contenuto"])}} class="alert-link">ℹ️</a>.
         </div>
       </div>
 
@@ -1144,55 +1184,6 @@ this should match `loop.index0`, and for the template it should be
 
 
     </div>
-    <div class="row g-2">
-
-      <div class="col-md">
-        <div class="form-floating">
-          {{subform.Contenuto}}
-          <label for="floatingInputGridAT4">Contenuto</label>
-        </div>
-        <div class="alert alert-info" role="alert">
-          <b>Per esempio:</b> <i>Beati augustini de civitate dei libri vi. videlicet xj, xjj, xiij, xiiij, xv, xvj</i>
-           <a href={{"".join([url_for("lineeguidacat"),"#Contenuto"])}} class="alert-link">ℹ️</a>.
-        </div>
-      </div>
-
-      <div class="col-md">
-        <div class="form-floating">
-          {{subform.Posizione}}
-          <label for="floatingInputGridAT5">Posizione</label>
-        </div>
-        <div class="alert alert-info" role="alert">
-          <b>Per esempio:</b> <i>c. 1r</i>  <a href={{"".join([url_for("lineeguidacat"),"#Posizione"])}}
-            class="alert-link">ℹ️</a>.
-        </div>
-      </div>
-    </div>
-    <div class="row g-2">
-
-      <div class="col-md">
-        <div class="form-floating">
-          {{subform.Tipologia_scrittura}}
-          <label for="floatingInputGridAT6">Tipologia scrittura</label>
-        </div>
-        <div class="alert alert-info" role="alert">
-          <b>Per esempio:</b> <i>littera textualis</i>  <a
-            href={{"".join([url_for("lineeguidacat"),"#Tipologia_scrittura"])}} class="alert-link">ℹ️</a>.
-        </div>
-      </div>
-
-      <div class="col-md">
-        <div class="form-floating">
-          {{subform.Descrizione_Esterna_Segnatura}}
-          <label for="floatingInputGridAT7">componente</label>
-        </div>
-        <div class="alert alert-info" role="alert">
-          <b>Per esempio:</b> <i>XXVIII (26)</i>  <a
-            href={{"".join([url_for("lineeguidacat"),"#Descrizione_Esterna_Segnatura"])}} class="alert-link">ℹ️</a>.
-        </div>
-      </div>
-    </div>
-
     <div class="row g-2">
       <div class="col-md">
         <div class="form-floating">
