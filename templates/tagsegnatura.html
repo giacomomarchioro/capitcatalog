@@ -1,0 +1,275 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
+  <!-- //  Tagify  -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+  integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+</head>
+<body>
+  <div class="container">
+    <div class="p-3 bg-light">
+      <hr>
+      <h1 class="h3">Inserimento nomi collegati alla segnatura {{segnatura}}.</h1>
+      <p> Comincia a digitare le prime tre lettere per inserire un nome collegato alla descrizione intera. 
+        Usa la forma con il punto di domanda per esprimere incertezza. Se il nome cercato non appare inserire un nuovo record nell'<a href="{{url_for('nameauthority')}}" target="_blank">indice dei nomi</a>.</p>  
+      <hr>
+      </div>
+   
+    <div class="container bg-light">
+
+    <hr>
+
+    <form id="nameauthority-form" action="" method="post" role="form">
+      {{ form.csrf_token }}
+      <div class="p-1"> Opera identificata: {{form.opera_identificata}}</div>
+      <div class="row">
+        <div class="col">
+          <div class="p-1"> Possessore: {{form.possessore}}</div>
+        </div>
+        <div class="col">
+          <div class="p-1"> Committente: {{form.committente}}</div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="p-1"> Autore: {{form.autore_mittente}}</div>
+        </div>
+        <div class="col">
+          <div class="p-1"> Commentatore: {{form.commentatore}}</div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="p-1"> Dedicatario: {{form.dedicatario}} </div>
+        </div>
+        <div class="col">
+          <div class="p-1"> Destinatario: {{form.destinatario}} </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="p-1"> Epitomatore: {{form.epitomatore}}</div>
+        </div>
+        <div class="col">
+          <div class="p-1"> Glossatore: {{form.glossatore}}</div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="p-1"> Traduttore o adattatore: {{form.traduttore_adattatore}}</div>
+        </div>
+        <div class="col">
+          <div class="p-1"> Copista: {{form.copista}}</div>
+        </div>
+      </div>
+      <div class="p-1"> Luoghi connessi alla storia: {{form.luogo}}</div>
+
+        <button class="btn btn-primary" type="submit"> Salva</button>
+    </form>
+    <hr>
+    <div>
+  </div>
+    
+<script>
+
+function parseinput( input ){
+   if (input.value != "") {
+    return JSON.parse(input.value); 
+   }else{
+    return Array();
+   }
+}
+window.onload = function (){
+  controller = new AbortController()
+  controller; // for aborting the call
+
+  var urlcercapersona = "{{url_for('cercapersona', jsonformat='keyvalue',q='')}}"
+  function getdata (e,tagifyobj,ajaxurl){
+    var value = e.detail.value
+    if (value.length > 2) {
+      tagifyobj.whitelist = null // reset the whitelist
+
+      // https://developer.mozilla.org/en-US/docs/Web/API/AbortController/abort
+      controller && controller.abort()
+      controller = new AbortController()
+
+      // show loading animation and hide the suggestions dropdown
+      tagifyobj.loading(true).dropdown.hide()
+        // fetch('http://127.0.0.1:5000/cercapersona/keyvalue/?q=' + value, {signal:controller.signal})
+        fetch( ajaxurl + value, {signal:controller.signal})
+          .then(RES => RES.json())
+          .then(function(newWhitelist){
+            //output = newWhitelist.map(e => ({["value"]:e.data.title,["key"]:e.key}));
+            output = newWhitelist.results.map(e => ({["value"]:e.value,["key"]:e.key}));
+            output_incerto = newWhitelist.results.map(e => ({["value"]:e.value+"?",["key"]:e.key+"?"}));
+            mergedoutput = output.concat(tagifyobj.value,output_incerto);
+            tagifyobj.whitelist = mergedoutput // update inwhitelist Array in-place
+            tagifyobj.loading(false).dropdown.show(value) // render the suggestions dropdown
+        })
+    }
+    
+  }
+  var input = document.querySelector('input[name=autore_mittente]')
+  // init Tagify script on the above inputs
+  tagify = new Tagify(input,{whitelist:parseinput(input),enforceWhitelist:true});
+  // listen to any keystrokes which modify tagify's input
+  tagify.on('input', onInput)
+  function onInput( e ){ 
+    getdata(e,tagify,urlcercapersona)
+   /*  tagify.whitelist = null // reset the whitelist
+
+    // https://developer.mozilla.org/en-US/docs/Web/API/AbortController/abort
+    controller && controller.abort()
+    controller = new AbortController()
+
+    // show loading animation and hide the suggestions dropdown
+    tagify.loading(true).dropdown.hide()
+      fetch('http://127.0.0.1:5000/cercapersona/keyvalue/?q=' + value, {signal:controller.signal})
+        .then(RES => RES.json())
+        .then(function(newWhitelist){
+          //output = newWhitelist.map(e => ({["value"]:e.data.title,["key"]:e.key}));
+          output = newWhitelist.results.map(e => ({["value"]:e.value,["key"]:e.key}));
+          tagify.whitelist = output // update inwhitelist Array in-place
+          tagify.loading(false).dropdown.show(value) // render the suggestions dropdown
+      }) */
+  }
+
+  var inputcommentatore = document.querySelector('input[name=commentatore]')
+  // init Tagify script on the above inputs
+  tagifycommentatore = new Tagify(inputcommentatore,{whitelist:parseinput(inputcommentatore),enforceWhitelist:true});
+  // listen to any keystrokes which modify tagify's input
+  tagifycommentatore.on('input', onInputcommentatore)
+  function onInputcommentatore( e ){ 
+    getdata(e,tagifycommentatore,urlcercapersona)
+
+  }
+
+  var inputdedicatario = document.querySelector('input[name=dedicatario]')
+  // init Tagify script on the above inputs
+  tagifydedicatario = new Tagify(inputdedicatario,{whitelist:parseinput(inputdedicatario),enforceWhitelist:true});
+  // listen to any keystrokes which modify tagify's input
+  tagifydedicatario.on('input', onInputdedicatario)
+  function onInputdedicatario( e ){ 
+    getdata(e,tagifydedicatario,urlcercapersona)
+
+  }
+  
+  var inputdestinatario = document.querySelector('input[name=destinatario]')
+  // init Tagify script on the above inputs
+  tagifydestinatario = new Tagify(inputdestinatario,{whitelist:parseinput(inputdestinatario),enforceWhitelist:true});
+  // listen to any keystrokes which modify tagify's input
+  tagifydestinatario.on('input', onInputdestinatario)
+  function onInputdestinatario( e ){ 
+    getdata(e,tagifydestinatario,urlcercapersona)
+
+  }
+
+  var inputepitomatore = document.querySelector('input[name=epitomatore]')
+  // init Tagify script on the above inputs
+  tagifyepitomatore = new Tagify(inputepitomatore,{whitelist:parseinput(inputepitomatore),enforceWhitelist:true});
+  // listen to any keystrokes which modify tagify's input
+  tagifyepitomatore.on('input', onInputepitomatore)
+  function onInputepitomatore( e ){ 
+    getdata(e,tagifyepitomatore,urlcercapersona)
+
+  }
+
+  var inputglossatore = document.querySelector('input[name=glossatore]')
+  // init Tagify script on the above inputs
+  tagifyglossatore = new Tagify(inputglossatore,{whitelist:parseinput(inputglossatore),enforceWhitelist:true});
+  // listen to any keystrokes which modify tagify's input
+  tagifyglossatore.on('input', onInputglossatore)
+  function onInputglossatore( e ){ 
+    getdata(e,tagifyglossatore,urlcercapersona)
+
+  }
+  
+  var inputtraduttore_adattatore = document.querySelector('input[name=traduttore_adattatore]')
+  // init Tagify script on the above inputs
+  tagifytraduttore_adattatore = new Tagify(inputtraduttore_adattatore,{whitelist:parseinput(inputtraduttore_adattatore),enforceWhitelist:true});
+  // listen to any keystrokes which modify tagify's input
+  tagifytraduttore_adattatore.on('input', onInputtraduttore_adattatore)
+  function onInputtraduttore_adattatore( e ){ 
+    getdata(e,tagifytraduttore_adattatore,urlcercapersona)
+  }
+
+  var inputcopista = document.querySelector('input[name=copista]')
+  // init Tagify script on the above inputs
+  tagifycopista = new Tagify(inputcopista,{whitelist:parseinput(inputcopista),enforceWhitelist:true});
+  // listen to any keystrokes which modify tagify's input
+  tagifycopista.on('input', onInputcopista)
+  function onInputcopista( e ){ 
+    getdata(e,tagifycopista,urlcercapersona)
+  }
+  
+  var urloperaidentificata = "{{url_for('cercaopera', jsonformat='keyvalue',q='')}}"
+  var inputopera_identificata = document.querySelector('input[name=opera_identificata]')
+  // init Tagify script on the above inputs
+  tagifyopera_identificata = new Tagify(inputopera_identificata,{whitelist:parseinput(inputopera_identificata),enforceWhitelist:true});
+  // listen to any keystrokes which modify tagify's input
+  tagifyopera_identificata.on('input', onInputopera_identificataa)
+  function onInputopera_identificataa( e ){ 
+    getdata(e,tagifyopera_identificata,urloperaidentificata)
+  }
+
+  var urloentipersonefamiglie = "{{url_for('cercaentifamiglieopersone', jsonformat='keyvalue',q='')}}"
+  var inputpossessore = document.querySelector('input[name=possessore]')
+  // init Tagify script on the above inputs
+  tagifypossessore = new Tagify(inputpossessore,{whitelist:parseinput(inputpossessore),enforceWhitelist:true});
+  // listen to any keystrokes which modify tagify's input
+  tagifypossessore.on('input', onInputpossessore)
+  function onInputpossessore( e ){ 
+    getdata(e,tagifypossessore,urloentipersonefamiglie)
+  }
+  var inputcommittente = document.querySelector('input[name=committente]')
+  // init Tagify script on the above inputs
+  tagifycommittente = new Tagify(inputcommittente,{whitelist:parseinput(inputcommittente),enforceWhitelist:true});
+  // listen to any keystrokes which modify tagify's input
+  tagifycommittente.on('input', onInputcommittentea)
+  function onInputcommittentea( e ){ 
+    getdata(e,tagifycommittente,urloentipersonefamiglie)
+  }
+  var urlluoghi = "{{url_for('cercaluogo', jsonformat='keyvalue',q='')}}"
+  var inputluogo = document.querySelector('input[name=luogo]')
+  // init Tagify script on the above inputs
+  tagifyluogo = new Tagify(inputluogo,{whitelist:parseinput(inputluogo),enforceWhitelist:true});
+  // listen to any keystrokes which modify tagify's input
+  tagifyluogo.on('input', onInputluogoa)
+  function onInputluogoa( e ){ 
+    getdata(e,tagifyluogo,urlluoghi)
+  }
+  }
+  // // "remove all tags" button event listener
+  // document.querySelector('.tags--removeAllBtn')
+  //     .addEventListener('click', tagify.removeAllTags.bind(tagify))
+
+  // // Chainable event listeners
+  // tagify.on('add', onAddTag)
+  //       .on('remove', onRemoveTag)
+  //       .on('invalid', onInvalidTag);
+
+  // // tag added callback
+  // function onAddTag(e){
+  //     console.log(e, e.detail);
+  //     console.log( tagify.DOM.originalInput.value )
+  //     tagify.off('add', onAddTag) // exmaple of removing a custom Tagify event
+  // }
+
+  // // tag remvoed callback
+  // function onRemoveTag(e){
+  //     console.log(e, e.detail);
+  // }
+
+  // // invalid tag added callback
+  // function onInvalidTag(e){
+  //     console.log(e, e.detail);
+  // }
+</script>
+</body>
+</html>
