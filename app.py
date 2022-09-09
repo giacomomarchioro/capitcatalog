@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # app.py
 
+from sys import prefix
 from flask import Flask, render_template,url_for, request, redirect,jsonify 
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import FlaskForm
@@ -424,6 +425,9 @@ class MainForm(FlaskForm):
     segnatura = StringField("Segnatura",
                             validators=[], render_kw={'class': "form-control", }
                             )
+    id_segnature_collegate = StringField("Segnature collegate:",
+                            validators=[], render_kw={'class': "form-control", }
+                            )
     manifest = StringField("Manifest:",
                             validators=[], render_kw={'class': "form-control", }
                             )
@@ -456,9 +460,12 @@ class MainForm(FlaskForm):
     storia_desc = TextAreaField("Sommario:",
                             validators=[], render_kw={'class': "form-control",'rows':"4" }
                             )
-    id_segnature_collegate = StringField("Segnature collegate:",
-                            validators=[], render_kw={'class': "form-control", }
-                            )
+   
+    parte = FieldList(
+        FormField(Parte),
+        min_entries=1,
+        max_entries=200
+    )
                             
     descrizione_esterna = FieldList(
         FormField(DescEst),
@@ -490,7 +497,7 @@ class MainForm(FlaskForm):
         max_entries=200
     )
 
-     
+    # the ID must be equal to this:
     facsimile = FieldList(
         FormField(Facsimile),
         min_entries=1,
@@ -558,6 +565,22 @@ class TagTesto(FlaskForm):
     opera_identificata = StringField("Opera identificata:",validators=[])
     bibliografia = StringField("Bibliografia:",validators=[])
 
+class TagSegnatura(FlaskForm):
+    """Parent form.""" 
+    autore_mittente = StringField("Autore o mittente:",validators=[])
+    commentatore = StringField("Commentatore:",validators=[])
+    possessore = StringField("Possessore:",validators=[])
+    committente = StringField("Committente:",validators=[])
+    dedicatario = StringField("Dedicatario:",validators=[])
+    destinatario = StringField("Destinatario:",validators=[])
+    epitomatore = StringField("Epitomatore:",validators=[])
+    glossatore = StringField("Glossatore:",validators=[])
+    traduttore_adattatore = StringField("Traduttore Adattatore:",validators=[])
+    copista = StringField("Copista:",validators=[])
+    opera_identificata = StringField("Opera identificata:",validators=[])
+    luogo = StringField("Luogo:",validators=[])
+
+
 
 
 # Initialize app
@@ -610,6 +633,7 @@ def insertfield(segnatura):
     #form = MainForm(MultiDict(varx))
     form = MainForm()
     #form.populate_obj(varx)
+    template_formP = Parte(prefix='parte-_-')
     template_form = DescInt(prefix='descrizione_interna-_-')
     template_form2 = Copisti(prefix='copisti-_-')
     template_form3 = AnnotazioniMarg(prefix='annotazioni_marginali-_-')
@@ -626,14 +650,13 @@ def insertfield(segnatura):
                 template_form4.Descrizione_Esterna_Segnatura.choices = descrizioni_esterne_id2
 
 
-    template_form5 = Facsimile(prefix='biblio_int_libri-_-')
+    template_form5 = Facsimile(prefix='facsimile-_-')
     template_form6 = DescEst(prefix='descrizione_esterna-_-')
     log = "n.d."   
     if form.validate_on_submit():
         # Create race
         #new_race = Race()
         #import pdb; pdb.set_trace()
-
         print("Entrato")
         data_dict = form.data
         if 'csrf_token' in data_dict.keys():
@@ -687,6 +710,7 @@ def insertfield(segnatura):
     return render_template(
         'index.html',
         form=form,
+        _templateP=template_formP,
         _template=template_form,
         _template2=template_form2,
         _template3=template_form3,
@@ -877,17 +901,58 @@ def cercaopera(jsonformat):
     return response
 
 
-@app.route('/tagtesto/<segnatura>/<componente>/<idint>', methods=['GET', 'POST'])
-def tagtesto(segnatura,componente,idint):
+@app.route('/cercaentifamiglieopersone/<jsonformat>/')
+def cercaentifamiglieopersone(jsonformat):
+    q = request.args.get('q',None)
+    regx = re.compile(q, re.IGNORECASE)
+    query = {"$and" : [{"$or":[{"tipologia":"Persona"},{"tipologia":"Famiglia"},{"tipologia":"Ente"}]},
+                       {"$or":[{"identificativo": regx},
+                            {"altre_forme": regx}]}]}
+    entifamiglieopersone = client.capitolare.nameauthority.find(query)
+    datadict = dict()
+    datadict['results'] = []
+    if jsonformat == "keyvalue":
+        for i in entifamiglieopersone: 
+            dataentity = dict()
+            dataentity['value'] = i['identificativo']
+            dataentity['key'] = i['idauthority']
+            datadict['results'].append(dataentity)
+
+    response = jsonify(datadict)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+@app.route('/cercaluogo/<jsonformat>/')
+def cercaluogo(jsonformat):
+    q = request.args.get('q',None)
+    regx = re.compile(q, re.IGNORECASE)
+    query = {"$and" : [{"tipologia":"Luogo"},
+                    {"$or":[{"identificativo": regx},
+                            {"altre_forme": regx}]}]}
+    luoghi = client.capitolare.nameauthority.find(query)
+    datadict = dict()
+    datadict['results'] = []
+    if jsonformat == "keyvalue":
+        for luogo in luoghi: 
+            dataentity = dict()
+            dataentity['value'] = luogo['identificativo']
+            dataentity['key'] = luogo['idauthority']
+            datadict['results'].append(dataentity)
+
+    response = jsonify(datadict)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+@app.route('/tagsegnatura/<segnatura>', methods=['GET', 'POST'])
+def tagsegnatura(segnatura):
     # http://localhost:5000/tagtesto/mtesto/test/1-2?l=2r-57v
 
-    form = TagTesto()
-    l = request.args.get('l',None)
+    form = TagSegnatura()
     stato = ""
-    query = { "$and" : [ {"segnatura":segnatura},{"componente":componente},{"idint":idint}]}
+    componente = "-tuttelecomponenti-"
+    query = { "$and" : [ {"segnatura":segnatura},{"componente":componente}]}
     varx = client.capitolare.riferimenti.find_one(query)
     mod = False
-    el_id = request.args.get('id',None)
     def parseresult(field):
         ids = []
         string = form.data[field]
@@ -899,8 +964,11 @@ def tagtesto(segnatura,componente,idint):
         data_dict = form.data
         data_dict['segnatura'] = segnatura
         data_dict['componente'] = componente
-        data_dict['idint'] = idint
-        data_dict['locus'] = l
+        data_dict['idint'] = "-"
+        data_dict['locus'] = "-"
+        data_dict['possessore_ids'] = parseresult('possessore')
+        data_dict['committente_ids'] = parseresult('committente')
+        data_dict['luogo_ids'] = parseresult('luogo')
         data_dict['autore_mittente_ids'] = parseresult('autore_mittente')
         data_dict['commentatore_ids'] = parseresult('commentatore')
         data_dict['dedicatario_ids'] = parseresult('dedicatario')
@@ -922,12 +990,9 @@ def tagtesto(segnatura,componente,idint):
     #breakpoint()
     if varx is not None:
         form.process(data=varx)
-    return render_template('tagtesto.html',
+    return render_template('tagsegnatura.html',
                             form=form,
-                            segnatura=segnatura,
-                            componente=componente,
-                            idint=idint,
-                            locus=l)
+                            segnatura=segnatura)
 
 @app.route('/test')
 def test():

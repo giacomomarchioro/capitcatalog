@@ -10,6 +10,109 @@ Arguments:
 this should match `loop.index0`, and for the template it should be
 '_'
 #}
+{%- macro render_lap_form_parte(subform, index) %}
+<div id="parte-{{ index }}-form" class="{% if index != '_' %}subformP{% else %}is-hidden{% endif %}"
+  data-index="{{ index }}">
+    <h5 id="parte-{{ index }}-formH" class="text-center">1</h5>
+    <div class="row g-2">
+
+      <div class="col-md">
+        <div class="form-floating">
+          {{subform.identificativo_parte}}
+          <label for="floatingInputGrid2">Identificativo</label>
+        </div>
+        <div class="alert alert-info " role="alert">
+          <b>Per esempio:</b> <i>membr. (supporto di qualità modesta)</i>  <a
+            href={{"".join([url_for("lineeguidacat"),"#tipo_di_supporto_e_qualita"])}} class="alert-link">ℹ️</a>.
+        </div>
+      </div>
+
+      <div class="col-md">
+        <div class="form-floating">
+          {{subform.collocazione}}
+          <label for="floatingInputGrid2">Collocazione</label>
+        </div>
+        <div class="alert alert-info " role="alert">
+          <b>Per esempio:</b> <i>membr. (supporto di qualità modesta)</i>  <a
+            href={{"".join([url_for("lineeguidacat"),"#tipo_di_supporto_e_qualita"])}} class="alert-link">ℹ️</a>.
+        </div>
+      </div>
+      <div class="col-md">
+        <div class="form-floating">
+          {{subform.consistenza}}
+          <label for="floatingInputGrid2">Consistenza</label>
+        </div>
+        <div class="alert alert-info " role="alert">
+          <b>Per esempio:</b> <i>membr. (supporto di qualità modesta)</i>  <a
+            href={{"".join([url_for("lineeguidacat"),"#tipo_di_supporto_e_qualita"])}} class="alert-link">ℹ️</a>.
+        </div>
+      </div>
+
+      <div class="col-md">
+        <div class="form-floating">
+          {{subform.carte_di_guardia}}
+          <label for="floatingInputGrid3">Carte di guardia</label>
+        </div>
+        <div class="alert alert-info " role="alert">
+          <b>Per esempio:</b> <i>cc. II, 254, I</i>  <a href={{"".join([url_for("lineeguidacat"),"#consistenza"])}}
+            class="alert-link">ℹ️</a>.
+        </div>
+      </div>
+    </div>
+    <div class="row g-2">
+
+      <div class="col-lg-3">
+        <div class="form-floating">
+          {{subform.largezza_mm}}
+          <label for="floatingInputGridDI0a">Larghezza (mm)</label>
+        </div>
+        <div class="alert alert-info" role="alert">
+           Si intende dell'oggetto chiuso senza custodia.  <a
+            href={{"".join([url_for("lineeguidacat"),"#autore"])}} class="alert-link">ℹ️</a>.
+        </div>
+      </div>
+
+      <div class="col-lg-3">
+          <div class="form-floating">
+            {{subform.ampiezza_mm}}
+            <label for="floatingInputGridDI0b">Ampiezza (mm)</label>
+          </div>
+          <div class="alert alert-info" role="alert">
+              Si intende dell'oggetto chiuso senza custodia.  <a
+              href={{"".join([url_for("lineeguidacat"),"#autore"])}} class="alert-link">ℹ️</a>.
+          </div>
+      </div>
+
+      <div class="col-lg-3">
+          <div class="form-floating">
+            {{subform.profondita_mm}}
+            <label for="floatingInputGridDI0c">Profondita (mm) </label>
+          </div>
+          <div class="alert alert-info" role="alert">
+              Si intende dell'oggetto chiuso senza custodia.  <a
+              href={{"".join([url_for("lineeguidacat"),"#autore"])}} class="alert-link">ℹ️</a>.
+          </div>
+      </div>
+
+      <div class="col-lg-3">
+          <div class="form-floating">
+            {{subform.legatura}}
+            <label for="floatingInputGridDI0d">Legatura</label>
+          </div>
+          <div class="alert alert-info" role="alert">
+            La custodia è un elemento rimuovibile dove è contenuto l'oggetto.  <a
+              href={{"".join([url_for("lineeguidacat"),"#autore"])}} class="alert-link">ℹ️</a>.
+          </div>
+      </div>
+    </div>
+    <div class="row g-2">
+      <div class="col-lg-2">
+        <button type="button" class="remove_P btn btn-danger">Elimina parte</button>
+      </div>
+    </div>
+</div>
+{%- endmacro %}
+
 {%- macro render_lap_form_est(subform, index) %}
 
 <div id="descrizione_esterna-{{ index }}-form" class="{% if index != '_' %}subform0{% else %}is-hidden{% endif %}"
@@ -74,111 +177,109 @@ this should match `loop.index0`, and for the template it should be
       </div>
     </div>
     <!-- datazione e trascrizione -->
-      <div class="row g-2">
-        <div class="col-lg-3">
-          <div class="form-floating">
-            {{subform.datazione}}
-            <label for="floatingInputGrid1">Datazione</label>
-          </div>
-          <div class="alert alert-info " role="alert">
-            <b>Per esempio:</b>✅ <i>Sec. V med.</i> ❌ <i>V med.</i> <a href={{"".join([url_for("lineeguidacat"),"#datazione"])}}
-              class="alert-link">ℹ️</a>.
-          </div>
+    <div class="row g-2">
+      <div class="col-lg-3">
+        <div class="form-floating">
+          {{subform.datazione}}
+          <label for="floatingInputGrid1">Datazione</label>
         </div>
-        <div class="col-lg-2">
-          <div class="form-floating">
-            {{subform.non_prima}}
-            <label for="floatingInputGrid0">Non prima:</label>
-          </div>
-          <div class="alert alert-info " role="alert">
-            <b>Per esempio:</b> <i>0545-3-1</i>  <a href={{"".join([url_for("lineeguidacat"),"#datazione"])}}
-              class="alert-link"
-              title="La segnatura rappresenta il un identificativo univocod del codice in questo catalogo viene mantenuta la segnatura moderna e tra parentesi tonde quella antica.">ℹ️</a>.
-          </div>
+        <div class="alert alert-info " role="alert">
+          <b>Per esempio:</b>✅ <i>Sec. V med.</i> ❌ <i>V med.</i> <a href={{"".join([url_for("lineeguidacat"),"#datazione"])}}
+            class="alert-link">ℹ️</a>.
         </div>
-
-        <div class="col-lg-2">
-          <div class="form-floating">
-            {{subform.non_dopo}}
-            <label for="floatingInputGrid1">Non dopo</label>
-          </div>
-          <div class="alert alert-info " role="alert">
-            <b>Per esempio:</b> <i>0545-3-1</i>  <a href={{"".join([url_for("lineeguidacat"),"#datazione"])}}
-              class="alert-link">ℹ️</a>.
-          </div>
-        </div>
-        <div class="col-lg-2">
-          <div class="form-floating">
-            {{subform.locus_datazione}}
-            <label for="floatingInputGrid1">Locus datazione</label>
-          </div>
-          <div class="alert alert-info " role="alert">
-            <b>Per esempio:</b> <i>c. 5r</i>  <a href={{"".join([url_for("lineeguidacat"),"#datazione"])}}
-              class="alert-link">ℹ️</a>.
-          </div>
-        </div>
-        <div class="col-lg-3">
-          <div class="form-floating">
-            {{subform.trascrizione_datazione}}
-            <label for="floatingInputGrid0">Trascrizione datazione</label>
-          </div>
-          <div class="alert alert-info " role="alert">
-            <b>Per esempio:</b> <i>Anno domini XXVII</i>  <a
-              href={{"".join([url_for("lineeguidacat"),"#Segnatura"])}} class="alert-link"
-              title="La segnatura rappresenta il un identificativo univocod del codice in questo catalogo viene mantenuta la segnatura moderna e tra parentesi tonde quella antica.">ℹ️</a>.
-          </div>
-        </div>
-
-
       </div>
-        <!-- luogo e trascrizione -->
-        <div class="row g-2">
-          <div class="col-lg-2">
-            <div class="form-floating">
-              {{subform.luogo}}
-              <label for="floatingInputGrid1">Luogo</label>
-            </div>
-            <div class="alert alert-info " role="alert">
-              <b>Per esempio:</b> <i>Verona</i>  <a href={{"".join([url_for("lineeguidacat"),"#datazione"])}}
-                class="alert-link">ℹ️</a>.
-            </div>
-          </div>
-          <div class="col-lg-3">
-            <div class="form-floating">
-              {{subform.trascrizione_luogo}}
-              <label for="floatingInputGrid0">Trascizione luogo</label>
-            </div>
-            <div class="alert alert-info " role="alert">
-              <b>Per esempio:</b> <i>Veronae</i>  <a href={{"".join([url_for("lineeguidacat"),"#datazione"])}}
-                class="alert-link"
-                title="La segnatura rappresenta il un identificativo univocod del codice in questo catalogo viene mantenuta la segnatura moderna e tra parentesi tonde quella antica.">ℹ️</a>.
-            </div>
-          </div>
-  
-          <div class="col-lg-2">
-            <div class="form-floating">
-              {{subform.locus_luogo}}
-              <label for="floatingInputGrid1">Locus luogo</label>
-            </div>
-            <div class="alert alert-info " role="alert">
-              <b>Per esempio:</b> <i>c. 3r</i>  <a href={{"".join([url_for("lineeguidacat"),"#datazione"])}}
-                class="alert-link">ℹ️</a>.
-            </div>
-          </div>
-          <div class="col-lg-5">
-            <div class="form-floating">
-              {{subform.link_immagine_luogo}}
-              <label for="floatingInputGrid1">Link immagine luogo</label>
-            </div>
-            <div class="alert alert-info " role="alert">
-              <b>Per esempio:</b> non mettere la foto del luogo ma la porzione del manoscritto!  <a href={{"".join([url_for("lineeguidacat"),"#datazione"])}}
-                class="alert-link">ℹ️</a>.
-            </div>
-          </div>
-          </div>
-  
-  
+      <div class="col-lg-2">
+        <div class="form-floating">
+          {{subform.non_prima}}
+          <label for="floatingInputGrid0">Non prima:</label>
         </div>
+        <div class="alert alert-info " role="alert">
+          <b>Per esempio:</b> <i>0545-3-1</i>  <a href={{"".join([url_for("lineeguidacat"),"#datazione"])}}
+            class="alert-link"
+            title="La segnatura rappresenta il un identificativo univocod del codice in questo catalogo viene mantenuta la segnatura moderna e tra parentesi tonde quella antica.">ℹ️</a>.
+        </div>
+      </div>
+
+      <div class="col-lg-2">
+        <div class="form-floating">
+          {{subform.non_dopo}}
+          <label for="floatingInputGrid1">Non dopo</label>
+        </div>
+        <div class="alert alert-info " role="alert">
+          <b>Per esempio:</b> <i>0545-3-1</i>  <a href={{"".join([url_for("lineeguidacat"),"#datazione"])}}
+            class="alert-link">ℹ️</a>.
+        </div>
+      </div>
+      <div class="col-lg-2">
+        <div class="form-floating">
+          {{subform.locus_datazione}}
+          <label for="floatingInputGrid1">Locus datazione</label>
+        </div>
+        <div class="alert alert-info " role="alert">
+          <b>Per esempio:</b> <i>c. 5r</i>  <a href={{"".join([url_for("lineeguidacat"),"#datazione"])}}
+            class="alert-link">ℹ️</a>.
+        </div>
+      </div>
+      <div class="col-lg-3">
+        <div class="form-floating">
+          {{subform.trascrizione_datazione}}
+          <label for="floatingInputGrid0">Trascrizione datazione</label>
+        </div>
+        <div class="alert alert-info " role="alert">
+          <b>Per esempio:</b> <i>Anno domini XXVII</i>  <a
+            href={{"".join([url_for("lineeguidacat"),"#Segnatura"])}} class="alert-link"
+            title="La segnatura rappresenta il un identificativo univocod del codice in questo catalogo viene mantenuta la segnatura moderna e tra parentesi tonde quella antica.">ℹ️</a>.
+        </div>
+      </div>
+
+
+    </div>
+    <!-- luogo e trascrizione -->
+    <div class="row g-2">
+      <div class="col-lg-2">
+        <div class="form-floating">
+          {{subform.luogo}}
+          <label for="floatingInputGrid1">Luogo</label>
+        </div>
+        <div class="alert alert-info " role="alert">
+          <b>Per esempio:</b> <i>Verona</i>  <a href={{"".join([url_for("lineeguidacat"),"#datazione"])}}
+            class="alert-link">ℹ️</a>.
+        </div>
+      </div>
+      <div class="col-lg-3">
+        <div class="form-floating">
+          {{subform.trascrizione_luogo}}
+          <label for="floatingInputGrid0">Trascizione luogo</label>
+        </div>
+        <div class="alert alert-info " role="alert">
+          <b>Per esempio:</b> <i>Veronae</i>  <a href={{"".join([url_for("lineeguidacat"),"#datazione"])}}
+            class="alert-link"
+            title="La segnatura rappresenta il un identificativo univocod del codice in questo catalogo viene mantenuta la segnatura moderna e tra parentesi tonde quella antica.">ℹ️</a>.
+        </div>
+      </div>
+
+      <div class="col-lg-2">
+        <div class="form-floating">
+          {{subform.locus_luogo}}
+          <label for="floatingInputGrid1">Locus luogo</label>
+        </div>
+        <div class="alert alert-info " role="alert">
+          <b>Per esempio:</b> <i>c. 3r</i>  <a href={{"".join([url_for("lineeguidacat"),"#datazione"])}}
+            class="alert-link">ℹ️</a>.
+        </div>
+      </div>
+      <div class="col-lg-5">
+        <div class="form-floating">
+          {{subform.link_immagine_luogo}}
+          <label for="floatingInputGrid1">Link immagine luogo</label>
+        </div>
+        <div class="alert alert-info " role="alert">
+          <b>Per esempio:</b> non mettere la foto del luogo ma la porzione del manoscritto!  <a href={{"".join([url_for("lineeguidacat"),"#datazione"])}}
+            class="alert-link">ℹ️</a>.
+        </div>
+      </div>
+    </div>
+    </div>
     <div class="row g-2">
 
       <div class="col-md">
@@ -604,14 +705,13 @@ this should match `loop.index0`, and for the template it should be
       
     </div>
     <div class="row g-2">
-      <div class="col-md my-auto text-center">
+      <div class="col-lg-2 my-auto text-center">
         <button type="button" class="remove_1 btn btn-danger">Elimina descrizione interna</button>
-
       </div>
+    </div>
       <hr />
     </div>
   </div>
-</div>
 {%- endmacro %}
 
 {%- macro render_lap_form2(subform, index) %}
@@ -1131,7 +1231,7 @@ this should match `loop.index0`, and for the template it should be
 {%- endmacro %}
 
 {%- macro render_lap_form5(subform, index) %}
-<div id="biblio_int_libri-{{ index }}-form" class="{% if index != '_' %}subform5{% else %}is-hidden{% endif %}"
+<div id="facsimile-{{ index }}-form" class="{% if index != '_' %}subform5{% else %}is-hidden{% endif %}"
   data-index="{{ index }}">
   <div>
     <h5 id="inc-0-" class="text-center">1</h5>

@@ -217,8 +217,8 @@ window.onload = function (){
   // init Tagify script on the above inputs
   tagifyopera_identificata = new Tagify(inputopera_identificata,{whitelist:parseinput(inputopera_identificata),enforceWhitelist:true});
   // listen to any keystrokes which modify tagify's input
-  tagifyopera_identificata.on('input', onInputcopista)
-  function onInputcopista( e ){ 
+  tagifyopera_identificata.on('input', onInputopera_identificataa)
+  function onInputopera_identificataa( e ){ 
     getdata(e,tagifyopera_identificata,urloperaidentificata)
   }
 
