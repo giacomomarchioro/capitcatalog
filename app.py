@@ -967,6 +967,58 @@ def cercaluogo(jsonformat):
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
+@app.route('/tagtesto/<segnatura>/<componente>/<idint>', methods=['GET', 'POST'])
+def tagtesto(segnatura,componente,idint):
+    # http://localhost:5000/tagtesto/mtesto/test/1-2?l=2r-57v
+
+    form = TagTesto()
+    l = request.args.get('l',None)
+    stato = ""
+    query = { "$and" : [ {"segnatura":segnatura},{"componente":componente},{"idint":idint}]}
+    varx = client.capitolare.riferimenti.find_one(query)
+    mod = False
+    el_id = request.args.get('id',None)
+    def parseresult(field):
+        ids = []
+        string = form.data[field]
+        if string != "":
+            ids = [ i['key'] for i in  ast.literal_eval(string)]
+        return ids
+
+    if form.validate_on_submit():
+        data_dict = form.data
+        data_dict['segnatura'] = segnatura
+        data_dict['componente'] = componente
+        data_dict['idint'] = idint
+        data_dict['locus'] = l
+        data_dict['autore_mittente_ids'] = parseresult('autore_mittente')
+        data_dict['commentatore_ids'] = parseresult('commentatore')
+        data_dict['dedicatario_ids'] = parseresult('dedicatario')
+        data_dict['destinatario_ids'] = parseresult('destinatario')
+        data_dict['epitomatore_ids'] = parseresult('epitomatore')
+        data_dict['glossatore_ids'] = parseresult('glossatore')
+        data_dict['traduttore_adattatore_ids'] = parseresult('traduttore_adattatore')
+        data_dict['copista_ids'] = parseresult('copista')
+        if 'csrf_token' in data_dict.keys():
+            del data_dict['csrf_token']
+        if varx is None:
+            client.capitolare.riferimenti.insert_one(data_dict)
+            varx = client.capitolare.riferimenti.find_one(query)
+        else:
+            client.capitolare.riferimenti.update_one({'_id': varx['_id']},{'$set':data_dict}, upsert=False)
+            #TO DO: Avoid query
+            log = datetime.datetime.now().strftime("%H:%M:%S")
+            varx = client.capitolare.riferimenti.find_one(query)
+    #breakpoint()
+    if varx is not None:
+        form.process(data=varx)
+    return render_template('tagtesto.html',
+                            form=form,
+                            segnatura=segnatura,
+                            componente=componente,
+                            idint=idint,
+                            locus=l)
+
 @app.route('/tagsegnatura/<segnatura>', methods=['GET', 'POST'])
 def tagsegnatura(segnatura):
     # http://localhost:5000/tagtesto/mtesto/test/1-2?l=2r-57v
