@@ -141,6 +141,9 @@ class Storia_del_manoscritto(Form):
     trascrizione_datazione =  StringField("Trascrizione datazione",
                             validators=[], render_kw={'class': "form-control", }
                             )
+    note_datazione =  StringField("Note datazione",
+                            validators=[], render_kw={'class': "form-control", }
+                            )          
     locus_datazione = StringField("Locus datazione",
                             validators=[], render_kw={'class': "form-control", }
                             ) 
@@ -194,6 +197,9 @@ class AnnotazioniMarg(Form):
     trascrizione_datazione =  StringField("Trascrizione datazione",
                             validators=[], render_kw={'class': "form-control", }
                             )
+    note_datazione =  StringField("Note datazione",
+                            validators=[], render_kw={'class': "form-control", }
+                            ) 
     locus_datazione = StringField("Locus datazione",
                             validators=[], render_kw={'class': "form-control", }
                             ) 
@@ -251,6 +257,9 @@ class Copisti(Form):
     non_dopo =  StringField("Non dopo",
                             validators=[], render_kw={'class': "form-control", }
                             )
+    note_datazione =  StringField("Note datazione",
+                            validators=[], render_kw={'class': "form-control", }
+                            ) 
     tipologia_scrittura = SelectField(u'Tipologia', choices=[
         ('Capitale Romana','Capitale Romana'),
         ('Corsiva Romana','Corsiva Romana'),
@@ -311,7 +320,9 @@ class DescInt(Form):
 
     acefalo = BooleanField(u'Acefalo:')
 
-    mutilo = BooleanField(u'Tipologia di testo:')
+    lacunoso = BooleanField(u'Lacunoso:')
+
+    mutilo = BooleanField(u'Mutilo:')
 
     Descrizione_Esterna_Segnatura = SelectField(u'ID_descrizione_esterna', choices=[('Non assegnato', 'Non assegnato')],validate_choice=False,render_kw={'class': "form-control id-componente", })
     
@@ -337,6 +348,9 @@ class DescEst(Form):
     datazione = StringField("Datazione",
                             validators=[], render_kw={'class': "form-control", }
                             )
+    note_datazione =  StringField("Note datazione",
+                            validators=[], render_kw={'class': "form-control", }
+                            ) 
     trascrizione_datazione =  StringField("Trascrizione datazione",
                             validators=[], render_kw={'class': "form-control", }
                             )
@@ -352,6 +366,9 @@ class DescEst(Form):
     luogo = StringField("Luogo",
                             validators=[], render_kw={'class': "form-control", }
                             )
+    note_sul_luogo =  StringField("Note sul luogo",
+                            validators=[], render_kw={'class': "form-control", }
+                            )
     trascrizione_luogo = StringField("Trascrizione luogo",
                             validators=[], render_kw={'class': "form-control", }
                             )
@@ -364,7 +381,6 @@ class DescEst(Form):
     tipo_di_supporto_e_qualita = StringField("Tipo di supporto e qualita",
                                              validators=[], render_kw={'class': "form-control", }
                                              )
-
     consistenza = StringField("Consistenza",
                               validators=[], render_kw={'class': "form-control", }
                               )
@@ -396,7 +412,7 @@ class DescEst(Form):
                                validators=[], render_kw={'class': "form-control", }
                                )
     Descrizione_Esterna_Segnatura = StringField("Descrizione esterna segnatura",
-                                                validators=[], render_kw={'class': "form-control", }
+                                                validators=[], render_kw={'class': "form-control id-componente", }
                                                 )
     numero_di_fascicolo = StringField("Numero di fascicolo",
                             validators=[], render_kw={'class': "form-control", }
@@ -404,7 +420,7 @@ class DescEst(Form):
     decorazioni = StringField("Decorazioni",
                         validators=[], render_kw={'class': "form-control", }
                         )
-    filigrana = SelectField(u"Filigrana", choices=[( 'Ravvisabile','ravvisabile'),( 'Non ravvisabile','non ravvisabile') ],render_kw={'class': "form-control", })
+    filigrana = StringField(u"Filigrana",render_kw={'class': "form-control", })
     
     orchid = StringField("Orch.ID.",
                     validators=[],
@@ -589,7 +605,7 @@ class TagTesto(FlaskForm):
     opera_identificata = StringField("Opera identificata:",validators=[])
     bibliografia = StringField("Bibliografia:",validators=[])
 
-class TagSegnatura(FlaskForm):
+class TagManufatto(FlaskForm):
     """Parent form.""" 
     autore_mittente = StringField("Autore o mittente:",validators=[])
     commentatore = StringField("Commentatore:",validators=[])
@@ -806,7 +822,6 @@ def deletealtidentifier(segnatura):
 def getnameauthoritydb():
     namelist = client.capitolare.nameauthority.find()
     offset = request.args.get('offset',None)
-    breakpoint()
     data = json.loads(dumps(list(namelist)))
     return {'data': data}
 
@@ -978,6 +993,10 @@ def tagtesto(segnatura,componente,idint):
     varx = client.capitolare.riferimenti.find_one(query)
     mod = False
     el_id = request.args.get('id',None)
+    if componente == 'interacomponente':
+        tipologia = 'manoscritto'
+    else:
+        tipologia = 'opera'
     def parseresult(field):
         ids = []
         string = form.data[field]
@@ -987,6 +1006,7 @@ def tagtesto(segnatura,componente,idint):
 
     if form.validate_on_submit():
         data_dict = form.data
+        data_dict['tipologia'] = tipologia
         data_dict['segnatura'] = segnatura
         data_dict['componente'] = componente
         data_dict['idint'] = idint
@@ -1019,13 +1039,13 @@ def tagtesto(segnatura,componente,idint):
                             idint=idint,
                             locus=l)
 
-@app.route('/tagsegnatura/<segnatura>', methods=['GET', 'POST'])
-def tagsegnatura(segnatura):
+@app.route('/tagmanufatto/<segnatura>', methods=['GET', 'POST'])
+def TagManufatto(segnatura):
     # http://localhost:5000/tagtesto/mtesto/test/1-2?l=2r-57v
 
-    form = TagSegnatura()
+    form = TagManufatto()
     stato = ""
-    componente = "-tuttelecomponenti-"
+    componente = "-"
     query = { "$and" : [ {"segnatura":segnatura},{"componente":componente}]}
     varx = client.capitolare.riferimenti.find_one(query)
     mod = False
@@ -1038,6 +1058,7 @@ def tagsegnatura(segnatura):
 
     if form.validate_on_submit():
         data_dict = form.data
+        data_dict['tipologia'] = 'manoscritto'
         data_dict['segnatura'] = segnatura
         data_dict['componente'] = componente
         data_dict['idint'] = "-"
@@ -1066,7 +1087,7 @@ def tagsegnatura(segnatura):
     #breakpoint()
     if varx is not None:
         form.process(data=varx)
-    return render_template('tagsegnatura.html',
+    return render_template('TagManufatto.html',
                             form=form,
                             segnatura=segnatura)
 
@@ -1079,5 +1100,5 @@ def iiifjcrop():
     return render_template('microvisualizzatoremanifest.html')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=5432)
 
