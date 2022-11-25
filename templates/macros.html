@@ -175,6 +175,13 @@ this should match `loop.index0`, and for the template it should be
             href={{"".join([url_for("lineeguidacat"),"#Descrizione_Esterna_Segnatura"])}} class="alert-link">ℹ️</a>.
         </div>
       </div>
+
+      <div class="col-lg-2">
+        <button type="button" class="btn btn-primary" onclick="VaiAlFormComponente(this)">Aggiungi responsabilità</button>
+      <div class="alert alert-info" role="alert">
+        <b>Per esempio:</b> <i>102</i>  <a href={{"".join([url_for("lineeguidacat"),"#id"])}}
+          class="alert-link">ℹ️</a>.
+      </div>
     </div>
     <!-- datazione e trascrizione -->
     <div class="row g-2">
@@ -279,6 +286,30 @@ this should match `loop.index0`, and for the template it should be
         </div>
       </div>
     </div>
+    </div>
+    <div class="row g-2">
+
+      <div class="col-md">
+        <div class="form-floating">
+          {{subform.note_datazione}}
+          <label for="floatingInputGrid2">Note sulla datazione</label>
+        </div>
+        <div class="alert alert-info " role="alert">
+          <b>Per esempio:</b> <i>membr. (supporto di qualità modesta)</i>  <a
+            href={{"".join([url_for("lineeguidacat"),"#tipo_di_supporto_e_qualita"])}} class="alert-link">ℹ️</a>.
+        </div>
+      </div>
+
+      <div class="col-md">
+        <div class="form-floating">
+          {{subform.note_sul_luogo}}
+          <label for="floatingInputGrid3">Note sul luogo</label>
+        </div>
+        <div class="alert alert-info " role="alert">
+          <b>Per esempio:</b> <i>cc. II, 254, I</i>  <a href={{"".join([url_for("lineeguidacat"),"#consistenza"])}}
+            class="alert-link">ℹ️</a>.
+        </div>
+      </div>
     </div>
     <div class="row g-2">
 
@@ -495,6 +526,7 @@ this should match `loop.index0`, and for the template it should be
     </div>
   <br><br>
 </div>
+</div>
 {%- endmacro %}
 
 
@@ -687,6 +719,7 @@ this should match `loop.index0`, and for the template it should be
       
       <div class="col-lg-2">
             Acefalo: {{subform.acefalo}}
+            Lacunoso:  {{subform.lacunoso}}
             Mutilo:  {{subform.mutilo}}
           {% for field, errors in subform.errors.items() %}
           <div class="alert alert-danger" role="alert">
@@ -821,7 +854,16 @@ this should match `loop.index0`, and for the template it should be
             href={{"".join([url_for("lineeguidacat"),"#Descrizione_Esterna_Segnatura"])}} class="alert-link">ℹ️</a>.
         </div>
       </div>
-
+      <div class="col-md">
+        <div class="form-floating">
+          {{subform.note_datazione}}
+          <label for="floatingInputGrid2">Note sulla datazione</label>
+        </div>
+        <div class="alert alert-info " role="alert">
+          <b>Per esempio:</b> <i>membr. (supporto di qualità modesta)</i>  <a
+            href={{"".join([url_for("lineeguidacat"),"#tipo_di_supporto_e_qualita"])}} class="alert-link">ℹ️</a>.
+        </div>
+      </div>
       <div class="col-md my-auto text-center">
         <button type="button" class="remove_2 btn btn-danger">Elimina copista</button>
 
@@ -1185,6 +1227,16 @@ this should match `loop.index0`, and for the template it should be
 
     </div>
     <div class="row g-2">
+      <div class="col-md">
+        <div class="form-floating">
+          {{subform.note_datazione}}
+          <label for="floatingInputGrid2">Note sulla datazione</label>
+        </div>
+        <div class="alert alert-info " role="alert">
+          <b>Per esempio:</b> <i>membr. (supporto di qualità modesta)</i>  <a
+            href={{"".join([url_for("lineeguidacat"),"#tipo_di_supporto_e_qualita"])}} class="alert-link">ℹ️</a>.
+        </div>
+      </div>
       <div class="col-md">
         <div class="form-floating">
           {{subform.link_img}}
