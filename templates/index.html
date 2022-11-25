@@ -12,7 +12,7 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
-    <link href={{ url_for("static",filename="custom.css") }} rel="stylesheet" type="text/css" >
+    <link href={{ url_for("static",filename="custom.css" ) }} rel="stylesheet" type="text/css">
     {# Import JQuery #}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
@@ -21,37 +21,37 @@
          * per la tastiera
          */
 
-        $(document).on('focus', '.form-control', function() {
+        $(document).on('focus', '.form-control', function () {
             currentInput = this;
         })
 
-       
-         /**
-         * Conferma chiusura tab.
-         */
 
-         window.onbeforeunload = function() {
+        /**
+        * Conferma chiusura tab.
+        */
+
+        window.onbeforeunload = function () {
             return "You're leaving the site.";
         };
-        $(document).ready(function() {
-            $('a[rel!=ext]').click(function() { window.onbeforeunload = null; });
-            $('form').submit(function() { window.onbeforeunload = null; });
+        $(document).ready(function () {
+            $('a[rel!=ext]').click(function () { window.onbeforeunload = null; });
+            $('form').submit(function () { window.onbeforeunload = null; });
             /**
              * Tastiera
              */
-            $( 'input[type=button]' ).on('click', function(){
-            let cursorPos = currentInput.selectionStart;
-            let v = currentInput.value;
-            let textBefore = v.substring(0,  cursorPos );
-            let textAfter  = v.substring( cursorPos, v.length );
-            currentInput.value = textBefore + this.value + textAfter;
-            
-            cursorPos += this.value.length;
-            currentInput.focus();
-            currentInput.setSelectionRange(cursorPos, cursorPos);
+            $('input[type=button]').on('click', function () {
+                let cursorPos = currentInput.selectionStart;
+                let v = currentInput.value;
+                let textBefore = v.substring(0, cursorPos);
+                let textAfter = v.substring(cursorPos, v.length);
+                currentInput.value = textBefore + this.value + textAfter;
+
+                cursorPos += this.value.length;
+                currentInput.focus();
+                currentInput.setSelectionRange(cursorPos, cursorPos);
             });
         });
- 
+
 
         const ID_RE = /(-)_(-)/;
 
@@ -80,11 +80,11 @@
                     return true;
                 }
                 // uso -1 per risistemare le forms
-                if (removedIndex == -1){
-                    newIndex+=1;
+                if (removedIndex == -1) {
+                    newIndex += 1;
                 }
                 else {
-                    newIndex-=1;
+                    newIndex -= 1;
                 }
                 // This will replace the original index with the new one
                 // only if it is found in the format -num-, preventing
@@ -110,7 +110,7 @@
                         // Update labels
                         $item.attr('id', $item.attr('id').replace(regex, repVal));
                         $item.text(newIndex);
-                        console.log("VEcchio"+ repVal + "nuovo" + newIndex);
+                        console.log("VEcchio" + repVal + "nuovo" + newIndex);
                         return;
                     }
 
@@ -168,10 +168,10 @@
             }
 
             // Maximum of 20 subforms
-/*             if (newIndex >= 20) {
-                console.log('[WARNING] Reached maximum number of elements');
-                return;
-            } */
+            /*             if (newIndex >= 20) {
+                            console.log('[WARNING] Reached maximum number of elements');
+                            return;
+                        } */
 
             // Add elements
             var $newForm = $templateForm.clone();
@@ -204,7 +204,7 @@
             $newForm.addClass(tgsubf);
             $newForm.removeClass('is-hidden');
 
-            $newForm.find(rmvf).click(function (e) { e.preventDefault(); removeForm(this,tgsubf) });
+            $newForm.find(rmvf).click(function (e) { e.preventDefault(); removeForm(this, tgsubf) });
         }
 
 
@@ -237,35 +237,50 @@
             $('.remove_3').click(function (e) { e.preventDefault(); removeForm(this, 'subform3') });
             $('.remove_4').click(function (e) { e.preventDefault(); removeForm(this, 'subform4') });
             $('.remove_5').click(function (e) { e.preventDefault(); removeForm(this, 'subform5') });
-        
+
         });
 
-        window.onload = function() {
-            adjustIndices(-1,"subformP");
-            adjustIndices(-1,"subform0");
-            adjustIndices(-1,"subform");
-            adjustIndices(-1,"subform2");
-            adjustIndices(-1,"subform3");
-            adjustIndices(-1,"subform4");
-            adjustIndices(-1,"subform5");
+        window.onload = function () {
+            adjustIndices(-1, "subformP");
+            adjustIndices(-1, "subform0");
+            adjustIndices(-1, "subform");
+            adjustIndices(-1, "subform2");
+            adjustIndices(-1, "subform3");
+            adjustIndices(-1, "subform4");
+            adjustIndices(-1, "subform5");
             // yourFunction(param1, param2);
         };
 
-        function VaiAlForm(elem){
+        function VaiAlForm(elem) {
             segnatura = "{{segnatura}}"
             baseurl = 'tagtesto'
-            id_componente = elem.parentElement.parentElement.getElementsByClassName('id-componente')[0].value.replace(".","-")
-            id_textual_unit = elem.parentElement.parentElement.getElementsByClassName('id-textual-unit')[0].value.replace(".","-")
+            id_componente = elem.parentElement.parentElement.getElementsByClassName('id-componente')[0].value.replace(".", "-")
+            id_textual_unit = elem.parentElement.parentElement.getElementsByClassName('id-textual-unit')[0].value.replace(".", "-")
             if (id_textual_unit == '') {
                 alert("Associa un id alla descrizione interna prima di aggiungere una responsabilità.")
-            }else{
-                locus = elem.parentElement.parentElement.getElementsByClassName('locus')[0].value.replace(".","-")
-                lastpart = id_textual_unit +"?locus="+locus
-                URL = [window.parent.location.origin,baseurl,segnatura,id_componente,lastpart,].join("/")
+            } else {
+                locus = elem.parentElement.parentElement.getElementsByClassName('locus')[0].value.replace(".", "-")
+                lastpart = id_textual_unit + "?locus=" + locus
+                URL = [window.parent.location.origin, baseurl, segnatura, id_componente, lastpart,].join("/")
                 window.open(URL, '_blank');
             }
-           
+
         };
+
+        function VaiAlFormComponente(elem) {
+            segnatura = "{{segnatura}}"
+            baseurl = 'tagtesto'
+            id_componente = elem.parentElement.parentElement.getElementsByClassName('id-componente')[0].value.replace(".", "-")
+            if (id_componente == '') {
+                alert("Associa un id al componente prima di aggiungere una responsabilità.")
+            } else {
+                lastpart = '-'
+                URL = [window.parent.location.origin, baseurl, segnatura, id_componente, lastpart,].join("/")
+                window.open(URL, '_blank');
+            }
+
+        };
+
     </script>
 
     <style>
@@ -275,6 +290,7 @@
     </style>
 </head>
 <!-- https://www.europeana.eu/en/item/9200397/BibliographicResource_3000126281730 -->
+
 <body style="margin:10;padding:10;margin-top:20px;background-color:#f7f7f7;">
 
     <form id="descrizione_interna-form" action="" method="POST" role="form">
@@ -282,24 +298,27 @@
             <a href="#subforms-container_parti">Parti</a>
             <a href="#subforms-container_esterna">Componenti</a>
             <a href="#subforms-container_cp">Scriventi principali</a>
-            <a href="#subforms-container_annomg">Annotazioni marginali</a>
+            <a href="#subforms-container_annomg">Scritture avventizie e annotazioni</a>
             <a href="#subforms-storia_del_manoscritto">Storia del manoscritto</a>
             <a href="#subforms-container_int">Descrizione interna</a>
             <a href="#subforms-container_biblib">Facsimile</a>
             <button type="submit" class="btn-success">Salva catalogazione</button>
             <a href="#">Salvato alle: {{log}}</a>
             <p>
-            <a href="http://lezioni.meneghetti.univr.it/segnatura/{{segnatura}}" target="_blank"> <img src="{{url_for('static', filename="visualizza.png")}}" id="vis"/> Visualizza la scheda </a>
+                <a href="http://lezioni.meneghetti.univr.it/segnatura/{{segnatura}}" target="_blank"> <img
+                        src="{{url_for('static', filename="visualizza.png")}}" id="vis" /> Visualizza la scheda </a>
             </p>
             <p>
-                <a class="btn btn-primary" href="/iiifjcrop?manifest={{form.manifest.data}}" role="button" target="_blank">Accedi al visualizzatore</a> 
+                <a class="btn btn-primary" href="/iiifjcrop?manifest={{form.manifest.data}}" role="button"
+                    target="_blank">Accedi al visualizzatore</a>
             </p>
             <br>
             <br>
-            <a class="btn-danger" onclick="return confirm('I dati non salvati andranno persi. Procedere comunque?');" href="/">Ritorna alla pagina iniziale</a>
+            <a class="btn-danger" onclick="return confirm('I dati non salvati andranno persi. Procedere comunque?');"
+                href="/">Ritorna alla pagina iniziale</a>
 
-                
-        </div>      
+
+        </div>
         <div class="main">
             {{ form.csrf_token }}
             <div>
@@ -308,19 +327,20 @@
             <div class="row g-2">
                 <div class="col-lg-2">
                     <span>Identificatore database:</span>
-                    <span class="h4" >{{segnatura}}</span>
+                    <span class="h4">{{segnatura}}</span>
                     <div class="alert alert-info" role="alert">
                         Identifica il record nel database.
                     </div>
                 </div>
                 <div class="col-lg-2">
                     <div class="form-floating">
-                    {{form.status}}
-                    <label for="floatingInputGridDI0">Stato</label>
+                        {{form.status}}
+                        <label for="floatingInputGridDI0">Stato</label>
                     </div>
                     <div class="alert alert-info" role="alert">
-                    <i>Settare su concluso una volta terminato. Usare presentabile per permetterne la visualizzazione. </i>  <a
-                        href={{"".join([url_for("lineeguidacat"),"#autore"])}} class="alert-link">ℹ️</a>.
+                        <i>Settare su concluso una volta terminato. Usare presentabile per permetterne la
+                            visualizzazione. </i> <a href={{"".join([url_for("lineeguidacat"),"#autore"])}}
+                            class="alert-link">ℹ️</a>.
                     </div>
                 </div>
                 <div class="col-md-2">
@@ -329,14 +349,14 @@
                         <label for="floatingInputGridDI0">Segnatura:</label>
                     </div>
                     <div class="alert alert-info" role="alert">
-                        La segnatura corrente e.g. XL (50)  <a
-                        href={{"".join([url_for("lineeguidacat"),"#autore"])}} class="alert-link">ℹ️</a>.
+                        La segnatura corrente e.g. XL (50) <a href={{"".join([url_for("lineeguidacat"),"#autore"])}}
+                            class="alert-link">ℹ️</a>.
                     </div>
-                    
+
                 </div>
                 <div class="col-lg-2">
-                    <a id="add_altind" href="/insertaltidentifier/{{segnatura}}" class="btn btn-primary btn-block" tabindex="-1" role="button"
-                    aria-disabled="true">Aggiungi identificatore alternativo</a>
+                    <a id="add_altind" href="/insertaltidentifier/{{segnatura}}" class="btn btn-primary btn-block"
+                        tabindex="-1" role="button" aria-disabled="true">Aggiungi identificatore alternativo</a>
                     <div class="alert alert-info" role="alert">
                         Aggiungere altri identificatori per permettere al record di essere trovato.
                     </div>
@@ -347,12 +367,14 @@
                         <label for="floatingInputGridDI0">Segnature collegate:</label>
                     </div>
                     <div class="alert alert-info" role="alert">
-                        Usare gli identificatori delle segnature che sono in qualche modo collegate alla seguente e.g. m0123_0, m0144_0  <a
-                        href={{"".join([url_for("lineeguidacat"),"#autore"])}} class="alert-link">ℹ️</a>.
+                        Usare gli identificatori delle segnature che sono in qualche modo collegate alla seguente e.g.
+                        m0123_0, m0144_0 <a href={{"".join([url_for("lineeguidacat"),"#autore"])}}
+                            class="alert-link">ℹ️</a>.
                     </div>
                 </div>
                 <div class="col-lg-2">
-                    <a class="btn btn-primary" href="/tagsegnatura/{{segnatura}}" target="_blank"> Aggiungi responsabilità</a>
+                    <a class="btn btn-primary" href="/tagmanufatto/{{segnatura}}" target="_blank"> Aggiungi
+                        responsabilità</a>
                 </div>
 
 
@@ -361,47 +383,54 @@
             <div class="row g-2">
 
                 <div class="col-md">
-                <div class="form-floating">
-                    {{form.immagine_esemplificativa}}
-                    <label for="floatingInputGridDI0">Immagine esemplificativa</label>
+                    <div class="form-floating">
+                        {{form.immagine_esemplificativa}}
+                        <label for="floatingInputGridDI0">Immagine esemplificativa</label>
+                    </div>
+                    <div class="alert alert-info" role="alert">
+                        <b>Indicazioni:</b> <i><a href="/iiifjcrop?manifest={{form.manifest.data}}&dimension=200,"
+                                target="_blank">Ottieni l'url usando il visualizzatore</a>, tenere dimension a 200,
+                            selezionare la regione con il mouse e copiare il link.</i> <a
+                            href={{"".join([url_for("lineeguidacat"),"#autore"])}} class="alert-link">ℹ️</a>.
+                    </div>
                 </div>
-                <div class="alert alert-info" role="alert">
-                    <b>Indicazioni:</b> <i><a href="/iiifjcrop?manifest={{form.manifest.data}}&dimension=200," target="_blank">Ottieni l'url usando il visualizzatore</a>, tenere dimension a 200, selezionare la regione con il mouse e copiare il link.</i>  <a
-                    href={{"".join([url_for("lineeguidacat"),"#autore"])}} class="alert-link">ℹ️</a>.
-                </div>
-                </div>
-        
+
                 <div class="col-md">
-                <div class="form-floating">
-                    {{form.immagine_dorso}}
-                    <label for="floatingInputGridDI1">Immagine dorso</label>
-                </div>
-                <div class="alert alert-info" role="alert">
-                    <b>Indicazioni:</b> <i> <a href="/iiifjcrop?manifest={{form.manifest.data}}&dimension=100," target="_blank">Ottieni l'url usando il visualizzatore</a> tenere dimension a 100, selezionare la regione con il mouse e copiare il link.</i>  <a href={{"".join([url_for("lineeguidacat"),"#titolo"])}}
-                    class="alert-link">ℹ️</a>.
-                </div>
+                    <div class="form-floating">
+                        {{form.immagine_dorso}}
+                        <label for="floatingInputGridDI1">Immagine dorso</label>
+                    </div>
+                    <div class="alert alert-info" role="alert">
+                        <b>Indicazioni:</b> <i> <a href="/iiifjcrop?manifest={{form.manifest.data}}&dimension=100,"
+                                target="_blank">Ottieni l'url usando il visualizzatore</a> tenere dimension a 100,
+                            selezionare la regione con il mouse e copiare il link.</i> <a
+                            href={{"".join([url_for("lineeguidacat"),"#titolo"])}} class="alert-link">ℹ️</a>.
+                    </div>
                 </div>
             </div>
-            
+
             <div class="row g-2">
                 <div class="col-md">
-                <div class="form-floating">
-                    {{form.immagine_banner}}
-                    <label for="floatingInputGridDI0">Immagine banner</label>
-                </div>
-                <div class="alert alert-info" role="alert">
-                    <b>Per esempio:</b> <i> <a href="/iiifjcrop?manifest={{form.manifest.data}}&dimension=1200," target="_blank">Ottieni l'url usando il visualizzatore</a> tenere dimension a: 1200, ed aspect ratio vicino a 9</i>  <a
-                    href={{"".join([url_for("lineeguidacat"),"#autore"])}} class="alert-link">ℹ️</a>.
-                </div>
+                    <div class="form-floating">
+                        {{form.immagine_banner}}
+                        <label for="floatingInputGridDI0">Immagine banner</label>
+                    </div>
+                    <div class="alert alert-info" role="alert">
+                        <b>Per esempio:</b> <i> <a href="/iiifjcrop?manifest={{form.manifest.data}}&dimension=1200,"
+                                target="_blank">Ottieni l'url usando il visualizzatore</a> tenere dimension a: 1200, ed
+                            aspect ratio vicino a 9</i> <a href={{"".join([url_for("lineeguidacat"),"#autore"])}}
+                            class="alert-link">ℹ️</a>.
+                    </div>
                 </div>
                 <div class="col-lg-6">
                     <div class="form-floating">
-                    {{form.manifest}}
-                    <label for="floatingInputGridDI1">Manifest</label>
+                        {{form.manifest}}
+                        <label for="floatingInputGridDI1">Manifest</label>
                     </div>
                     <div class="alert alert-info" role="alert">
-                    <b>Per esempio:</b> <i class="text-break">http://lezioni.meneghetti.univr.it//manifests/b698a7d2668205fbe7cd023e0ded1784.json</i>  <a href={{"".join([url_for("lineeguidacat"),"#titolo"])}}
-                        class="alert-link">ℹ️</a>.
+                        <b>Per esempio:</b> <i
+                            class="text-break">http://lezioni.meneghetti.univr.it//manifests/b698a7d2668205fbe7cd023e0ded1784.json</i>
+                        <a href={{"".join([url_for("lineeguidacat"),"#titolo"])}} class="alert-link">ℹ️</a>.
                     </div>
                 </div>
             </div>
@@ -409,73 +438,73 @@
             <div class="row g-2">
 
                 <div class="col-lg-3">
-                <div class="form-floating">
-                    {{form.largezza_mm}}
-                    <label for="floatingInputGridDI0a">Larghezza (mm)</label>
-                </div>
-                <div class="alert alert-info" role="alert">
-                    Si intende dell'oggetto chiuso senza custodia.  <a
-                    href={{"".join([url_for("lineeguidacat"),"#autore"])}} class="alert-link">ℹ️</a>.
-                </div>
-                </div>
-
-                <div class="col-lg-3">
                     <div class="form-floating">
-                    {{form.ampiezza_mm}}
-                    <label for="floatingInputGridDI0b">Ampiezza (mm)</label>
+                        {{form.largezza_mm}}
+                        <label for="floatingInputGridDI0a">Larghezza (mm)</label>
                     </div>
                     <div class="alert alert-info" role="alert">
-                        Si intende dell'oggetto chiuso senza custodia.  <a
-                        href={{"".join([url_for("lineeguidacat"),"#autore"])}} class="alert-link">ℹ️</a>.
+                        Si intende dell'oggetto chiuso senza custodia. <a
+                            href={{"".join([url_for("lineeguidacat"),"#autore"])}} class="alert-link">ℹ️</a>.
                     </div>
                 </div>
 
                 <div class="col-lg-3">
                     <div class="form-floating">
-                    {{form.profondita_mm}}
-                    <label for="floatingInputGridDI0c">Profondita (mm) </label>
+                        {{form.ampiezza_mm}}
+                        <label for="floatingInputGridDI0b">Ampiezza (mm)</label>
                     </div>
                     <div class="alert alert-info" role="alert">
-                        Si intende dell'oggetto chiuso senza custodia.  <a
-                        href={{"".join([url_for("lineeguidacat"),"#autore"])}} class="alert-link">ℹ️</a>.
+                        Si intende dell'oggetto chiuso senza custodia. <a
+                            href={{"".join([url_for("lineeguidacat"),"#autore"])}} class="alert-link">ℹ️</a>.
                     </div>
                 </div>
 
                 <div class="col-lg-3">
                     <div class="form-floating">
-                    {{form.custodia}}
-                    <label for="floatingInputGridDI0d">Custodia</label>
+                        {{form.profondita_mm}}
+                        <label for="floatingInputGridDI0c">Profondita (mm) </label>
                     </div>
                     <div class="alert alert-info" role="alert">
-                    La custodia è un elemento rimuovibile dove è contenuto l'oggetto.  <a
-                        href={{"".join([url_for("lineeguidacat"),"#autore"])}} class="alert-link">ℹ️</a>.
+                        Si intende dell'oggetto chiuso senza custodia. <a
+                            href={{"".join([url_for("lineeguidacat"),"#autore"])}} class="alert-link">ℹ️</a>.
                     </div>
                 </div>
-        
-        
+
+                <div class="col-lg-3">
+                    <div class="form-floating">
+                        {{form.custodia}}
+                        <label for="floatingInputGridDI0d">Custodia</label>
+                    </div>
+                    <div class="alert alert-info" role="alert">
+                        La custodia è un elemento rimuovibile dove è contenuto l'oggetto. <a
+                            href={{"".join([url_for("lineeguidacat"),"#autore"])}} class="alert-link">ℹ️</a>.
+                    </div>
+                </div>
+
+
             </div>
             <div class="mb-3">
                 <label for="floatingInputGridDI1">Sommario descrizione:</label>
                 {{form.sommario_desc}}
-            
+
             </div>
             <div class="mb-3">
                 <label for="floatingInputGridDI1">Sommario della storia del manoscritto:</label>
                 {{form.storia_desc}}
-            
+
             </div>
             <div class="alert alert-info" role="alert">
-                <b>Indicazioni:</b> <i> Usare quest'area per una descrizione generale del manoscritto (300-500 caratteri).</i>  <a href={{"".join([url_for("lineeguidacat"),"#titolo"])}}
-                class="alert-link">ℹ️</a>.
+                <b>Indicazioni:</b> <i> Usare quest'area per una descrizione generale del manoscritto (300-500
+                    caratteri).</i> <a href={{"".join([url_for("lineeguidacat"),"#titolo"])}} class="alert-link">ℹ️</a>.
             </div>
-            
+
             <div>
                 <h3 class="headersec">Parti</h3>
             </div>
             <div>
-                Le parti possono rappresentare volumi o altri beni librari assegnati alla stessa segnatura. 
+                Le parti possono rappresentare volumi o altri beni librari assegnati alla stessa segnatura.
             </div>
-            
+
             <div id="subforms-container_parti">
                 {% for subform in form.parte %}
                 {{ macros.render_lap_form_parte(subform, loop.index0) }}
@@ -484,27 +513,28 @@
             <br>
             <a id="add_P" href="#subforms-container_parti" class="btn btn-primary btn-block" tabindex="-1" role="button"
                 aria-disabled="true">Aggiungi nuova parte.</a>
-            
+
             <br><br>
             <div>
                 <h3 class="headersec">Componenti</h3>
             </div>
             <div>
-                Le componenti rappresentano unità del bene parti di uno stesso oggetto (unità codicologiche, frammenti) che possono avere consistenza e o datazione diversa. Per esempio: la scriptio inferior di un palinsesto,
-                più fascicoli in un faldone, le unità codicologiche di un codice composito. 
+                Le componenti rappresentano unità del bene parti di uno stesso oggetto (unità codicologiche, frammenti)
+                che possono avere consistenza e o datazione diversa. Per esempio: la scriptio inferior di un palinsesto,
+                più fascicoli in un faldone, le unità codicologiche di un codice composito.
             </div>
-            
+
             <div id="subforms-container_esterna">
                 {% for subform in form.descrizione_esterna %}
                 {{ macros.render_lap_form_est(subform, loop.index0) }}
                 {% endfor %}
             </div>
-            <a id="add_0" href="#subforms-container_esterna" class="btn btn-primary btn-block" tabindex="-1" role="button"
-                aria-disabled="true">Aggiungi nuova descrizione.</a>
-            
+            <a id="add_0" href="#subforms-container_esterna" class="btn btn-primary btn-block" tabindex="-1"
+                role="button" aria-disabled="true">Aggiungi nuova descrizione.</a>
+
             <br><br>
 
-                {# Show all copisti #}
+            {# Show all copisti #}
             <div>
                 <h3 class="headersec">Scriventi principali </h3>
             </div>
@@ -516,11 +546,11 @@
             </div>
             <a id="add_cp" href="#subforms-container_cp" class="btn btn-primary btn-sm" tabindex="-1" role="button"
                 aria-disabled="true">Aggiungi copista</a>
-                <br><br>
-                {# Show all annotazioni marginali #}
+            <br><br>
+            {# Show all annotazioni marginali #}
             <br>
             <div>
-                <h3 class="headersec">Annotazioni marginali </h3>
+                <h3 class="headersec">Scritture avventizie e annotazioni </h3>
             </div>
             <hr />
             <div id="subforms-container_annomg">
@@ -530,8 +560,8 @@
             </div>
             <a id="add_3" href="#subforms-container_annomg" class="btn btn-primary btn-sm" tabindex="-1" role="button"
                 aria-disabled="true">Aggiungi annotazione marginale </a>
-                <br><br>
-                {# Show all Storia del manoscritto #}
+            <br><br>
+            {# Show all Storia del manoscritto #}
             <br>
             <div>
                 <h3 class="headersec">Storia del manoscritto </h3>
@@ -542,11 +572,11 @@
                 {{ macros.render_lap_form4(subform, loop.index0,form.manifest.data) }}
                 {% endfor %}
             </div>
-            <a id="add_4" href="#subforms-storia_del_manoscritto" class="btn btn-primary btn-sm" tabindex="-1" role="button"
-                aria-disabled="true">Aggiungi alla storia del manoscritto </a>
+            <a id="add_4" href="#subforms-storia_del_manoscritto" class="btn btn-primary btn-sm" tabindex="-1"
+                role="button" aria-disabled="true">Aggiungi alla storia del manoscritto </a>
             {# Show all Bibliografia libri #}
             <br><br>
-            
+
             <div>
                 <h3 class="headersec">Descrizioni interne </h3>
             </div>
@@ -576,7 +606,7 @@
 
 
             <br><br><br>
-            
+
 
 
             <button type="submit" class="btn-success">Salva catalogazione</button>
@@ -595,57 +625,56 @@
     {{ macros.render_lap_form3(_template3, '_') }}
     {{ macros.render_lap_form4(_template4, '_') }}
     {{ macros.render_lap_form5(_template5, '_') }}
-   
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
         crossorigin="anonymous"></script>
-    </div>
     <div class="fixed-bottom">
-    <p>
-        <a  id="singsicon" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-            <h3>&#128291;</h3>    
-            <!-- &#9000; &#128291; class="btn btn-primary" -->
-        </a>
-      </p>
-      <div class="collapse" id="collapseExample">
-        <div class="card card-body bg-dark">
-        <div class="input-group">
-            <div class="input-group-append">
-                
-                <input type="button" value="<sup></sup>" />
-                <input type="button" value="⁊" />
-                <input type="button" value="Ꜿ" />
-                <input type="button" value="ꜿ" />
-                <input type="button" value="Ꝯ" />
-                <input type="button" value="ꝯ" />
-                <input type="button" value="ꝰ" />
-                <input type="button" value="Ꝫ" />
-                <input type="button" value="ꝫ" />
-                <input type="button" value="Ꝭ" />
-                <input type="button" value="ꝭ" />
-                <input type="button" value="Ꝃ" />
-                <input type="button" value="ꝃ" />
-                <input type="button" value="Ꝁ" />
-                <input type="button" value="ꝁ" />
-                <input type="button" value="Ꝅ" />
-                <input type="button" value="ꝅ" />
-                <input type="button" value="Ꝉ" />
-                <input type="button" value="ꝉ" />
-                <input type="button" value="ꝲ" />
-                <input type="button" value="ꝳ" />
-                <input type="button" value="ꝴ" />
-                <input type="button" value="Ꝋ" />
-                <input type="button" value="ꝋ" />
-                <input type="button" value="Ꝑ" />
-                <input type="button" value="ꝑ" />
+        <p>
+            <a id="singsicon" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
+                aria-controls="collapseExample">
+                <h3>&#128291;</h3>
+                <!-- &#9000; &#128291; class="btn btn-primary" -->
+            </a>
+        </p>
+        <div class="collapse" id="collapseExample">
+            <div class="card card-body bg-dark">
+                <div class="input-group">
+                    <div class="input-group-append">
+
+                        <input type="button" value="<sup></sup>" />
+                        <input type="button" value="⁊" />
+                        <input type="button" value="Ꜿ" />
+                        <input type="button" value="ꜿ" />
+                        <input type="button" value="Ꝯ" />
+                        <input type="button" value="ꝯ" />
+                        <input type="button" value="ꝰ" />
+                        <input type="button" value="Ꝫ" />
+                        <input type="button" value="ꝫ" />
+                        <input type="button" value="Ꝭ" />
+                        <input type="button" value="ꝭ" />
+                        <input type="button" value="Ꝃ" />
+                        <input type="button" value="ꝃ" />
+                        <input type="button" value="Ꝁ" />
+                        <input type="button" value="ꝁ" />
+                        <input type="button" value="Ꝅ" />
+                        <input type="button" value="ꝅ" />
+                        <input type="button" value="Ꝉ" />
+                        <input type="button" value="ꝉ" />
+                        <input type="button" value="ꝲ" />
+                        <input type="button" value="ꝳ" />
+                        <input type="button" value="ꝴ" />
+                        <input type="button" value="Ꝋ" />
+                        <input type="button" value="ꝋ" />
+                        <input type="button" value="Ꝑ" />
+                        <input type="button" value="ꝑ" />
+                    </div>
+                </div>
+
             </div>
         </div>
-            
-        </div>
-        </div>
-      </div> 
     </div>
 
-    </body>
+</body>
 
 </html>
