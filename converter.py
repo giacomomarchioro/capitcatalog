@@ -54,7 +54,7 @@ def convertdate(text):
                 "1.quarto":[0,-75],
                 "2.quarto":[25,-50],
                 "3.quarto":[50,-25],
-                "4.quarto":[70,0]}
+                "4.quarto":[75,0]}
     notes = ""
     if text.isdigit():
         # 1234
@@ -135,7 +135,7 @@ def convertdate(text):
 
 
 convertdate("14 Dicembre 534") == ('0534-12-14', '0534-12-15','')
-convertdate("Agosto 1891 (non ci sono note)") == ('1891-08-01', '1891-09-01', '(non ci sono note)')
+convertdate("Agosto 1891 (approssimativa)") == ('1891-08-01', '1891-09-01', '(approssimativa)')
 convertdate("14 Dicembre 534 (come desunto dal testo)")
 convertdate("sec. XII ex.")
 convertdate("sec. XII 1.metà")
