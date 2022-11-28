@@ -185,6 +185,11 @@ class AnnotazioniMarg(Form):
     identificazione = StringField("identificazione",
                          validators=[], render_kw={'class': "form-control"}
                          )
+    tipologia = SelectField(u'ID_descrizione_esterna',
+                            choices=[('Scrittura avventizia', 'Scrittura avventizia'),
+                            ('Postilla o annotazione','Postilla o annotazione')
+                            ],validate_choice=False,render_kw={'class': "form-control", })
+
     Id_anno = StringField("ID annotazioni marginali",
             validators=[ ],render_kw={'class':"form-control",}
         )
