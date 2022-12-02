@@ -1,0 +1,246 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-jcrop/0.9.15/css/jquery.Jcrop.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-jcrop/0.9.15/js/jquery.Jcrop.js"></script>
+        <script>
+            function selectText() {
+            const input = document.getElementById('link-immagine');
+            input.focus();
+            input.select();
+            }
+            function selectviewrurl() {
+            //const input = document.getElementById('link-pagina');
+            input.focus();
+            input.select();
+            }
+        </script>
+    </head>
+    <body>
+        <div style="display:inline-block;vertical-align:top;">
+        <img src="http://lezioni.meneghetti.univr.it//imageapi/241/m0241_0visn20_0005a0.jp2/full/pct:5/0/default.jpg" alt="" id="cropbox">
+        </div>
+        <div style="display: inline-block;">
+            <p>
+                Manifest : <input type="text" id="manif" size="10" value='http://lezioni.meneghetti.univr.it//manifests/b698a7d2668205fbe7cd023e0ded1784.json'>
+                <button onclick="loadmanifest()">Carica</button>
+            </p>
+            <p>
+            Previewdimension : <input type="text" id="prevdim" size="10" value="400,">
+            Dimension : <input type="text" id="dim" size="10" value="pct:50">   
+            Rotation : <input type="text" id="rot" size="10" value="0">
+            Quality : <input type="text" id="qual" size="10" value="default.jpg">
+            </p>
+            {{form.errors}}
+            <form id="nameauthority-form" action="" method="post" role="form">
+                {{ form.csrf_token }}
+                <p>
+                    <button type="button" onclick="previmg()" >Immagine precedente</button>
+                    {{form.manifest_index}} 
+                    <button type="button" onclick="changeimg()">Vai</button>
+                    <button type="button" onclick="nextimg()">Prossima immagine</button>
+                    
+                </p>
+                {{form.ids}}
+                <div class="p-1"> Tipologia: {{form.tipologia}}</div>
+                <div class="row">
+                  <div class="col">
+                    <div class="p-1"> pagina_incipit: {{form.pagina_incipit}}</div>
+                  </div>
+                  <div class="col">
+                    <div class="p-1"> identificativo: {{form.identificativo}}</div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <div class="p-1"> carta_scelta: {{form.carta_scelta}}</div>
+                  </div>
+                  <div class="col">
+                    <div class="p-1"> locus: {{form.locus}}</div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <div class="p-1"> link_immagine: {{form.link_immagine}} </div>
+                  </div>
+                  <div class="col">
+                    <div class="p-1"> area_posizionamento: {{form.area_posizionamento}} </div>
+                  </div>
+                 <!--  <div class="col">
+                    <div class="p-1"> link_pagina: {{form.link_pagina}} </div>
+                  </div> -->
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <div class="p-1"> datazione: {{form.datazione}}</div>
+                  </div>
+                  <div class="col">
+                    <div class="p-1"> non_prima: {{form.non_prima}}</div>
+                  </div>
+                  <div class="col">
+                    <div class="p-1"> non_dopo: {{form.non_dopo}}</div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <div class="p-1"> tecnica_esecutiva: {{form.tecnica_esecutiva}}</div>
+                  </div>
+                  </div>
+                <div class="row">
+                    <div class="col">
+                      <div class="p-1"> ampiezza_mm: {{form.ampiezza_mm}}</div>
+                    </div>
+                    <div class="col">
+                      <div class="p-1"> altezza_mm: {{form.altezza_mm}}</div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col">
+                      <div class="p-1"> oro: {{form.oro}}</div>
+                    </div>
+                    <div class="col">
+                      <div class="p-1"> azzurro: {{form.azzurro}}</div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col">
+                      <div class="p-1"> descrizione: {{form.descrizione}}</div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col">
+                      <div class="p-1"> wikidata: {{form.wikidata}}</div>
+                    </div>
+                    <div class="col">
+                      <div class="p-1"> iconoclass: {{form.iconoclass}}</div>
+                    </div>
+                  </div>
+          
+                  <button class="btn btn-primary" type="submit"> Salva</button>
+              </form>
+        </div>  
+
+        {% for i in illustrazioni %}
+          <div>{{ i.tipologia }}, {{i.locus}} , {{i.descrizione}}</div>
+        {% else %}
+          Nessuna illustrazione, 
+        {% endfor %}
+      
+
+        <script>
+            var manifest
+            var ind = 0
+            var imageurl
+            var region
+            const urlParams = new URLSearchParams(window.location.search);
+            var manifesturl = urlParams.get('manifest');
+            console.log("test",manifesturl)
+            if (manifesturl == null) {
+                manifesturl ="{{manifest}}"
+                }else{
+                    document.getElementById("manif").value = manifesturl
+                }
+            var dimension = urlParams.get('dimension');
+            if (dimension != null) {
+                document.getElementById("dim").value = dimension
+                }
+            
+            
+            function changeimg(){
+                    ind = Number(document.getElementById("vai").value)
+                    if (manifest["@context"] == "http://iiif.io/api/presentation/3/context.json") {
+                        imageurl = manifest.items[ind].items[0].items[0].body.service[0].id
+                    }else{
+                        imageurl =  manifest.sequences[0].canvases[ind].images[0].resource.service["@id"]
+                    }
+                    dimension = document.getElementById("prevdim").value
+                    rotation = document.getElementById("rot").value
+                    quality = document.getElementById("qual").value
+                    region = "full"
+                    elements = [imageurl,region,dimension,rotation,quality]
+                    jcrop_api.setImage(elements.join('/'))
+                    // document.getElementById("link-pagina").value= "http://lezioni.meneghetti.univr.it/UVjs/?manifest="+manifesturl+"&indx="+ind;
+                    // selectviewrurl();
+                };
+
+            function nextimg(){
+                ind += 1;
+                document.getElementById("vai").value = ind
+                changeimg();
+            };
+
+            function previmg(){
+                ind -= 1;
+                document.getElementById("vai").value = ind
+                changeimg();
+            };
+
+            function loadmanifest(){
+                manifesturl = document.getElementById("manif").value
+                $.getJSON(manifesturl, function(data) {
+                // JSON result in `data` variable
+                manifest  = data
+                });
+                changeimg();
+            }
+
+            $( document ).ready(function() {
+                console.log( "ready!" );
+                
+                $.getJSON(manifesturl, function(data) {
+                // JSON result in `data` variable
+                manifest  = data
+                })
+
+  
+                })
+            //imageurl =  manifest.sequences[0].canvases[ind].images[0].resource.service["@id"]
+
+            $(window).load(function() {
+                console.log( "loading!" );
+                jcrop_api = $.Jcrop('#cropbox');
+      
+
+
+                function updateCoords(){
+                    bounds = jcrop_api.getBounds()
+                    width = bounds[0]
+                    height = bounds[1]
+                    c = jcrop_api.tellSelect()
+                    x1p = (c.x/width)*100;
+                    y1p = (c.y/height)*100;
+                    x2p = (c.w/width)*100;
+                    y2p = (c.h/height)*100;
+                    region = "pct:"+x1p.toFixed(2)+","+y1p.toFixed(2)+","+x2p.toFixed(2)+","+y2p.toFixed(2)
+                    if (manifest["@context"] == "http://iiif.io/api/presentation/3/context.json") {
+                        imageurl = manifest.items[ind].items[0].items[0].body.service[0].id
+                    }else{
+                        imageurl =  manifest.sequences[0].canvases[ind].images[0].resource.service["@id"]
+                    }
+                    
+                    console.log(region);
+                    dimension = document.getElementById("dim").value
+                    rotation = document.getElementById("rot").value
+                    quality = document.getElementById("qual").value
+                    elements = [imageurl,region,dimension,rotation,quality]
+                    document.getElementById("link-immagine").value= elements.join('/');
+                    aspectratio = c.w/c.h;
+                    console.log(aspectratio);
+                    selectText()
+                };
+                /// SET OPTION
+                jcrop_api.setOptions({
+                    boxWidth: 500,
+                    onSelect: updateCoords,
+                    //aspectRatio: 16 / 10,
+                    //minSize: [thisImage.Min.Width, thisImage.Min.Height],
+                    //aspectRatio: thisImage.AspectRatio  //1.3 for example
+                });
+                // for the first time
+                changeimg();          
+                })
+        </script>
+ 
+    </body>    
+    </html>
+    

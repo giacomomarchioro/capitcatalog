@@ -2,11 +2,11 @@
 # app.py
 
 from sys import prefix
-from flask import Flask, render_template,url_for, request, redirect,jsonify 
+from flask import Flask, render_template,url_for, request, redirect,jsonify, abort
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import FlaskForm
 from wtforms import Form, FieldList, FormField, SelectMultipleField, SelectField, \
-    StringField, TextAreaField, SubmitField,BooleanField
+    StringField, TextAreaField, SubmitField,BooleanField, IntegerField
 from wtforms import validators
 from pymongo import MongoClient
 from wtforms.validators import DataRequired,Regexp
@@ -551,13 +551,75 @@ class NewRecord(FlaskForm):
     segnatura_idx = StringField('Segnatura ID', validators=[DataRequired()],render_kw={'class': "form-control", "aria-describedby":"emailHelp", "placeholder":"Per esempio m0037_0" })
 
 
+## FORMS authority records
+class Illustrazioni(FlaskForm):
+    """Parent form."""
+    tipologia = SelectField(u'Tipologia', choices=[
+        ('Antiporta','Antiporta'),
+        ('Illustrazioni a piena pagina','Illustrazioni a piena pagina'),
+        ('Illustrazioni a vignetta','Illustrazioni a vignetta'),
+        ('Illustrazioni senza cornice','Illustrazioni senza cornice'),
+        ('Iniziali semplici','Iniziali semplici'),
+        ('Iniziali filigranate','Iniziali filigranate'),
+        ('INIZIALI ORNATE.fitomorfe','INIZIALI ORNATE.fitomorfe'),
+        ('INIZIALI ORNATE.zoomorfe','INIZIALI ORNATE.zoomorfe'),
+        ('INIZIALI ORNATE.antropomorfe','INIZIALI ORNATE.antropomorfe'),
+        ('INIZIALI ORNATE.bianchi girari','INIZIALI ORNATE.bianchi girari'),
+        ('INIZIALI FIGURATE','INIZIALI FIGURATE'),
+        ('INIZIALI ISTORIATE','INIZIALI ISTORIATE'),
+        ('FREGI','FREGI'),
+        ('DISEGNI','DISEGNI'),
+        ('SEGNI DI PARAGRAFO','SEGNI DI PARAGRAFO'),
+        ('Richiami di fascicolo ornati','Richiami di fascicolo ornati'),
+        ('Stemmi e armi araldiche','Stemmi e armi araldiche'),
+    ],render_kw={'class': "form-control-x", })
+    ids = StringField("Ids",validators=[], render_kw={'type': "hidden"})
+    manifest_index =  IntegerField("manifest_index",
+                        validators=[], render_kw={'class': "form-control-x","id":"vai","size":"3","placeholder":"0" })
+    pagina_incipit = BooleanField("Pagina d'incipit")
+    identificativo = StringField("identificativo",
+                        validators=[], render_kw={'class': "form-control-x", })
+    carta_scelta  = StringField("Carta scelta",
+                        validators=[], render_kw={'class': "form-control-x", })
+    locus  = StringField("Locus",
+                        validators=[], render_kw={'class': "form-control-x", })
+    link_immagine  = StringField("link_immagine",
+                        validators=[], render_kw={'class': "form-control-x","id":"link-immagine" })
+    area_posizionamento  = StringField("area_posizionamento",
+                        validators=[], render_kw={'class': "form-control-x", })
+    datazione = StringField("Datazione",
+                            validators=[], render_kw={'class': "form-control", }
+                            )
+    note_datazione =  StringField("Note datazione",
+                            validators=[], render_kw={'class': "form-control", }
+                            )
+    non_prima =  StringField("Non prima",
+                            validators=[], render_kw={'class': "form-control"}
+                            )
+    non_dopo =  StringField("Non dopo",
+                            validators=[], render_kw={'class': "form-control"}
+                            )
+    autore_ambito = StringField("Autore ambito",
+                        validators=[], render_kw={'class': "form-control-x"})
+    
+    tecnica_esecutiva = SelectField(u'Tipologia', choices=[('Penna', 'Penna'),('Pennello', 'Penello')],render_kw={'class': "form-control-x", })
+    ampiezza_mm = StringField("ampiezza_mm",
+                        validators=[], render_kw={'class': "form-control-x"})
+    altezza_mm = StringField("altezza__mm",
+                        validators=[], render_kw={'class': "form-control-x"})
+    oro = BooleanField("Oro")
+    azzurro = BooleanField("Azzurro")
+    descrizione = StringField("descrizione",
+                        validators=[], render_kw={'class': "form-control-x"})
+    wikidata = StringField("wikidata",
+                        validators=[], render_kw={'class': "form-control-x"})
+    iconoclass = StringField("iconoclass",
+                        validators=[], render_kw={'class': "form-control-x"})
 
 ## FORMS authority records
 class AuthoirityRecord(FlaskForm):
     """Parent form."""
     idauthority = StringField("idauthority",
-                        validators=[], render_kw={'class': "form-control-x", })
-    identificativo = StringField("identificativo",
                         validators=[], render_kw={'class': "form-control-x", })
     tipologia = SelectField(u'Tipologia', choices=[('Persona', 'Persona'),('Famiglia', 'Famiglia'), ('Ente', 'Ente'),('Luogo', 'Luogo'),('Opera', 'Opera') ],render_kw={'class': "form-control-x", })
     descrizione = StringField("descrizione",
@@ -1045,7 +1107,7 @@ def tagtesto(segnatura,componente,idint):
                             locus=l)
 
 @app.route('/tagmanufatto/<segnatura>', methods=['GET', 'POST'])
-def TagManufatto(segnatura):
+def tagmanufatto(segnatura):
     # http://localhost:5000/tagtesto/mtesto/test/1-2?l=2r-57v
 
     form = TagManufatto()
@@ -1095,6 +1157,86 @@ def TagManufatto(segnatura):
     return render_template('TagManufatto.html',
                             form=form,
                             segnatura=segnatura)
+
+@app.route('/indiceillustrazioni/<segnatura>', methods=['GET', 'POST'])
+def indiceillustrazioni(segnatura):
+    # http://127.0.0.1:5432/indiceillustrazioni/testillu?id=1231
+    # http://127.0.0.1:5432/indiceillustrazioni/teste
+    # {segnatura_idx:"testillu",illustrazioni: { $elemMatch:{ids:1231}}}
+    form = Illustrazioni()
+    stato = ""
+    componente = "-"
+    el_id = request.args.get('id',None)
+    query = {"segnatura_idx":segnatura}
+    # trovo la segnatura QUESTA DEVE ESSERE PRESENTA DALL'INIZIO
+    varx = client.capitolare.indiceillustrazioni.find_one({"segnatura_idx":segnatura})
+    if varx is None:
+        abort(400,"Inserire una segnatura valida")
+    if el_id is not None:
+        # se specifico un id, trovo all'interno della segnatura l'illustrazione
+        elData = next((item for item in varx['illustrazioni'] if item["ids"] == el_id), None)
+    if 'illustrazioni' in varx:
+        illustrazioni = varx['illustrazioni']
+    else:
+        illustrazioni = []
+    #breakpoint()
+    if form.validate_on_submit():
+        # quando invio il form avrò i dati della singola illustrazione
+        data_dict = form.data
+        # genero un ids univoco se non prsente
+        if data_dict['ids'] == "":
+            ids = datetime.datetime.utcnow().strftime('%Y%m%d%H%M%S%f')
+            data_dict['ids'] = ids
+        # converto la datazione
+        if data_dict['datazione'] != "" and (data_dict['non_dopo'] == "" or data_dict['non_prima'] == ""):
+                data_dict['non_prima'],data_dict['non_dopo'],_ = convertdatesafe(data_dict['datazione'])
+        # elimino il CSRF
+        if 'csrf_token' in data_dict.keys():
+            del data_dict['csrf_token']
+        # CASO 1: nuovo record
+        if el_id is None:
+            client.capitolare.indiceillustrazioni.update(query, {'$push': {'illustrazioni': data_dict}})
+            illustrazioni.append(data_dict)
+        # CASO 2: update vecchio record
+        """         db["my_collection"].update(
+                { "_id": ObjectId(document_id) },
+                { "$set": { 'documents.'+str(doc_index)+'.content' : new_content_B}}
+            )db.POST_COMMENT.update(
+                {
+                    "_id": ObjectId("5ec424a1ed1af85a50855964"),
+                    "bucket.commentId": "5eaf258bb80a1f03cd97a3ad_lepf4f"
+                },
+                {
+                    $set: {
+                        "bucket.$.text": "Comment text changed",
+                        "bucket.$.createdDate": ISODate("2015-12-11T14:12:00.000+0000")
+                    }
+                }
+            )
+         """
+
+        # if varx is None:
+        #     newrecord = {'segnatura_idx': segnatura,
+        #         'illustrazioni':[data_dict]}
+        #     client.capitolare.indiceillustrazioni.insert_one(newrecord)
+        #     varx = client.capitolare.indiceillustrazioni.find_one(query)
+        # else:
+        #     updateq = {'_id': varx['_id'],
+        #                'illustrazioni': {'$elemMatch':{ids:data_dict['ids']}}}
+        #     client.capitolare.indiceillustrazioni.update_one(updateq,{'$set':data_dict}, upsert=False)
+        #     #TO DO: Avoid query
+        #     log = datetime.datetime.now().strftime("%H:%M:%S")
+        #     varx = client.capitolare.indiceillustrazioni.find_one(query)
+    #breakpoint()
+    if el_id is not None:
+        form.process(data=elData)
+    #breakpoint()
+
+    return render_template('formdecorazioni.html',
+                            form=form,
+                            segnatura=segnatura,
+                            illustrazioni=illustrazioni,
+                            manifest=varx['manifest'])
 
 @app.route('/test')
 def test():
