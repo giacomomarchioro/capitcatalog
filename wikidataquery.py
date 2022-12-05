@@ -53,6 +53,11 @@ WHERE
 }
 '''
 
+
+query = ''' SELECT ?item ?itemLabel ?linkcount WHERE { ?item wdt:P31/wdt:P279* wd:Q35666 . ?item wikibase:sitelinks ?linkcount . FILTER (?linkcount >= 1) . SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en" . } } GROUP BY ?item ?itemLabel ?linkcount ORDER BY DESC(?linkcount) ''' 
+r = requests.get(url, params = {'format': 'json', 'query': query}) 
+data = r.json()
+
 g = requests.get(r'https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Isotta&format=json&errorformat=plaintext&language=it&uselang=it&type=item',params = {'format': 'json'})
 r = requests.get(url, params = {'format': 'json', 'query': query})
 data = r.json()
@@ -85,3 +90,50 @@ function(err, data) {
     alert('Your query count: ' + data.query.count);
   }
 });
+
+
+
+var getJSON = function(url, callback) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', url, true);
+    xhr.responseType = 'json';
+    xhr.onload = function() {
+      var status = xhr.status;
+      if (status === 200) {
+        callback(null, xhr.response);
+      } else {
+        callback(status, xhr.response);
+      }
+    };
+    xhr.send();
+};
+
+If you want to do it in plain javascript, you can define a function like this:
+
+var getJSON = function(url, callback) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', url, true);
+    xhr.responseType = 'json';
+    xhr.onload = function() {
+      var status = xhr.status;
+      if (status === 200) {
+        callback(null, xhr.response);
+      } else {
+        callback(status, xhr.response);
+      }
+    };
+    xhr.send();
+};
+
+mydata = getJSON("https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Isotta&format=json&errorformat=plaintext&language=it&uselang=it&type=item&origin=*",
+function(err, data) {
+  if (err !== null) {
+    alert('Something went wrong: ' + err);
+  } else {
+    alert('Your query count: ' + data.query.count);
+  }
+});
+
+https://www.wikidata.org/w/api.php?action=wbsearchentities&ids=Q16550450&format=json&errorformat=plaintext&language=it&uselang=it&type=item&origin=*
+
+https://www.wikidata.org/w/api.php?action=wbgetentities&ids=Q16550450&format=json&languages=it

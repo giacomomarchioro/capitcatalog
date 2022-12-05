@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generatore tabella di catalogazione.</title>
+<style>
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+    
+    td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+    
+    tr:nth-child(even) {
+        background-color: #dddddd;
+    }
+    </style>
+
+<script>
+    function copytoclipboard() {
+        var urlField = document.querySelector('table');
+        
+        // create a Range object
+        var range = document.createRange();  
+        // set the Node to select the "range"
+        range.selectNode(urlField);
+        // add the Range to the set of window selections
+        window.getSelection().addRange(range);
+        
+        // execute 'copy', can't 'cut' in this case
+        document.execCommand('copy');
+    }
+    function* cycle(items) {
+    while(true)
+        yield* items;
+    }
+    function filltable(){
+        let numerodifogli = Number(document.getElementById("numerodifogli").value)
+        let numerobifogliperfascicolo = Number(document.getElementById("numerobifogliperfascicolo").value)
+        let carteguardiaanteriore = Number(document.getElementById("carteguardiaanteriore").value)
+        let carteguardiaposteriore = Number(document.getElementById("carteguardiaposteriore").value)
+        let successionefoglio = document.getElementById("successionefoglio").value
+        if (successionefoglio == 'regola di Gregory (prima lato carne)') {
+            gensuc = cycle(['c','p','p','c'])
+        } else if (successionefoglio == 'regola di Gregory (prima lato pelo)') {
+            gensuc = cycle(['p','c','c','p'])
+        }else{
+            gensuc = cycle(['a','b'])
+        }
+        switch (document.getElementById("forma").value) {
+            case 'rilegato':
+                ante_elements = ['dorso','piatto anteriore','risguardia anteriore',]
+                post_elements = ['risguardia posteriore', 'piatto posteriore',]
+                break;
+            default:
+                ante_elements = []
+                post_elements = []
+        }
+        
+        let table = document.getElementById( 'data-table-body')
+        // delete the table
+        table.innerHTML = ""
+        function* generatoreindicebifoglio(numerobifogli) {
+            var current = 0.5;
+            var posizionefasc = 1;
+            var fascicolo = 1;
+            while (true) {
+                yield Math.ceil(current);
+                if (posizionefasc < numerobifogli * 2) {
+                current += 0.5;
+                }
+
+                if (posizionefasc > numerobifogli * 2) {
+                current -= 0.5;
+                }
+                posizionefasc += 1;
+                if (posizionefasc === numerobifogli * 4 + 1) {
+                posizionefasc = 1;
+                fascicolo += 1;
+                current += numerobifogli + 0.5;
+                }
+            }
+        }
+        function addRowToTable(elemento,descrizione,sottoelemento,bifoglio,lato) {
+            row = table.insertRow(-1)
+            row.insertCell(0).innerHTML  = document.getElementById("parte").value //parte
+            row.insertCell(1).innerHTML  = document.getElementById("componenti").value //componenti
+            row.insertCell(2).innerHTML  = descrizione //descrizione
+            row.insertCell(3).innerHTML  = elemento //elemento
+            row.insertCell(4).innerHTML  = sottoelemento //sottoelemento
+            row.insertCell(5).innerHTML  = "0" //variazioni
+            row.insertCell(6).innerHTML  = "0" //numerazioni
+            row.insertCell(7).innerHTML  = bifoglio //bifoglio
+            row.insertCell(8).innerHTML = lato //lato
+            row.insertCell(9).innerHTML = "0" //palinsesti
+            row.insertCell(10).innerHTML = "0" //titolo
+            row.insertCell(11).innerHTML = "0" //livello_titolo
+            row.insertCell(12).innerHTML = "0" //note
+            row.insertCell(13).innerHTML = document.getElementById("non_prima").value //non_prima
+            row.insertCell(14).innerHTML = document.getElementById("non_dopo").value //non_dopo
+            row.insertCell(15).innerHTML = document.getElementById("materiale").value //materiale
+            row.insertCell(16).innerHTML = "0" //fori_di_preparazione
+            row.insertCell(17).innerHTML = "0" //peli_residui
+            row.insertCell(18).innerHTML = "0" //aree_di_scalfo_residue
+            row.insertCell(19).innerHTML = "0" //illustrazione
+            row.insertCell(20).innerHTML = document.getElementById("foratura").value //foratura
+            row.insertCell(21).innerHTML = document.getElementById("rigatura").value //rigatura
+            row.insertCell(22).innerHTML = "0" //filigrana
+            row.insertCell(23).innerHTML = "0" //note_conservative
+            row.insertCell(24).innerHTML = document.getElementById("ampiezza_mm").value //ampiezza_mm
+            row.insertCell(25).innerHTML = document.getElementById("altezza_mm").value //altezza_mm
+            row.insertCell(26).innerHTML = "0" //online_links
+            row.insertCell(27).innerHTML = "0" //colore
+            row.insertCell(28).innerHTML = "0" //spessore
+        }
+        rectoverso = cycle(['r','v'])
+        gen = generatoreindicebifoglio(numerobifogliperfascicolo)
+        for (let index = 0; index < ante_elements.length; index++) {
+            const element = ante_elements[index];
+            addRowToTable(index,
+                          descrizione=element,
+                          sottoelemento="a",
+                          bifoglio="0",
+                          lato="0")
+        }
+        for (let index = 1; index <= carteguardiaanteriore; index++) {
+            addRowToTable(index,
+                          descrizione="guardia anteriore",
+                          sottoelemento="g",
+                          bifoglio="0 ",
+                          lato="0")
+        }
+        for (let index = 1; index <= numerodifogli; index++) {
+            addRowToTable(index,
+                          descrizione="0",
+                          sottoelemento=rectoverso.next().value,
+                          bifoglio=gen.next().value,
+                          lato=gensuc.next().value)
+            addRowToTable(index,
+                          descrizione="0",
+                          sottoelemento=rectoverso.next().value,
+                          bifoglio=gen.next().value,
+                          lato=gensuc.next().value)
+        }
+        for (let index = 1; index <= carteguardiaposteriore; index++) {
+            addRowToTable(index,
+                          descrizione="guardia posteriore   ",
+                          sottoelemento="x",
+                          bifoglio="",
+                          lato="")
+        }
+        for (let index = 0; index < post_elements.length; index++) {
+            const element = post_elements[index];
+            addRowToTable(index,
+                          descrizione=element,
+                          sottoelemento="y",
+                          bifoglio="",
+                          lato="")
+        }
+}
+</script>
+</head>
+<body>
+<div>
+<label for="forma">Forma:</label>
+
+<select name="forma" id="forma">
+    <option value="rilegato">rilegato</option>
+    <option value="fogli sciolti">fogli sciolti</option>
+    <option value="fascicoli">fascicoli</option>
+</select>
+<select name="materiale" id="materiale">
+    <option value="pergamena">pergamena</option>
+    <option value="carta">carta</option>
+    <option value="papiro">papiro</option>
+</select>
+<select name="successionefoglio" id="successionefoglio">
+    <option value="regola di Gregory (prima lato pelo)">regola di Gregory (prima lato pelo)</option>
+    <option value="regola di Gregory (prima lato carne)">regola di Gregory (prima lato carne)</option>
+    <option value="sconosciuta">sconosciuta</option>
+</select>
+<label for="carteguardiaanteriore" name="carteguardiaanteriore">carteguardiaanteriore</label> <input type="number" id="carteguardiaanteriore" name="carteguardiaanteriore"> <br>
+<label for="carteguardiaposteriore" name="carteguardiaposteriore">carteguardiaposteriore</label> <input type="number" id="carteguardiaposteriore" name="carteguardiaposteriore"> <br>
+<label for="numerodifogli" name="numerodifogli">numerodifogli</label><input type="number" id="numerodifogli" name="numerodifogli"> <br>
+<label for="numerobifogliperfascicolo" name="numerobifogliperfascicolo">numerobifogliperfascicolo</label><input type="number" id="numerobifogliperfascicolo" name="numerobifogliperfascicolo"> <br>
+<label for="parte" name="parte">parte</label><input type="text" id="parte" name="parte"> <br>
+<label for="componenti" name="componenti">componenti</label><input type="text" id="componenti" name="componenti"> <br>
+<label for="elemento" name="elemento">elemento</label><input type="text" id="elemento" name="elemento"> <br>
+<label for="non_prima" name="non_prima">non_prima</label><input type="text" id="non_prima" name="non_prima"> <br>
+<label for="non_dopo" name="non_dopo">non_dopo</label><input type="text" id="non_dopo" name="non_dopo"> <br>
+<label for="foratura" name="foratura">foratura</label><input type="text" id="foratura" name="foratura"> <br>
+<label for="rigatura" name="rigatura">rigatura</label><input type="text" id="rigatura" name="rigatura"> <br>
+<label for="ampiezza_mm" name="ampiezza_mm">ampiezza_mm</label><input type="text" id="ampiezza_mm" name="ampiezza_mm"> <br>
+<label for="altezza_mm" name="altezza_mm">altezza_mm</label><input type="text" id="altezza_mm" name="altezza_mm"> <br>
+<button onclick="filltable()">Genera tabella</button>
+<input id="copy_btn" type="button" value="copy">
+<button onclick="copytoclipboard()">Copia negli appunti</button>
+<input id="copy_btn" type="button" value="copy">
+<table id="data-table-body">
+        <tr>
+            <th>parte</th>
+            <th>componenti</th>
+            <th>descrizione</th>
+            <th>elemento</th>
+            <th>sottoelemento</th>
+            <th>variazioni</th>
+            <th>numerazioni</th>
+            <th>bifoglio</th>
+            <th>lato</th>
+            <th>palinsesti</th>
+            <th>titolo</th>
+            <th>livello_titolo</th>
+            <th>note</th>
+            <th>non_prima</th>
+            <th>non_dopo</th>
+            <th>materiale</th>
+            <th>fori_di_preparazione</th>
+            <th>peli_residui</th>
+            <th>aree_di_scalfo_residue</th>
+            <th>illustrazione</th>
+            <th>foratura</th>
+            <th>rigatura</th>
+            <th>filigrana</th>
+            <th>note_conservative</th>
+            <th>ampiezza_mm</th>
+            <th>altezza_mm</th>
+            <th>online_links</th>
+            <th>colore</th>
+            <th>spessore</th>
+        </tr>
+    </thead>
+</table>
+<!-- nodeX = document.getElementById('data-table')
+node = document.getElementById('data-table-body')
+document.getElementById('data-table-body').replaceWith(...node.childNodes); -->
+</div>
+</body>
+</html>
+
