@@ -186,8 +186,9 @@ class AnnotazioniMarg(Form):
                          validators=[], render_kw={'class': "form-control"}
                          )
     tipologia = SelectField(u'ID_descrizione_esterna',
-                            choices=[('Scrittura avventizia', 'Scrittura avventizia'),
-                            ('Postilla o annotazione','Postilla o annotazione')
+                            choices=[
+                            ('Postilla o annotazione','Postilla o annotazione'),
+                            ('Scrittura avventizia', 'Scrittura avventizia'),
                             ],validate_choice=False,render_kw={'class': "form-control", })
 
     Id_anno = StringField("ID annotazioni marginali",
@@ -439,7 +440,7 @@ class DescEst(Form):
 
 class Parte(Form):
     identificativo_parte = StringField("Identificativo",
-                           validators=[], render_kw={'class': "form-control", })
+                           validators=[], render_kw={'class': "form-control id-parte", })
     legatura = StringField("Legatura",
                            validators=[], render_kw={'class': "form-control", })
     carte_di_guardia = StringField("Carte di guardia",
@@ -667,6 +668,7 @@ class TagTesto(FlaskForm):
     destinatario = StringField("Destinatario:",validators=[])
     epitomatore = StringField("Epitomatore:",validators=[])
     glossatore = StringField("Glossatore:",validators=[])
+    annotatore = StringField("Annotatore:",validators=[])
     traduttore_adattatore = StringField("Traduttore Adattatore:",validators=[])
     copista = StringField("Copista:",validators=[])
     opera_identificata = StringField("Opera identificata:",validators=[])
@@ -682,10 +684,13 @@ class TagManufatto(FlaskForm):
     destinatario = StringField("Destinatario:",validators=[])
     epitomatore = StringField("Epitomatore:",validators=[])
     glossatore = StringField("Glossatore:",validators=[])
+    annotatore = StringField("Annotatore:",validators=[])
     traduttore_adattatore = StringField("Traduttore Adattatore:",validators=[])
     copista = StringField("Copista:",validators=[])
     opera_identificata = StringField("Opera identificata:",validators=[])
     luogo = StringField("Luogo:",validators=[])
+    miniatore = StringField("Miniatore:",validators=[])
+    editore =  StringField("Editore:",validators=[])
 
 
 
@@ -964,6 +969,28 @@ def lineeguidacat():
         'lineeguidacatalog.html'
     )
 
+@app.route('/cercaenti/<jsonformat>/')
+def cercaente(jsonformat):
+    q = request.args.get('q',None)
+    regx = re.compile(q, re.IGNORECASE)
+    query = {"$and" : [{"tipologia":"Ente"},
+                    {"$or":[{"identificativo": regx},
+                            {"altre_forme": regx}]}]}
+    enti = client.capitolare.nameauthority.find(query)
+    datadict = dict()
+    datadict['results'] = []
+    if jsonformat == "keyvalue":
+        for ente in enti: 
+            dataentity = dict()
+            dataentity['value'] = ente['identificativo']
+            dataentity['key'] = ente['idauthority']
+            datadict['results'].append(dataentity)
+
+    response = jsonify(datadict)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+
 @app.route('/cercapersona/<jsonformat>/')
 def cercapersona(jsonformat):
     q = request.args.get('q',None)
@@ -1060,10 +1087,6 @@ def tagtesto(segnatura,componente,idint):
     varx = client.capitolare.riferimenti.find_one(query)
     mod = False
     el_id = request.args.get('id',None)
-    if componente == 'interacomponente':
-        tipologia = 'manoscritto'
-    else:
-        tipologia = 'opera'
     def parseresult(field):
         ids = []
         string = form.data[field]
@@ -1073,7 +1096,7 @@ def tagtesto(segnatura,componente,idint):
 
     if form.validate_on_submit():
         data_dict = form.data
-        data_dict['tipologia'] = tipologia
+        data_dict['tipologia'] = 'testo'
         data_dict['segnatura'] = segnatura
         data_dict['componente'] = componente
         data_dict['idint'] = idint
@@ -1112,8 +1135,9 @@ def tagmanufatto(segnatura):
 
     form = TagManufatto()
     stato = ""
-    componente = "-"
-    query = { "$and" : [ {"segnatura":segnatura},{"componente":componente}]}
+    componente = request.args.get('componente',"-")
+    parte = request.args.get('parte',"-")
+    query = { "$and" : [ {"segnatura":segnatura},{"componente":componente},{"parte":parte}]}
     varx = client.capitolare.riferimenti.find_one(query)
     mod = False
     def parseresult(field):
@@ -1125,9 +1149,10 @@ def tagmanufatto(segnatura):
 
     if form.validate_on_submit():
         data_dict = form.data
-        data_dict['tipologia'] = 'manoscritto'
+        data_dict['tipologia'] = 'manufatto'
         data_dict['segnatura'] = segnatura
         data_dict['componente'] = componente
+        data_dict['parte'] = parte
         data_dict['idint'] = "-"
         data_dict['locus'] = "-"
         data_dict['possessore_ids'] = parseresult('possessore')
