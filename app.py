@@ -550,7 +550,7 @@ def tagmanufatto(segnatura):
     #breakpoint()
     if varx is not None:
         form.process(data=varx)
-    return render_template('TagManufatto.html',
+    return render_template('tagmanufatto.html',
                             form=form,
                             segnatura=segnatura)
 
