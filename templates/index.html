@@ -269,13 +269,27 @@
 
         function VaiAlFormComponente(elem) {
             segnatura = "{{segnatura}}"
-            baseurl = 'tagtesto'
+            baseurl = 'tagmanufatto'
             id_componente = elem.parentElement.parentElement.getElementsByClassName('id-componente')[0].value.replace(".", "-")
             if (id_componente == '') {
                 alert("Associa un id al componente prima di aggiungere una responsabilità.")
             } else {
-                lastpart = '-'
-                URL = [window.parent.location.origin, baseurl, segnatura, id_componente, lastpart,].join("/")
+                lastpart = "?componente=" + id_componente
+                URL = [window.parent.location.origin, baseurl, segnatura+lastpart,].join("/")
+                window.open(URL, '_blank');
+            }
+
+        };
+
+        function VaiAlFormParte(elem) {
+            segnatura = "{{segnatura}}"
+            baseurl = 'tagmanufatto'
+            id_parte = elem.parentElement.parentElement.parentElement.getElementsByClassName('id-parte')[0].value.replace(".", "-")
+            if (id_parte == '') {
+                alert("Associa un id alla parte prima di aggiungere una responsabilità.")
+            } else {
+                lastpart =  "?parte=" + id_parte
+                URL = [window.parent.location.origin, baseurl, segnatura+lastpart].join("/")
                 window.open(URL, '_blank');
             }
 
@@ -313,12 +327,10 @@
                     target="_blank">Accedi al visualizzatore</a>
             </p>
             <br>
-            <br>
             <a class="btn-danger" onclick="return confirm('I dati non salvati andranno persi. Procedere comunque?');"
                 href="/">Ritorna alla pagina iniziale</a>
-
-
         </div>
+        
         <div class="main">
             {{ form.csrf_token }}
             <div>
@@ -374,7 +386,7 @@
                 </div>
                 <div class="col-lg-2">
                     <a class="btn btn-primary" href="/tagmanufatto/{{segnatura}}" target="_blank"> Aggiungi
-                        responsabilità</a>
+                        responsabilità legata al manufatto</a>
                 </div>
 
 
@@ -513,7 +525,6 @@
             <br>
             <a id="add_P" href="#subforms-container_parti" class="btn btn-primary btn-block" tabindex="-1" role="button"
                 aria-disabled="true">Aggiungi nuova parte.</a>
-
             <br><br>
             <div>
                 <h3 class="headersec">Componenti</h3>
