@@ -65,7 +65,15 @@
           <div class="p-1"> Traduttore o adattatore: {{form.traduttore_adattatore}}</div>
         </div>
         <div class="col">
-          <div class="p-1"> Copista: {{form.copista}}</div>
+          <div class="p-1"> Copista/scrivente: {{form.copista}}</div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="p-1"> Miniatore: {{form.miniatore}}</div>
+        </div>
+        <div class="col">
+          <div class="p-1"> Editore: {{form.editore}}</div>
         </div>
       </div>
       <div class="p-1"> Luoghi connessi alla storia: {{form.luogo}}</div>
@@ -206,6 +214,25 @@ window.onload = function (){
   tagifycopista.on('input', onInputcopista)
   function onInputcopista( e ){ 
     getdata(e,tagifycopista,urlcercapersona)
+  }
+
+  var inputminiatore = document.querySelector('input[name=miniatore]')
+  // init Tagify script on the above inputs
+  tagifyminiatore = new Tagify(inputminiatore,{whitelist:parseinput(inputminiatore),enforceWhitelist:true});
+  // listen to any keystrokes which modify tagify's input
+  tagifyminiatore.on('input', onInputminiatore)
+  function onInputminiatore( e ){ 
+    getdata(e,tagifyminiatore,urlcercapersona)
+  }
+
+  var urclcercaente = "{{url_for('cercaente', jsonformat='keyvalue',q='')}}"
+  var inputeditore = document.querySelector('input[name=editore]')
+  // init Tagify script on the above inputs
+  tagifyeditore = new Tagify(inputeditore,{whitelist:parseinput(inputeditore),enforceWhitelist:true});
+  // listen to any keystrokes which modify tagify's input
+  tagifyeditore.on('input', onInputeditore)
+  function onInputeditore( e ){
+    getdata(e,tagifyeditore,urclcercaente)
   }
   
   var urloperaidentificata = "{{url_for('cercaopera', jsonformat='keyvalue',q='')}}"
