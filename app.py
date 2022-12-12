@@ -189,6 +189,8 @@ def insertfield(segnatura):
             if 'identificativo_parte' in varx['parte'][0]:
                 id_parti = [(i['identificativo_parte'],i['identificativo_parte']) for i in varx['parte']]
                 id_parti =  list(reversed(id_parti))
+        else:
+            id_parti = [("","")]
         #import pdb; pdb.set_trace()
         if varx['status'] != 'appena creato':
             form.process(data=varx)
