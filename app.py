@@ -180,7 +180,6 @@ def insertfield(segnatura):
             varx = client.capitolare.codici.find_one({'segnatura_idx': segnatura})
 
     if varx is not None and 'descrizione_esterna' in varx:
-        breakpoint()
         descrizioni_esterne_id = [(i['Descrizione_Esterna_Segnatura'],i['Descrizione_Esterna_Segnatura']) for i in varx['descrizione_esterna']]
         descrizioni_esterne_id =  list(reversed(descrizioni_esterne_id))
         descrizioni_esterne_id2 = descrizioni_esterne_id + [('altro','altro')]
