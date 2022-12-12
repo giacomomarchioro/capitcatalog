@@ -133,14 +133,15 @@ def insertfield(segnatura):
                 if 'identificativo_parte' in varx['parte'][0]:
                     id_parti = [(i['identificativo_parte'],i['identificativo_parte']) for i in varx['parte']]
                     id_parti =  list(reversed(id_parti))
+                    # ID parte  DecInt e DescEst
+                    template_form.ref_parte.choices = id_parti
+                    template_form6.ref_parte.choices = id_parti
             if descrizioni_esterne_id[0] != ("",""):
                 template_form.Descrizione_Esterna_Segnatura.choices = descrizioni_esterne_id
                 template_form2.Descrizione_Esterna_Segnatura.choices = descrizioni_esterne_id
                 template_form3.Descrizione_Esterna_Segnatura.choices = descrizioni_esterne_id
                 template_form4.Descrizione_Esterna_Segnatura.choices = descrizioni_esterne_id2
-                # ID parte  DecInt e DescEst
-                template_form.ref_parte.choices = id_parti
-                template_form6.ref_parte.choices = id_parti
+
 
     log = "n.d."   
     if form.validate_on_submit():
