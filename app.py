@@ -129,8 +129,10 @@ def insertfield(segnatura):
             descrizioni_esterne_id = [(i['Descrizione_Esterna_Segnatura'],i['Descrizione_Esterna_Segnatura']) for i in varx['descrizione_esterna']]
             descrizioni_esterne_id =  list(reversed(descrizioni_esterne_id))
             descrizioni_esterne_id2 = descrizioni_esterne_id + [('altro','altro')]
-            id_parti = [(i['identificativo_parte'],i['identificativo_parte']) for i in varx['parte']]
-            id_parti =  list(reversed(id_parti))
+            if len(varx['parte']) > 0:
+                if 'identificativo_parte' in varx['parte'][0]:
+                    id_parti = [(i['identificativo_parte'],i['identificativo_parte']) for i in varx['parte']]
+                    id_parti =  list(reversed(id_parti))
             if descrizioni_esterne_id[0] != ("",""):
                 template_form.Descrizione_Esterna_Segnatura.choices = descrizioni_esterne_id
                 template_form2.Descrizione_Esterna_Segnatura.choices = descrizioni_esterne_id
@@ -183,8 +185,10 @@ def insertfield(segnatura):
         descrizioni_esterne_id = [(i['Descrizione_Esterna_Segnatura'],i['Descrizione_Esterna_Segnatura']) for i in varx['descrizione_esterna']]
         descrizioni_esterne_id =  list(reversed(descrizioni_esterne_id))
         descrizioni_esterne_id2 = descrizioni_esterne_id + [('altro','altro')]
-        id_parti = [(i['identificativo_parte'],i['identificativo_parte']) for i in varx['parte']]
-        id_parti =  list(reversed(id_parti))
+        if len(varx['parte']) > 0:
+            if 'identificativo_parte' in varx['parte'][0]:
+                id_parti = [(i['identificativo_parte'],i['identificativo_parte']) for i in varx['parte']]
+                id_parti =  list(reversed(id_parti))
         #import pdb; pdb.set_trace()
         if varx['status'] != 'appena creato':
             form.process(data=varx)
