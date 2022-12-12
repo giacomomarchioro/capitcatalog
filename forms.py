@@ -229,6 +229,7 @@ class DescInt(Form):
                          )
     lingua = SelectField("Lingua", choices=[('Latino', 'Latino'),('Volgare italiano', 'Volgare italiano'), ('Italiano', 'Italiano'),('Greco antico', 'Greco antico'),('Greco ellenistico (Koinè)', 'Greco ellenistico (Koinè)'),('Ebraico', 'Ebraico'),(r'ge῾ez',r"ge῾ez") ],render_kw={'class': "form-control", })
 
+    # da eliminare
     descid = StringField("ID descrizione interna padre",
                          #validators=[Regexp('^[1-9]\d*(\.[1-9]\d*)*$',message='ID non valido')],
                          render_kw={'class': "form-control id-father-unit",
@@ -268,12 +269,16 @@ class DescInt(Form):
                                         'required pattern':"^[1-9]\d*(\.[1-9]\d*)*$"
                                         }
                                          )
+    ref_parte = SelectField(u'ID_descrizione_esterna', choices=[('Non assegnato', 'Non assegnato')],validate_choice=False,render_kw={'class': "form-control ref-parte", })
+
 
 class DescEst(Form):
     Segnatura = StringField("Segnatura",
                             validators=[], render_kw={'class': "form-control", }
                             )
     #scriptio = SelectField(u"Scriptio", choices=[('superior', 'superior'),('inferior', 'inferior') ],render_kw={'class': "form-control", })
+
+    ref_parte = SelectField(u'ID_descrizione_esterna', choices=[('Non assegnato', 'Non assegnato')],validate_choice=False,render_kw={'class': "form-control ref-parte", })
 
     tipologia = SelectField(u"Tipologia", choices=[('Unità codicologica', 'Unità codicologica'),('Unità palinsesto', 'Unità palinsesto'),('Frammento manoscritto', 'Frammento manoscritto'),('Frammento a stampa', 'Frammento a stampa') ],render_kw={'class': "form-control", })
 

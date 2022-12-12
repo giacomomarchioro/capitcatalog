@@ -121,20 +121,25 @@ def insertfield(segnatura):
     template_form2 = forms.Copisti(prefix='copisti-_-')
     template_form3 = forms.AnnotazioniMarg(prefix='annotazioni_marginali-_-')
     template_form4 = forms.Storia_del_manoscritto(prefix='storia_del_manoscritto-_-')
+    template_form5 = forms.Facsimile(prefix='facsimile-_-')
+    template_form6 = forms.DescEst(prefix='descrizione_esterna-_-')
     if varx is not None:
-        if varx['status'] != 'appena creato':
+        # Aggiungo i campi ai templates
+        if varx['status'] != 'appena creato' and 'descrizione_esterna' in varx:
             descrizioni_esterne_id = [(i['Descrizione_Esterna_Segnatura'],i['Descrizione_Esterna_Segnatura']) for i in varx['descrizione_esterna']]
             descrizioni_esterne_id =  list(reversed(descrizioni_esterne_id))
             descrizioni_esterne_id2 = descrizioni_esterne_id + [('altro','altro')]
-            if descrizioni_esterne_id[0] != ("",""): 
+            id_parti = [(i['identificativo_parte'],i['identificativo_parte']) for i in varx['parte']]
+            id_parti =  list(reversed(id_parti))
+            if descrizioni_esterne_id[0] != ("",""):
                 template_form.Descrizione_Esterna_Segnatura.choices = descrizioni_esterne_id
                 template_form2.Descrizione_Esterna_Segnatura.choices = descrizioni_esterne_id
                 template_form3.Descrizione_Esterna_Segnatura.choices = descrizioni_esterne_id
                 template_form4.Descrizione_Esterna_Segnatura.choices = descrizioni_esterne_id2
+                # ID parte  DecInt e DescEst
+                template_form.ref_parte.choices = id_parti
+                template_form6.ref_parte.choices = id_parti
 
-
-    template_form5 = forms.Facsimile(prefix='facsimile-_-')
-    template_form6 = forms.DescEst(prefix='descrizione_esterna-_-')
     log = "n.d."   
     if form.validate_on_submit():
         # Create race
@@ -174,12 +179,18 @@ def insertfield(segnatura):
             log = datetime.datetime.now().strftime("%H:%M:%S")
             varx = client.capitolare.codici.find_one({'segnatura_idx': segnatura})
 
-    if varx is not None:
+    if varx is not None and 'descrizione_esterna' in varx:
+        breakpoint()
+        descrizioni_esterne_id = [(i['Descrizione_Esterna_Segnatura'],i['Descrizione_Esterna_Segnatura']) for i in varx['descrizione_esterna']]
+        descrizioni_esterne_id =  list(reversed(descrizioni_esterne_id))
+        descrizioni_esterne_id2 = descrizioni_esterne_id + [('altro','altro')]
+        id_parti = [(i['identificativo_parte'],i['identificativo_parte']) for i in varx['parte']]
+        id_parti =  list(reversed(id_parti))
         #import pdb; pdb.set_trace()
         if varx['status'] != 'appena creato':
             form.process(data=varx)
             # we dynamically add the choices
-            if descrizioni_esterne_id[0] != ("",""): 
+            if descrizioni_esterne_id[0] != ("",""):
                 for sm in form.storia_del_manoscritto:
                     sm.Descrizione_Esterna_Segnatura.choices = descrizioni_esterne_id2
                 for am in form.annotazioni_marginali:
@@ -188,6 +199,11 @@ def insertfield(segnatura):
                     cp.Descrizione_Esterna_Segnatura.choices = descrizioni_esterne_id
                 for di in form.descrizione_interna:
                     di.Descrizione_Esterna_Segnatura.choices = descrizioni_esterne_id
+            if id_parti[0] != ("",""):
+                for de in form.descrizione_esterna:
+                    de.ref_parte.choices = id_parti
+                for di in form.descrizione_interna:
+                    di.ref_parte.choices = id_parti
 
         #import pdb; pdb.set_trace()
     return render_template(
@@ -199,9 +215,9 @@ def insertfield(segnatura):
         _template3=template_form3,
         _template4=template_form4,
         _template5=template_form5,
-        _template6=template_form6, #descirizione esterna
+        _template6=template_form6, # descirizione esterna
         log=log,
-        segnatura=segnatura 
+        segnatura=segnatura
     )
 
 

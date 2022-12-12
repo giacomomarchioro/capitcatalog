@@ -595,7 +595,9 @@
             {# Show all descrizioni interne #}
             <div id="subforms-container_int">
                 {% for subform in form.descrizione_interna %}
-                {{ macros.render_lap_form(subform, loop.index0) }}
+                    {% if subform['Descrizione_interna_id'] != "" %}
+                        {{ macros.render_lap_form(subform, loop.index0) }}
+                    {% endif %}
                 {% endfor %}
             </div>
             <a id="add" href="#subforms-container_int" class="btn btn-primary btn-block" tabindex="-1" role="button"

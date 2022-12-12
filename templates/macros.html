@@ -127,11 +127,11 @@ this should match `loop.index0`, and for the template it should be
 
       <div class="col-lg-2">
         <div class="form-floating">
-          {{subform.Segnatura}}
-          <label for="floatingInputGrid0">Segnatura</label>
+          {{subform.ref_parte}}
+          <label for="floatingInputGrid0">Parte: </label>
         </div>
         <div class="alert alert-info " role="alert">
-          <b>Per esempio:</b> <i>XXVIII (26)</i>  <a href={{"".join([url_for("lineeguidacat"),"#Segnatura"])}}
+          <b>Per esempio:</b> <i>XXVIII (26)</i>  <a href={{"".join([url_for("lineeguidacat"),"#ref_parte"])}}
             class="alert-link"
             title="La segnatura rappresenta il un identificativo univocod del codice in questo catalogo viene mantenuta la segnatura moderna e tra parentesi tonde quella antica.">ℹ️</a>.
         </div>
@@ -555,10 +555,10 @@ this should match `loop.index0`, and for the template it should be
       </div>
 
 
-      <div class="col-lg-2">
+      <div class="col-lg-1">
         <div class="form-floating">
           {{subform.Descrizione_interna_id}}
-          <label for="floatingInputGridDI8">Descrizione interna ID</label>
+          <label for="floatingInputGridDI8">ID</label>
         </div>
         {% for field, errors in subform.errors.items() %}
         <div class="alert alert-danger" role="alert">
@@ -571,8 +571,7 @@ this should match `loop.index0`, and for the template it should be
         </div>
       </div>
 
-
-      <div class="col-lg-3">
+      <div class="col-lg-2">
         <div class="form-floating">
           {{subform.Descrizione_Esterna_Segnatura}}
           <label for="floatingInputGridDI7">ID componente.</label>
@@ -580,6 +579,22 @@ this should match `loop.index0`, and for the template it should be
         <div class="alert alert-info" role="alert">
           Selezionare dalla tendina.  <a
             href={{"".join([url_for("lineeguidacat"),"#Descrizione_Esterna_Segnatura"])}} class="alert-link">ℹ️</a>.
+        </div>
+      </div>
+
+            <div class="col-lg-2">
+        <div class="form-floating">
+          {{subform.ref_parte}}
+          <label for="floatingInputGridDI8">ID parte:</label>
+        </div>
+        {% for field, errors in subform.errors.items() %}
+        <div class="alert alert-danger" role="alert">
+          {{ ', '.join(errors) }}
+        </div>
+        {% endfor %}
+        <div class="alert alert-info" role="alert">
+          <b>Per esempio:</b> <i>None</i>  <a
+            href={{"".join([url_for("lineeguidacat"),"#Descrizione_interna_id"])}} class="alert-link">ℹ️</a>.
         </div>
       </div>
 
@@ -705,7 +720,7 @@ this should match `loop.index0`, and for the template it should be
 
     <div class="row g-2">
 
-      <div class="col-lg-3">
+      <!-- <div class="col-lg-3">
         <div class="form-floating">
           {{subform.descid}}
           <label for="floatingInputGridDI2">componente a cui fa riferimento</label>
@@ -719,7 +734,7 @@ this should match `loop.index0`, and for the template it should be
           <b>Per esempio:</b> <i>102</i>  <a href={{"".join([url_for("lineeguidacat"),"#id"])}}
             class="alert-link">ℹ️</a>.
         </div>
-      </div>
+      </div> -->
       
       <div class="col-lg-2">
             Acefalo: {{subform.acefalo}}
