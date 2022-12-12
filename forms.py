@@ -424,7 +424,7 @@ class MainForm(FlaskForm):
     largezza_mm = StringField("Larghezza (mm)",
                             validators=[], render_kw={'class': "form-control"}
                             )
-    altezza_mm = StringField("Ampiezza (mm):",
+    altezza_mm = StringField("Altezza (mm):",
                             validators=[], render_kw={'class': "form-control" }
                             )
     profondita_mm = StringField("Profondità (mm):",
