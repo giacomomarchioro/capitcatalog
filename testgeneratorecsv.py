@@ -10,7 +10,7 @@ fogli=34
 fogli_guardia_post=2
 post_elements=2
 
-# Parte	Componenti	descrizione	Elemento	sottoelemento	Numerazione_a	Titolo	Livello titolo	non_prima	non_dopo	varianti	materiale	fori_di_preparazione	peli_residui	aree_di_scalfo_residue	illustrazione	foratura	rigatura	filigrana	fascicolazione	lato_foglio palinsesto	colore	spessore note_conservative	ampiezza_mm	altezza_mm			
+# Parte	Componenti	descrizione	Elemento	sottoelemento	Numerazione_a	Titolo	Livello titolo	non_prima	non_dopo	varianti	materiale	fori_di_preparazione	peli_residui	aree_di_scalfo_residue	illustrazione	foratura	rigatura	filigrana	fascicolazione	lato_foglio palinsesto	colore	spessore note_conservative	altezza_mm	altezza_mm			
 
 sides = cycle(('r','v'))
 parchmentsides = cycle(('c','p'))

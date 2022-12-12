@@ -387,7 +387,7 @@ class Parte(Form):
     largezza_mm = StringField("Larghezza (mm)",
                             validators=[], render_kw={'class': "form-control"}
                             )
-    ampiezza_mm = StringField("Ampiezza (mm):",
+    altezza_mm = StringField("Altezza (mm):",
                             validators=[], render_kw={'class': "form-control" }
                             )
     profondita_mm = StringField("Profondità (mm):",
@@ -424,7 +424,7 @@ class MainForm(FlaskForm):
     largezza_mm = StringField("Larghezza (mm)",
                             validators=[], render_kw={'class': "form-control"}
                             )
-    ampiezza_mm = StringField("Ampiezza (mm):",
+    altezza_mm = StringField("Ampiezza (mm):",
                             validators=[], render_kw={'class': "form-control" }
                             )
     profondita_mm = StringField("Profondità (mm):",
@@ -541,7 +541,7 @@ class Illustrazioni(FlaskForm):
     tecnica_esecutiva = SelectField(u'Tipologia', choices=[('Penna', 'Penna'),('Pennello', 'Penello')],render_kw={'class': "form-control-x", })
     ampiezza_mm = StringField("ampiezza_mm",
                         validators=[], render_kw={'class': "form-control-x"})
-    altezza_mm = StringField("altezza__mm",
+    altezza_mm = StringField("altezza_mm",
                         validators=[], render_kw={'class': "form-control-x"})
     oro = BooleanField("Oro")
     azzurro = BooleanField("Azzurro")
