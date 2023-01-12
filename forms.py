@@ -492,32 +492,48 @@ class Illustrazioni(FlaskForm):
     """Parent form."""
     tipologia = SelectField(u'Tipologia', choices=[
         ('Antiporta','Antiporta'),
+        ('Bordura','Bordura'),
+        ('Cornice','Cornice'),
+        ('Cornice aperta','Cornice aperta'),
+        ('Disegni','Disegni'),
+        ('Fregi','Fregi'),
         ('Illustrazioni a piena pagina','Illustrazioni a piena pagina'),
         ('Illustrazioni a vignetta','Illustrazioni a vignetta'),
         ('Illustrazioni senza cornice','Illustrazioni senza cornice'),
-        ('Iniziali semplici','Iniziali semplici'),
+        ('Iniziali figurate','Iniziali figurate'),
         ('Iniziali filigranate','Iniziali filigranate'),
-        ('INIZIALI ORNATE.fitomorfe','INIZIALI ORNATE.fitomorfe'),
-        ('INIZIALI ORNATE.zoomorfe','INIZIALI ORNATE.zoomorfe'),
-        ('INIZIALI ORNATE.antropomorfe','INIZIALI ORNATE.antropomorfe'),
-        ('INIZIALI ORNATE.bianchi girari','INIZIALI ORNATE.bianchi girari'),
-        ('INIZIALI FIGURATE','INIZIALI FIGURATE'),
-        ('INIZIALI ISTORIATE','INIZIALI ISTORIATE'),
-        ('FREGI','FREGI'),
-        ('DISEGNI','DISEGNI'),
-        ('SEGNI DI PARAGRAFO','SEGNI DI PARAGRAFO'),
+        ('Iniziali istoriate','Iniziali istoriate'),
+        ('Iniziali ornate','Iniziali ornate'),
+        ('Iniziali semplici','Iniziali semplici'),
         ('Richiami di fascicolo ornati','Richiami di fascicolo ornati'),
+        ('Segni di paragrafo','Segni di paragrafo'),
         ('Stemmi e armi araldiche','Stemmi e armi araldiche'),
+        ('Targa','Targa'),
     ],render_kw={'class': "form-control-x", })
+    corpo_elementi_fitomorfi = BooleanField('fitomorfi')
+    corpo_elementi_zoomorfi = BooleanField('zoomorfi')
+    corpo_elementi_antropomorfi = BooleanField('antropomorfi')
+    corpo_geometrici = BooleanField('geometrici')
+    corpo_laminina_oro = BooleanField('Laminina d\'oro')
+    corpo_decorazione_biacca = BooleanField('Decorazione a biacca')
+    corpo_prismatico = BooleanField('Prismatico')
+    fondo_elementi_fitomorfi = BooleanField('fitomorfi')
+    fondo_elementi_zoomorfi = BooleanField('zoomorfi')
+    fondo_elementi_antropomorfi = BooleanField('antropomorfi')
+    fondo_geometrici = BooleanField('geometrici')
+    fondo_laminina_oro = BooleanField('Laminina d\'oro')
+    fondo_decorazione_biacca = BooleanField('Decorazione a biacca')
+    fondo_bianchi_girari = BooleanField('Bianchi girari')
     ids = StringField("Ids",validators=[], render_kw={'type': "hidden"})
     manifest_index =  IntegerField("manifest_index",
                         validators=[], render_kw={'class': "form-control-x","id":"vai","size":"3","placeholder":"0" })
     pagina_incipit = BooleanField("Pagina d'incipit")
+    frontespizio_architettonico = BooleanField("Frontespizio architettonico")
     identificativo = StringField("identificativo",
                         validators=[], render_kw={'class': "form-control-x", })
-    carta_scelta  = StringField("Carta scelta",
-                        validators=[], render_kw={'class': "form-control-x", })
     locus  = StringField("Locus",
+                        validators=[], render_kw={'class': "form-control-x", })
+    locus_immagine  = StringField("Locus immagine",
                         validators=[], render_kw={'class': "form-control-x", })
     link_immagine  = StringField("link_immagine",
                         validators=[], render_kw={'class': "form-control-x","id":"link-immagine" })
@@ -535,9 +551,8 @@ class Illustrazioni(FlaskForm):
     non_dopo =  StringField("Non dopo",
                             validators=[], render_kw={'class': "form-control"}
                             )
-    autore_ambito = StringField("Autore ambito",
-                        validators=[], render_kw={'class': "form-control-x"})
-    
+    autore_ambito = NonValidatingSelectMulipleField(u'Autore ambito', choices=[('Non assegnato', 'Non assegnato')],validate_choice=False)
+
     tecnica_esecutiva = SelectField(u'Tipologia', choices=[('Penna', 'Penna'),('Pennello', 'Penello')],render_kw={'class': "form-control-x", })
     ampiezza_mm = StringField("ampiezza_mm",
                         validators=[], render_kw={'class': "form-control-x"})
