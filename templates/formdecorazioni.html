@@ -42,7 +42,7 @@
                     <button type="button" onclick="nextimg()">Prossima immagine</button>
                 </p>
                 {{form.ids}}
-                pagina_incipit: {{form.pagina_incipit}} frontespizio_architettonico: {{form.frontespizio_architettonico}} azzurro: {{form.azzurro}} oro: {{form.oro}}<br>
+                pagina_incipit: {{form.pagina_incipit}} frontespizio_architettonico: {{form.frontespizio_architettonico}} finta pergamena strappata: {{form.finta_pergamena_strappata}} azzurro: {{form.azzurro}} oro: {{form.oro}} porpora: {{form.porpora}}<br>
                 <div class="p-1"> Tipologia: {{form.tipologia}}</div>
                 Elementi del corpo: <br>
                 <div class="row">
@@ -126,7 +126,6 @@
         {% else %}
           Nessuna illustrazione, 
         {% endfor %}
-      
 
         <script>
             var manifest
@@ -187,20 +186,17 @@
 
             $( document ).ready(function() {
                 console.log( "ready!" );
-                
                 $.getJSON(manifesturl, function(data) {
                 // JSON result in `data` variable
                 manifest  = data
                 })
 
-  
                 })
             //imageurl =  manifest.sequences[0].canvases[ind].images[0].resource.service["@id"]
 
             $(window).load(function() {
                 console.log( "loading!" );
                 jcrop_api = $.Jcrop('#cropbox');
-      
 
 
                 function updateCoords(){

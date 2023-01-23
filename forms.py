@@ -529,6 +529,7 @@ class Illustrazioni(FlaskForm):
                         validators=[], render_kw={'class': "form-control-x","id":"vai","size":"3","placeholder":"0" })
     pagina_incipit = BooleanField("Pagina d'incipit")
     frontespizio_architettonico = BooleanField("Frontespizio architettonico")
+    finta_pergamena_strappata = BooleanField("Finta pergamena strappata")
     identificativo = StringField("identificativo",
                         validators=[], render_kw={'class': "form-control-x", })
     locus  = StringField("Locus",
@@ -553,13 +554,14 @@ class Illustrazioni(FlaskForm):
                             )
     autore_ambito = NonValidatingSelectMulipleField(u'Autore ambito', choices=[('Non assegnato', 'Non assegnato')],validate_choice=False)
 
-    tecnica_esecutiva = SelectField(u'Tipologia', choices=[('Penna', 'Penna'),('Pennello', 'Penello')],render_kw={'class': "form-control-x", })
+    tecnica_esecutiva = SelectField(u'Tipologia', choices=[('Penna', 'Penna'),('Pennello', 'Penello'),('Penna e Pennello', 'Penna e Pennello')],render_kw={'class': "form-control-x", })
     ampiezza_mm = StringField("ampiezza_mm",
                         validators=[], render_kw={'class': "form-control-x"})
     altezza_mm = StringField("altezza_mm",
                         validators=[], render_kw={'class': "form-control-x"})
     oro = BooleanField("Oro")
     azzurro = BooleanField("Azzurro")
+    porpora = BooleanField("Porpora")
     descrizione = StringField("descrizione",
                         validators=[], render_kw={'class': "form-control-x"})
     wikidata = StringField("wikidata",
