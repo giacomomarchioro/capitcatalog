@@ -68,7 +68,7 @@
                   <div class="col">
                   </div>
                   <div class="col">
-                    <div class="p-1"> identificativo: {{form.identificativo}}</div>
+                    <div class="p-1"> identificativo: {{form.identificativo}} Parte di: {{form.parte_di}}</div>
                   </div>
                 </div>
                 <div class="row">
@@ -117,12 +117,14 @@
                   </div>
                   {{form.autore_ambito.label}}
                   {{form.autore_ambito}}
+                  {{form.colori.label}}
+                  {{form.colori}}
                   <button class="btn btn-primary" type="submit"> Salva</button>
               </form>
         </div>  
 
         {% for i in illustrazioni %}
-          <div>{{ i.tipologia }}, {{i.locus}} , {{i.descrizione}}</div>
+          <div>{{i.ids}} {{ i.tipologia }}, {{i.locus}} , {{i.descrizione}}</div>
         {% else %}
           Nessuna illustrazione, 
         {% endfor %}

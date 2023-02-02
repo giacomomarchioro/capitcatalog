@@ -500,15 +500,21 @@ class Illustrazioni(FlaskForm):
         ('Illustrazioni a piena pagina','Illustrazioni a piena pagina'),
         ('Illustrazioni a vignetta','Illustrazioni a vignetta'),
         ('Illustrazioni senza cornice','Illustrazioni senza cornice'),
+        ('Illustrazioni entro riquadro','Illustrazioni entro riquadro'),
+        ('Illustrazioni entro tondo','Illustrazioni entro tondo'),
         ('Iniziali figurate','Iniziali figurate'),
         ('Iniziali filigranate','Iniziali filigranate'),
         ('Iniziali istoriate','Iniziali istoriate'),
         ('Iniziali ornate','Iniziali ornate'),
         ('Iniziali semplici','Iniziali semplici'),
+        ('Lettere di testo colorate','Lettere di testo colorate'),
         ('Richiami di fascicolo ornati','Richiami di fascicolo ornati'),
         ('Segni di paragrafo','Segni di paragrafo'),
         ('Stemmi e armi araldiche','Stemmi e armi araldiche'),
         ('Targa','Targa'),
+    ],render_kw={'class': "form-control-x", })
+    parte_di = SelectField(u'Parte di', choices=[
+        ('A se stante', 'A se stante')
     ],render_kw={'class': "form-control-x", })
     corpo_elementi_fitomorfi = BooleanField('fitomorfi')
     corpo_elementi_zoomorfi = BooleanField('zoomorfi')
@@ -553,6 +559,18 @@ class Illustrazioni(FlaskForm):
                             validators=[], render_kw={'class': "form-control"}
                             )
     autore_ambito = NonValidatingSelectMulipleField(u'Autore ambito', choices=[('Non assegnato', 'Non assegnato')],validate_choice=False)
+
+    colori = NonValidatingSelectMulipleField(u'Colori',
+    choices =  [
+    ("rosso","rosso"),
+    ("arancione","arancione"),
+    ("giallo","giallo"),
+    ("verde","verde"),
+    ("blu","blu"),
+    ("viola","viola"),
+    ("nero","nero"),
+    ("bianco","bianco")],
+    validate_choice=False)
 
     tecnica_esecutiva = SelectField(u'Tipologia', choices=[('Penna', 'Penna'),('Pennello', 'Penello'),('Penna e Pennello', 'Penna e Pennello')],render_kw={'class': "form-control-x", })
     ampiezza_mm = StringField("ampiezza_mm",

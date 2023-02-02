@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 # app.py
 
-from sys import prefix
 from flask import Flask, render_template,url_for, request, redirect,jsonify, abort
 from flask_sqlalchemy import SQLAlchemy
 from pymongo import MongoClient
@@ -12,8 +11,6 @@ import datetime
 import ast
 from bson.objectid import ObjectId
 from converter import convertdate
-# pprint library is used to make the output look more pretty
-from pprint import pprint
 import re
 from bson.json_util import dumps
 import forms
@@ -597,6 +594,10 @@ def indiceillustrazioni(segnatura):
         illustrazioni = varx['illustrazioni']
     else:
         illustrazioni = []
+    identificativi = [(item["ids"],item["ids"])for item in varx['illustrazioni']]
+    identificativi.append(('A se stante','A se stante'))
+    if identificativi:
+        form.parte_di.choices = list(reversed(identificativi))
     #breakpoint()
     if form.validate_on_submit():
         # quando invio il form avrò i dati della singola illustrazione
@@ -663,6 +664,10 @@ def test():
 @app.route('/iiifjcrop')
 def iiifjcrop():
     return render_template('microvisualizzatoremanifest.html')
+
+@app.route('/generatoretabella')
+def generatoretabella():
+    return render_template('generatoretabella.html')
 
 if __name__ == '__main__':
     app.run(debug=True, port=5432)
