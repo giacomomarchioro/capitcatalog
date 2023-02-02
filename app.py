@@ -587,13 +587,18 @@ def indiceillustrazioni(segnatura):
     varx = client.capitolare.indiceillustrazioni.find_one({"segnatura_idx":segnatura})
     if varx is None:
         abort(400,"Inserire una segnatura valida")
-    if el_id is not None:
-        # se specifico un id, trovo all'interno della segnatura l'illustrazione
-        elData = next((item for item in varx['illustrazioni'] if item["ids"] == el_id), None)
+
     if 'illustrazioni' in varx:
         illustrazioni = varx['illustrazioni']
     else:
         illustrazioni = []
+    if el_id is not None:
+        # se specifico un id, trovo all'interno della segnatura l'illustrazione
+        ind_ill = next((i for (i, d) in enumerate(illustrazioni) if d["ids"] == el_id ), None)
+        elDataX = next((item for item in varx['illustrazioni'] if item["ids"] == el_id), None)
+        elData = illustrazioni.pop(ind_ill)
+        assert elDataX == elData
+
     identificativi = [(item["ids"],item["ids"])for item in varx['illustrazioni']]
     identificativi.append(('A se stante','A se stante'))
     if identificativi:
@@ -612,10 +617,13 @@ def indiceillustrazioni(segnatura):
         # elimino il CSRF
         if 'csrf_token' in data_dict.keys():
             del data_dict['csrf_token']
+        illustrazioni.append(data_dict)
         # CASO 1: nuovo record
         if el_id is None:
             client.capitolare.indiceillustrazioni.update(query, {'$push': {'illustrazioni': data_dict}})
-            illustrazioni.append(data_dict)
+        else:
+            client.capitolare.indiceillustrazioni.update(query, {'$set': {'illustrazioni': illustrazioni}})
+
         # CASO 2: update vecchio record
         """         db["my_collection"].update(
                 { "_id": ObjectId(document_id) },
@@ -655,7 +663,8 @@ def indiceillustrazioni(segnatura):
                             form=form,
                             segnatura=segnatura,
                             illustrazioni=illustrazioni,
-                            manifest=varx['manifest'])
+                            manifest=varx['manifest'],
+                            el_id=el_id)
 
 @app.route('/test')
 def test():

@@ -16,6 +16,42 @@
             input.select();
             }
         </script>
+        <style>
+          .tooltip {
+            text-decoration:none;
+            position:relative;
+          }
+           
+          .tooltip span {
+            display:none;
+            -moz-border-radius:6px;
+            -webkit-border-radius:6px;
+            border-radius:6px;
+            color:black;
+            background:white; 
+          }
+           
+          .tooltip span img {
+            float:left;
+            margin:0px 8px 8px 0;
+          }
+           
+          .tooltip:hover span {
+            display:block;
+            position:absolute;
+            top:0;
+            left:0;
+            z-index:1000;
+            width:auto;
+            max-width:320px;
+            min-height:128px;
+            border:1px solid black;
+            margin-top:12px;
+            margin-left:32px;
+            overflow:hidden;
+            padding:8px;
+          }
+        </style>
     </head>
     <body>
         <div style="display:inline-block;vertical-align:top;">
@@ -112,7 +148,7 @@
                       <div class="p-1"> wikidata: {{form.wikidata}}</div>
                     </div>
                     <div class="col">
-                      <div class="p-1"> iconoclass: {{form.iconoclass}}</div>
+                      <div class="p-1"> iconclass: {{form.iconclass}}</div>
                     </div>
                   </div>
                   {{form.autore_ambito.label}}
@@ -120,11 +156,22 @@
                   {{form.colori.label}}
                   {{form.colori}}
                   <button class="btn btn-primary" type="submit"> Salva</button>
+                  {% if el_id %}
+                  <a href={{url_for("indiceillustrazioni",segnatura=segnatura)}}> Termina modifiche</a>
+                  {% endif%}
               </form>
         </div>  
 
         {% for i in illustrazioni %}
-          <div>{{i.ids}} {{ i.tipologia }}, {{i.locus}} , {{i.descrizione}}</div>
+          <div>{{i.ids}} {{ i.tipologia }}, {{i.locus}} , {{i.descrizione}} <a href='{{url_for("indiceillustrazioni",segnatura=segnatura,id=i.ids)}}''>Modifica</a> 
+            <a class="tooltip" href="">
+              Visualizza
+              <span><img src="{{ i.link_immagine }}" loading="lazy">
+              <h3>description</h3>
+              {{ i.descrizione }}
+              </span>
+           </a>
+          </div>
         {% else %}
           Nessuna illustrazione, 
         {% endfor %}

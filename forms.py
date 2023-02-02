@@ -584,7 +584,7 @@ class Illustrazioni(FlaskForm):
                         validators=[], render_kw={'class': "form-control-x"})
     wikidata = StringField("wikidata",
                         validators=[], render_kw={'class': "form-control-x"})
-    iconoclass = StringField("iconoclass",
+    iconclass = StringField("iconclass",
                         validators=[], render_kw={'class': "form-control-x"})
 
 ## FORMS authority records
