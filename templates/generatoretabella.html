@@ -11,13 +11,11 @@
         border-collapse: collapse;
         width: 100%;
     }
-    
     td, th {
         border: 1px solid #dddddd;
         text-align: left;
         padding: 8px;
     }
-    
     tr:nth-child(even) {
         background-color: #dddddd;
     }
@@ -74,11 +72,11 @@
         let carteguardiaposteriore = Number(document.getElementById("carteguardiaposteriore").value)
         let successionefoglio = document.getElementById("successionefoglio").value
         let fogliinseriti = document.getElementById("fogliinseriti").value.split(",")
-        let ampiezza_mm = document.getElementById("ampiezza_mm").value //ampiezza_mm
+        let larghezza_mm = document.getElementById("larghezza_mm").value //larghezza_mm
         let altezza_mm = document.getElementById("altezza_mm").value //altezza_mm
-        let ampiezza_mm_legatura = document.getElementById("ampiezza_mm_legatura").value //ampiezza_mm
+        let larghezza_mm_legatura = document.getElementById("larghezza_mm_legatura").value //larghezza_mm
         let altezza_mm_legatura = document.getElementById("altezza_mm_legatura").value //altezza_mm
-        let spessore_mm = document.getElementById("spessore_mm").value //ampiezza_mm
+        let spessore_mm = document.getElementById("spessore_mm").value //larghezza_mm
         let materiale_fogli = document.getElementById("materiale").value //materiale
         let materiale_guardie = document.getElementById("materialeguardie").value //materialeguardie
         let materiale_rilegatura= document.getElementById("materialerilegatura").value //materialerilegatura
@@ -98,7 +96,6 @@
                 ante_elements = []
                 post_elements = []
         }
-        
         let table = document.getElementById( 'data-table-body')
 
         // delete the table
@@ -148,74 +145,79 @@
                 console.log(offset)
                 generator = generatoreindicebifoglio(numerobifogli,offset,index+1)
                 generators.push(generator)
-            }  
+            }
         }
-        function addRowToTable(elemento,descrizione,sottoelemento,materiale,numerazione,bifoglio,lato,fascicolo,ampiezza,altezza) {
+        function addRowToTable(descrizione,elemento,sottoelemento,materiale,numerazione,bifoglio,lato,fascicolo,ampiezza,altezza) {
             row = table.insertRow(-1)
             row.insertCell(0).innerHTML  = document.getElementById("parte").value //parte
             row.insertCell(1).innerHTML  = document.getElementById("componenti").value //componenti
-            row.insertCell(2).innerHTML  = descrizione //descrizione
-            row.insertCell(3).innerHTML  = elemento //elemento
-            row.insertCell(4).innerHTML  = sottoelemento //sottoelemento
+            row.insertCell(2).innerHTML  = descrizione //descrizione i.e. guardia anteriore
+            row.insertCell(3).innerHTML  = elemento //elemento i.e. 1,2,3
+            row.insertCell(4).innerHTML  = sottoelemento //sottoelemento i.e v,r
             row.insertCell(5).innerHTML  = "" //disambiguatore
             row.insertCell(6).innerHTML  = "" //note
             row.insertCell(7).innerHTML  = materiale //materiale
-            row.insertCell(8).innerHTML  = numerazione
-            row.insertCell(9).innerHTML  = bifoglio //bifoglio
-            row.insertCell(10).innerHTML  = lato //lato
-            row.insertCell(11).innerHTML = fascicolo //fascicolo
-            row.insertCell(12).innerHTML = "" //attaccatura
-            row.insertCell(13).innerHTML = "" //palinsesti
-            row.insertCell(14).innerHTML = "" //filigrana
-            row.insertCell(15).innerHTML = "" //titolo
-            row.insertCell(16).innerHTML = "" //livello_titolo
-            row.insertCell(17).innerHTML = document.getElementById("non_prima").value //non_prima
-            row.insertCell(18).innerHTML = document.getElementById("non_dopo").value //non_dopo
-            row.insertCell(19).innerHTML = "" //materiale dettagli
-            row.insertCell(20).innerHTML = "" //fori_di_preparazione
-            row.insertCell(21).innerHTML = "" //peli_residui
-            row.insertCell(22).innerHTML = "" //aree_di_scalfo_residue
-            row.insertCell(23).innerHTML = "" //illustrazione
-            row.insertCell(24).innerHTML = document.getElementById("foratura").value //foratura
-            row.insertCell(25).innerHTML = document.getElementById("rigatura").value //rigatura
-            row.insertCell(26).innerHTML = "" //postille
-            row.insertCell(27).innerHTML = "" //notabilia
-            row.insertCell(28).innerHTML = "" //note_conservative
-            row.insertCell(29).innerHTML = ampiezza
-            row.insertCell(30).innerHTML = altezza
-            row.insertCell(31).innerHTML = "" //online_links
-            row.insertCell(32).innerHTML = "" //colore
-            row.insertCell(33).innerHTML = "" //spessore
+            row.insertCell(8).innerHTML  = numerazione // numerazione A
+            row.insertCell(9).innerHTML  = "" // numerazione B
+            row.insertCell(10).innerHTML  = "" // numerazione C
+            row.insertCell(11).innerHTML  = bifoglio //bifoglio
+            row.insertCell(12).innerHTML  = lato //lato
+            row.insertCell(13).innerHTML = fascicolo //fascicolo
+            row.insertCell(14).innerHTML = "" //attaccatura
+            row.insertCell(15).innerHTML = "" //palinsesti
+            row.insertCell(16).innerHTML = "" //filigrana
+            row.insertCell(17).innerHTML = "" //titolo
+            row.insertCell(18).innerHTML = "" //livello_titolo
+            row.insertCell(19).innerHTML = document.getElementById("non_prima").value //non_prima
+            row.insertCell(20).innerHTML = document.getElementById("non_dopo").value //non_dopo
+            row.insertCell(21).innerHTML = "" //materiale dettagli
+            row.insertCell(22).innerHTML = "" //fori_di_preparazione
+            row.insertCell(23).innerHTML = "" //peli_residui
+            row.insertCell(24).innerHTML = "" //aree_di_scalfo_residue
+            row.insertCell(25).innerHTML = "" //illustrazione
+            row.insertCell(26).innerHTML = document.getElementById("foratura").value //foratura
+            row.insertCell(27).innerHTML = document.getElementById("rigatura").value //rigatura
+            row.insertCell(28).innerHTML = "" //postille
+            row.insertCell(29).innerHTML = "" //notabilia
+            row.insertCell(30).innerHTML = "" //note_conservative
+            row.insertCell(31).innerHTML = ampiezza
+            row.insertCell(32).innerHTML = altezza
+            row.insertCell(33).innerHTML = "" //online_links
+            row.insertCell(34).innerHTML = "" //colore
+            row.insertCell(35).innerHTML = "" //spessore
         }
         rectoverso = cycle(['r','v'])
         gen = generatoreindicebifoglio(Number(numerobifogliperfascicolo),0,1)
+        // elementi anteriori
         for (let index = 0; index < ante_elements.length; index++) {
-            const element = ante_elements[index];
+            const desc_element = ante_elements[index];
             ampiezza = altezza_mm_legatura;
             if (index == 0) {
                 ampiezza = spessore_mm;
             }
-            addRowToTable(index,
-                          descrizione=element,
+            addRowToTable(descrizione=desc_element,
+                          elemento=index,
                           sottoelemento="a",
-                          numerazione="",
                           materiale=materiale_rilegatura,
+                          numerazione="",
                           bifoglio="",
                           lato="",
                           fascicolo="",
-                          ampiezza = ampiezza_mm_legatura,
+                          ampiezza = larghezza_mm_legatura,
                           altezza = altezza_mm_legatura)
         }
+        // guardie
         for (let index = 1; index <= carteguardiaanteriore*2; index++) {
-            addRowToTable(index,
+            addRowToTable(
                           descrizione="guardia anteriore",
+                          elemento=index,
                           sottoelemento="g",
-                          numerazione="",
                           materiale=materiale_guardie,
+                          numerazione="",
                           bifoglio="",
                           lato="",
                           fascicolo="",
-                          ampiezza=ampiezza_mm,
+                          ampiezza=larghezza_mm,
                           altezza=altezza_mm)
         }
         var ultimofascicolo = 0
@@ -258,70 +260,70 @@
                     fasciolazione =curgen.next().value
                     fascicolov = fasciolazione[1]
                     bifogliov = fasciolazione[0]
-                   
-                    
                 } else {
                     fasciolazione =gen.next().value
                     fascicolor = fasciolazione[1]
                     bifoglior = fasciolazione[0]
                     fasciolazione =gen.next().value
                     fascicolov = fasciolazione[1]
-                    bifogliov = fasciolazione[0] 
+                    bifogliov = fasciolazione[0]
                 }
 
             }
             if (!carteconnumerazionemancante.includes(index)) {
                 numerazionescritta+=1;
             }
-            
-            addRowToTable(index,
+            addRowToTable(
                           descrizione="",
+                          elemento=index,
                           sottoelemento=rectoverso.next().value,
                           materiale=materiale_fogli,
                           numerazione=numerazionescritta,
                           bifoglio=bifoglior,
                           lato=latoA,
                           fascicolo=fascicolor,
-                          ampiezza=ampiezza_mm,
+                          ampiezza=larghezza_mm,
                           altezza=altezza_mm)
 
-            addRowToTable(index,
+            addRowToTable(
                           descrizione="",
+                          elemento=index,
                           sottoelemento=rectoverso.next().value,
-                          numerazione="",
                           materiale=materiale_fogli,
+                          numerazione="",
                           bifoglio=bifogliov,
                           lato=latoB,
                           fascicolo=fascicolov,
-                          ampiezza=ampiezza_mm,
+                          ampiezza=larghezza_mm,
                           altezza=altezza_mm)
             ultimofascicolo = fascicolov;
             ultimobifoglio = bifogliov;
             }
 
         for (let index = 1; index <= carteguardiaposteriore*2; index++) {
-            addRowToTable(index,
-                          descrizione="guardia posteriore   ",
+            addRowToTable(descrizione="guardia posteriore   ",
+                          elemento=index,
                           sottoelemento="x",
-                          numerazione="",
                           materiale=materiale_guardie,
+                          numerazione="",
                           bifoglio="",
                           lato="",
                           fascicolo="",
-                          ampiezza=ampiezza_mm,
+                          ampiezza=larghezza_mm,
                           altezza=altezza_mm)
         }
         for (let index = 0; index < post_elements.length; index++) {
             const element = post_elements[index];
-            addRowToTable(index,
+            addRowToTable(
                           descrizione=element,
+                          elemento=index,
                           sottoelemento="y",
                           materiale=materiale_rilegatura,
                           numerazione="",
                           bifoglio="",
                           lato="",
                           fascicolo="",
-                          ampiezza=ampiezza_mm_legatura,
+                          ampiezza=larghezza_mm_legatura,
                           altezza=altezza_mm_legatura)
         }
 }
@@ -388,9 +390,9 @@ Per esempio, foglio piegato chiuso e aperto etc. etc.
 
 <label for="spessore_mm" name="spessore_mm">spessore_mm libro</label><input type="text" id="spessore_mm" name="spessore_mm"> <br>
 <label for="altezza_mm_legatura" name="altezza_mm_legatura">altezza_mm_legatura</label><input type="text" id="altezza_mm_legatura" name="altezza_mm_legatura"> <br>
-<label for="ampiezza_mm_legatura" name="ampiezza_mm_legatura">ampiezza_mm_legatura</label><input type="text" id="ampiezza_mm_legatura" name="ampiezza_mm_legatura"> <br>
+<label for="larghezza_mm_legatura" name="larghezza_mm_legatura">larghezza_mm_legatura</label><input type="text" id="larghezza_mm_legatura" name="larghezza_mm_legatura"> <br>
 
-<label for="ampiezza_mm" name="ampiezza_mm">ampiezza_mm pagine</label><input type="text" id="ampiezza_mm" name="ampiezza_mm"> <br>
+<label for="larghezza_mm" name="larghezza_mm">larghezza_mm pagine</label><input type="text" id="larghezza_mm" name="larghezza_mm"> <br>
 <label for="altezza_mm" name="altezza_mm">altezza_mm pagine</label><input type="text" id="altezza_mm" name="altezza_mm"> <br>
 <button onclick="filltable()">Genera tabella</button>
 <input type="button" value="Seleziona e copia la tabella" onclick="selectElementContents( document.getElementById('data-table') );">
@@ -408,7 +410,9 @@ Per esempio, foglio piegato chiuso e aperto etc. etc.
             <th>disambiguatore</th>
             <th>note</th>
             <th>materiale</th>
-            <th>numerazioni</th>
+            <th>numerazione_A</th>
+            <th>numerazione_B</th>
+            <th>numerazione_C</th>
             <th>bifoglio</th>
             <th>lato</th>
             <th>fascicolo</th>
@@ -429,7 +433,7 @@ Per esempio, foglio piegato chiuso e aperto etc. etc.
             <th>postille</th>
             <th>notabilia</th>
             <th>note_conservative</th>
-            <th>ampiezza_mm</th>
+            <th>larghezza_mm</th>
             <th>altezza_mm</th>
             <th>online_links</th>
             <th>colore</th>
